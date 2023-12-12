@@ -3,7 +3,15 @@ def main(do_tests: bool = False):
         lines: list = file.readlines()
 
     if do_tests:
-        lines: list = ["1abc2five", "pqr3stu8vwx", "a1b2c3d4e5f", "treb7uchet"]
+        lines: list = [
+            "two1nine",
+            "eightwothree",
+            "abcone2threexyz",
+            "xtwone3four",
+            "4nineeightseven2",
+            "zoneight234",
+            "7pqrstsixteen",
+        ]
 
     numeric_dict = {
         "zero": 0,
