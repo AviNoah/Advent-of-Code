@@ -22,7 +22,7 @@ def get_values() -> list:
                 [
                     bool(lines[x][y] not in non_special)
                     for x in range(st - 1, ed + 1)
-                    for y in range(row - 1, row + 1)
+                    for y in range(i - 1, i + 1)
                 ]
             ):
                 results.append(value)
