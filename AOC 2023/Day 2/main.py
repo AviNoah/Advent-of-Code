@@ -2,7 +2,7 @@ import re
 from functools import reduce
 
 id_pattern = r"game (\d+)"
-color_pattern = r"(?:( (\d+) (blue|red|green))+,*)+;*"
+color_pattern = r"(?: (\d+) (blue|red|green))+,*"
 id_pattern = re.compile(id_pattern)
 color_pattern = re.compile(color_pattern)
 
@@ -29,7 +29,7 @@ def main(bag: dict) -> list:
         curr_bag: dict = dict()
 
         for match in matches:
-            _, val, color = match  # Get value and color, discard string
+            val, color = match  # Get value and color, discard string
             # Initialize to zero if not exists in bag yet, get max
             val = max(int(val), curr_bag.get(color, 0))
             curr_bag[color] = val
