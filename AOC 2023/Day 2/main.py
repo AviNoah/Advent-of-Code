@@ -35,7 +35,7 @@ def main(bag: dict) -> list:
             curr_bag[color] = val
 
         if is_bigger_than_bag(curr_bag):
-            return id
+            return int(id)
         return None
 
     result_ids: list = [might_be_bag(line) for line in lines]
@@ -45,4 +45,5 @@ def main(bag: dict) -> list:
 
 if __name__ == "__main__":
     goal_bag: dict = {"red": 12, "green": 13, "blue": 14}  # RGB
-    main(goal_bag)
+    ids: list = main(goal_bag)
+    print(sum(ids))
