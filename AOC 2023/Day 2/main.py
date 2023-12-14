@@ -46,6 +46,6 @@ def main(bag: dict) -> list:
 
 
 if __name__ == "__main__":
-    goal_bag: dict = {"red": 3, "green": 5, "blue": 4}  # RGB
+    goal_bag: dict = {"red": 12, "green": 13, "blue": 14}  # RGB
     ids: list = main(goal_bag)
     print(sum(ids))
