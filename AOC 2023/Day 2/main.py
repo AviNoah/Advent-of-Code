@@ -26,7 +26,7 @@ class game_bag:
     def is_smaller_than_other(self, other_bag: dict) -> bool:
         # Return whether curr_bag has more or less the same number of balls of each color as bag
         keys = other_bag.keys()
-        values = [self.get(key, 0) for key in keys]
+        values = [self.required_bag_to_play.get(key, 0) for key in keys]
         return all([a <= b for a, b in zip(values, other_bag.values())])
 
     def get_bag(self) -> dict:
