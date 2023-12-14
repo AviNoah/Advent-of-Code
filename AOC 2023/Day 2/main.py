@@ -14,7 +14,9 @@ def main(bag: dict) -> list:
 
     def is_smaller_than_bag(curr_bag: dict) -> bool:
         # Return whether curr_bag has more or less the same number of balls of each color as bag
-        return all([a <= b for a, b in zip(curr_bag.values(), bag.values())])
+        keys = bag.keys()
+        values = [curr_bag.get(key, 0) for key in keys]
+        return all([a <= b for a, b in zip(values, bag.values())])
 
     def might_be_bag(line: str) -> int:
         # Return the id if the bag in the game might be the given Bag, return None otherwise.
