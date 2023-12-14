@@ -12,7 +12,7 @@ def main(bag: dict):
         if bag1.keys() != bag2.keys():
             raise Exception("Incompatible bags")
 
-        keys: list = bag1.keys()
+        keys: list = list(bag1.keys())
         max_values = [max(bag1[key], bag2[key]) for key in keys]
         result = dict(zip(keys, max_values))
 
