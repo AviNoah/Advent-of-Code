@@ -4,6 +4,9 @@ pattern = r"(\d+)"
 
 non_special = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "."}
 
+# We will find all values using regex, and then check in a rectanular grid around them if they contain a special symbol,
+# this prevents duplicates and more efficient
+
 
 def get_values() -> list:
     with open("input.txt", "r") as f:
