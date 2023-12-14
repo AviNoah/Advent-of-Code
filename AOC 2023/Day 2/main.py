@@ -58,6 +58,10 @@ def get_possible_bags(bag: dict) -> list:
 
     possible_game_bags: list = [can_be_played_with_bag(line) for line in lines]
 
+    possible_game_bags: list = [
+        game_bag for game_bag in possible_game_bags if game_bag is not None
+    ]
+
     return possible_game_bags
 
 
@@ -66,7 +70,5 @@ if __name__ == "__main__":
     game_bags: list = get_possible_bags(goal_bag)  # get game bags
 
     # Get ids of game bags
-    result_ids: list = [
-        game_bag.get_id() for game_bag in game_bags if game_bag is not None
-    ]
+    result_ids: list = [game_bag.get_id() for game_bag in game_bags]
     print(sum(result_ids))
