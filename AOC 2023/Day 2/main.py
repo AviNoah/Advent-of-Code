@@ -84,6 +84,6 @@ if __name__ == "__main__":
 
     # Get ids of game bags
     result_ids: list = [game_bag.get_id() for game_bag in game_bags]
-    result_powers: list = [game_bag.get_bag_power() for game_bag in game_bags]
+    result_powers: list = [game_bag.get_bag_power() for game_bag in get_bags()]
     print(sum(result_ids))
     print(sum(result_powers))
