@@ -1,4 +1,5 @@
 import re
+from functools import reduce
 
 id_pattern = r"game (\d+)"
 color_pattern = r"(?: (\d+) (blue|red|green))+,*"
@@ -16,6 +17,11 @@ class game_bag:
 
     def get_id(self) -> int:
         return self.game_id
+
+    def get_bag_power(self) -> int:
+        # A bag power is equal to the numbers of red, green, and blue balls multiplied together
+        values = self.required_bag_to_play.values()
+        return reduce(lambda a, b: a * b, values)
 
     def get_bag(self) -> dict:
         return self.required_bag_to_play
@@ -71,4 +77,6 @@ if __name__ == "__main__":
 
     # Get ids of game bags
     result_ids: list = [game_bag.get_id() for game_bag in game_bags]
+    result_powers: list = [game_bag.get_bag_power() for game_bag in game_bags]
     print(sum(result_ids))
+    print(sum(result_powers))
