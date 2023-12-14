@@ -38,8 +38,8 @@ def main(bag: dict) -> list:
         line: str = line.lower()
 
         # Each game MUST have id
-        id, data = line.split(":", maxsplit=1)
-        id = re.match(id_pattern, id).group(1)  # Get id
+        game_id, data = line.split(":", maxsplit=1)
+        game_id = re.match(id_pattern, game_id).group(1)  # Get id
 
         # Each game might not necessarily have data
         matches: list = re.findall(color_pattern, data)
@@ -53,7 +53,7 @@ def main(bag: dict) -> list:
             curr_bag[color] = val
 
         if is_smaller_than_bag(curr_bag):
-            return int(id)
+            return int(game_id)
         return None
 
     possible_game_bags: list = [can_be_played_with_bag(line) for line in lines]
