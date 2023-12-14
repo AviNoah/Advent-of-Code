@@ -53,7 +53,7 @@ def get_possible_bags(bag: dict) -> list:
             curr_bag[color] = val
 
         if is_smaller_than_bag(curr_bag):
-            return game_bag(game_id, game_bag)
+            return game_bag(game_id, curr_bag)
         return None
 
     possible_game_bags: list = [can_be_played_with_bag(line) for line in lines]
