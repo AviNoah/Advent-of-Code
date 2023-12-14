@@ -18,7 +18,7 @@ def get_values() -> list:
             value = match.group(1)  # Get value
             st, ed = match.start(), match.end()
             # Check if value is surrounded by a symbol that is not a digit or period
-            if all(
+            if any(
                 [
                     bool(lines[x][y] not in non_special)
                     for x in range(st - 1, ed + 1)
