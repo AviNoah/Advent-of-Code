@@ -21,13 +21,16 @@ def get_values() -> list:
     for i, row_match in enumerate(rows_matches):
         for match in row_match:
             value: int = int(match.group(1))  # Get value
-            st, ed = match.start(), match.end()
+            st, ed = (
+                match.start(),
+                match.end(),
+            )  # end returns the char just after the match
             # Check if value is surrounded by a symbol that is not a digit or period
             if any(
                 [
-                    bool(get_value(y, x) not in non_special)
-                    for x in range(st - 1, ed + 2)
-                    for y in range(i - 1, i + 1)
+                    bool(get_value(row, col) not in non_special)
+                    for col in range(st - 1, ed + 1)  # between st-1 and ed+1 exclusive
+                    for row in range(i - 1, i + 2)  # between i-1 and i+1 inclusive
                 ]
             ):
                 results.append(value)
