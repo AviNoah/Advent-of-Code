@@ -12,9 +12,9 @@ def main(bag: dict) -> list:
     with open("input.txt", "r") as f:
         lines: list = f.readlines()
 
-    def is_bigger_than_bag(curr_bag: dict) -> bool:
-        # Return whether curr_bag has the same amount or more balls of each color than bag
-        return all([a >= b for a, b in zip(curr_bag.values(), bag.values())])
+    def is_smaller_than_bag(curr_bag: dict) -> bool:
+        # Return whether curr_bag more or less the number of balls of each color than bag
+        return all([a <= b for a, b in zip(curr_bag.values(), bag.values())])
 
     def might_be_bag(line: str) -> int:
         # Return the id if the bag in the game might be the given Bag, return None otherwise.
@@ -35,7 +35,7 @@ def main(bag: dict) -> list:
             val = max(int(val), curr_bag.get(color, 0))
             curr_bag[color] = val
 
-        if not is_bigger_than_bag(curr_bag):
+        if is_smaller_than_bag(curr_bag):
             return int(id)
         return None
 
