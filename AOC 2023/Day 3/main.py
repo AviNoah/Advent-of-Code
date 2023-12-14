@@ -15,7 +15,7 @@ def get_values() -> list:
 
     for i, row in enumerate(rows_matches):
         for match in row:
-            value = match.group(1)  # Get value
+            value: int = int(match.group(1))  # Get value
             st, ed = match.start(), match.end()
             # Check if value is surrounded by a symbol that is not a digit or period
             if any(
@@ -31,4 +31,4 @@ def get_values() -> list:
 
 
 if __name__ == "__main__":
-    print(get_values())
+    print(sum(get_values()))
