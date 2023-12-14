@@ -33,7 +33,7 @@ def main(bag: dict) -> list:
         values = [curr_bag.get(key, 0) for key in keys]
         return all([a <= b for a, b in zip(values, bag.values())])
 
-    def can_be_played_with_bag(line: str) -> int:
+    def can_be_played_with_bag(line: str) -> game_bag:
         # Return the id if the bag in the game might be the given Bag, return None otherwise.
         line: str = line.lower()
 
@@ -53,7 +53,7 @@ def main(bag: dict) -> list:
             curr_bag[color] = val
 
         if is_smaller_than_bag(curr_bag):
-            return int(game_id)
+            return game_bag(game_id, game_bag)
         return None
 
     possible_game_bags: list = [can_be_played_with_bag(line) for line in lines]
