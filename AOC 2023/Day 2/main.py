@@ -56,8 +56,11 @@ def main(bag: dict) -> list:
             return int(id)
         return None
 
-    result_ids: list = [can_be_played_with_bag(line) for line in lines]
-    result_ids: list = [id for id in result_ids if id is not None]
+    possible_game_bags: list = [can_be_played_with_bag(line) for line in lines]
+
+    result_ids: list = [
+        game_bag.get_id() for game_bag in possible_game_bags if game_bag is not None
+    ]
     return result_ids
 
 
