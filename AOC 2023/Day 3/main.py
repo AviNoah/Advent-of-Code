@@ -31,4 +31,4 @@ def get_values() -> list:
 
 
 if __name__ == "__main__":
-    get_values()
+    print(get_values())
