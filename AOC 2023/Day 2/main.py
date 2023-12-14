@@ -1,41 +1,28 @@
 import re
 from functools import reduce
 
-pattern = r"game (?:(?:(\d+): (\d+ (?:blue|red|green)),)+;)+"
+pattern = r"game (\d+):(?:( \d+ (?:blue|red|green))+,* )+;*"
 pattern = re.compile(pattern)
 
 
-def main(bag: dict):
+def main(bag: dict) -> list:
     with open("input.txt", "r") as f:
         lines: list = f.readlines()
 
-    def max_dict(bag1: dict, bag2: dict) -> dict:
-        # Return the maximum values from each bag for every key, both have same keys
-        if bag1.keys() != bag2.keys():
-            raise Exception("Incompatible bags")
-
-        keys: list = list(bag1.keys())
-        max_values = [max(bag1[key], bag2[key]) for key in keys]
-        result = dict(zip(keys, max_values))
-
-        return result
-
-    def get_sets(line: str) -> list[dict]:
-        # Given sets of subsets of picked dice, pick maximum amount of dice as dict.
+    def might_be_bag(line: str) -> int:
+        # Return the id if the bag in the game might be the given Bag, return None otherwise.
         line: str = line.lower()
-        matches: list = pattern.fullmatch(line)
-        sets: list = ...
+        match = re.match(pattern, line)
 
-        return sets
+        if not match:
+            return None
 
-    for line in lines:
-        sets: list[dict] = get_sets(line)
-        result = reduce(lambda a, b: max_dict(a, b), sets)
+        id = match.group(0)
+        return id
 
-    # initialize to zero if any colors were not picked at all
-    result: dict = max_dict({"red": 0, "green": 0, "blue": 0}, result)
-
-    return result
+    result_ids: list = [might_be_bag(line) for line in lines]
+    result_ids: list = [id for id in result_ids if id is not None]
+    return result_ids
 
 
 if __name__ == "__main__":
