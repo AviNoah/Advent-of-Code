@@ -13,7 +13,7 @@ def main(bag: dict) -> list:
         lines: list = f.readlines()
 
     def is_smaller_than_bag(curr_bag: dict) -> bool:
-        # Return whether curr_bag more or less the number of balls of each color than bag
+        # Return whether curr_bag has more or less the same number of balls of each color as bag
         return all([a <= b for a, b in zip(curr_bag.values(), bag.values())])
 
     def might_be_bag(line: str) -> int:
