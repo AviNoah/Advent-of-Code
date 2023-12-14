@@ -31,7 +31,7 @@ def main(bag: dict) -> list:
         for match in matches:
             _, val, color = match  # Get value and color, discard string
             # Initialize to zero if not exists in bag yet, get max
-            val = max(val, curr_bag.get(color, 0))
+            val = max(int(val), curr_bag.get(color, 0))
             curr_bag[color] = val
 
         if is_bigger_than_bag(curr_bag):
