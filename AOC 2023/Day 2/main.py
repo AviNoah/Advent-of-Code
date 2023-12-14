@@ -1,7 +1,7 @@
 import re
 from functools import reduce
 
-pattern = r"game (\d+):(?:( \d+ (?:blue|red|green))+,* )+;*"
+pattern = r"game (\d+):(?:( \d+ (?:blue|red|green))+,*)+;*"
 pattern = re.compile(pattern)
 
 
@@ -17,7 +17,8 @@ def main(bag: dict) -> list:
         if not match:
             return None
 
-        id = match.group(0)
+        id = match.group(1)
+        group2 = match.groups()
         return id
 
     result_ids: list = [might_be_bag(line) for line in lines]
