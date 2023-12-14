@@ -86,5 +86,4 @@ def main(real_ans: int, do_tests: bool = False):
 
 
 if __name__ == "__main__":
-    # prev ans 54540
-    main(real_ans=281, do_tests=True)
+    main(real_ans=54530, do_tests=False)
