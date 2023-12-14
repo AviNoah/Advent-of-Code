@@ -49,8 +49,8 @@ def main(real_ans: int, do_tests: bool = False):
         "enin": 9,
     }
 
-    numeric_normal: dict = dict(numeric_dig).update(numeric_names)
-    numeric_reversed: dict = dict(numeric_dig).update(numeric_names_reversed)
+    numeric_normal: dict = numeric_dig.copy().update(numeric_names)
+    numeric_reversed: dict = numeric_dig.copy().update(numeric_names_reversed)
 
     def extract_values(line: str) -> int:
         # Extract first and second digits from the line, return as int
@@ -85,4 +85,4 @@ def main(real_ans: int, do_tests: bool = False):
 
 if __name__ == "__main__":
     # prev ans 54540
-    main(real_ans=281, do_tests=False)
+    main(real_ans=281, do_tests=True)
