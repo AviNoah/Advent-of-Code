@@ -6,6 +6,21 @@ id_pattern = re.compile(id_pattern)
 color_pattern = re.compile(color_pattern)
 
 
+# Define monad to log game data
+class game_bag:
+    def __init__(self, game_id: int, bag: dict()):
+        self.game_id = game_id
+        self.required_bag_to_play: dict = (
+            bag  # The minimum number of balls required to play
+        )
+
+    def get_id(self) -> int:
+        return self.game_id
+
+    def get_bag(self) -> dict:
+        return self.required_bag_to_play
+
+
 def main(bag: dict) -> list:
     # Returns a list of ids of bags that contain at most the same amount of colored balls as in bag
 
@@ -18,7 +33,7 @@ def main(bag: dict) -> list:
         values = [curr_bag.get(key, 0) for key in keys]
         return all([a <= b for a, b in zip(values, bag.values())])
 
-    def might_be_bag(line: str) -> int:
+    def can_be_played_with_bag(line: str) -> int:
         # Return the id if the bag in the game might be the given Bag, return None otherwise.
         line: str = line.lower()
 
@@ -41,7 +56,7 @@ def main(bag: dict) -> list:
             return int(id)
         return None
 
-    result_ids: list = [might_be_bag(line) for line in lines]
+    result_ids: list = [can_be_played_with_bag(line) for line in lines]
     result_ids: list = [id for id in result_ids if id is not None]
     return result_ids
 
