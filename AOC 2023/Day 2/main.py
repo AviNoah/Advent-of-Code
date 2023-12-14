@@ -21,7 +21,7 @@ class game_bag:
         return self.required_bag_to_play
 
 
-def main(bag: dict) -> list:
+def get_possible_bags(bag: dict) -> list:
     # Returns a list of ids of bags that contain at most the same amount of colored balls as in bag
 
     with open("input.txt", "r") as f:
@@ -39,7 +39,7 @@ def main(bag: dict) -> list:
 
         # Each game MUST have id
         game_id, data = line.split(":", maxsplit=1)
-        game_id = re.match(id_pattern, game_id).group(1)  # Get id
+        game_id: int = int(re.match(id_pattern, game_id).group(1))  # Get id
 
         # Each game might not necessarily have data
         matches: list = re.findall(color_pattern, data)
@@ -58,13 +58,15 @@ def main(bag: dict) -> list:
 
     possible_game_bags: list = [can_be_played_with_bag(line) for line in lines]
 
-    result_ids: list = [
-        game_bag.get_id() for game_bag in possible_game_bags if game_bag is not None
-    ]
-    return result_ids
+    return possible_game_bags
 
 
 if __name__ == "__main__":
     goal_bag: dict = {"red": 12, "green": 13, "blue": 14}  # RGB
-    ids: list = main(goal_bag)
-    print(sum(ids))
+    game_bags: list = get_possible_bags(goal_bag)  # get game bags
+
+    # Get ids of game bags
+    result_ids: list = [
+        game_bag.get_id() for game_bag in game_bags if game_bag is not None
+    ]
+    print(sum(result_ids))
