@@ -1,4 +1,5 @@
 import re
+from functools import reduce
 
 pattern = r"game (?:(?:(\d+): (\d+ (?:blue|red|green)),)+;)+"
 pattern = re.compile(pattern)
@@ -19,15 +20,22 @@ def main(bag: dict):
 
         return result
 
-    def collect_max_tuple(line: str) -> dict:
+    def get_sets(line: str) -> list[dict]:
         # Given sets of subsets of picked dice, pick maximum amount of dice as dict.
         line: str = line.lower()
-        result: dict = {"red": 0, "green": 0, "blue": 0}
-
         matches: list = pattern.fullmatch(line)
-        
+        sets: list = ...
 
-        return result
+        return sets
+
+    for line in lines:
+        sets: list[dict] = get_sets(line)
+        result = reduce(lambda a, b: max_dict(a, b), sets)
+
+    # initialize to zero if any colors were not picked at all
+    result: dict = max_dict({"red": 0, "green": 0, "blue": 0}, result)
+
+    return result
 
 
 if __name__ == "__main__":
