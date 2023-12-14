@@ -8,6 +8,8 @@ color_pattern = re.compile(color_pattern)
 
 
 def main(bag: dict) -> list:
+    # Returns a list of ids of bags that contain at most the same amount of colored balls as in bag
+
     with open("input.txt", "r") as f:
         lines: list = f.readlines()
 
@@ -34,7 +36,7 @@ def main(bag: dict) -> list:
             val = max(int(val), curr_bag.get(color, 0))
             curr_bag[color] = val
 
-        if is_bigger_than_bag(curr_bag):
+        if not is_bigger_than_bag(curr_bag):
             return int(id)
         return None
 
@@ -44,6 +46,6 @@ def main(bag: dict) -> list:
 
 
 if __name__ == "__main__":
-    goal_bag: dict = {"red": 12, "green": 13, "blue": 14}  # RGB
+    goal_bag: dict = {"red": 3, "green": 5, "blue": 4}  # RGB
     ids: list = main(goal_bag)
     print(sum(ids))
