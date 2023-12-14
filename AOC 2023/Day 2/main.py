@@ -1,5 +1,4 @@
 import re
-from functools import reduce
 
 id_pattern = r"game (\d+)"
 color_pattern = r"(?: (\d+) (blue|red|green))+,*"
