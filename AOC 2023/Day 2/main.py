@@ -1,6 +1,7 @@
 import re
 
 pattern = r"game (?:(?:(\d+): (\d+ (?:blue|red|green)),)+;)+"
+pattern = re.compile(pattern)
 
 
 def main(bag: dict):
@@ -22,6 +23,9 @@ def main(bag: dict):
         # Given sets of subsets of picked dice, pick maximum amount of dice as dict.
         line: str = line.lower()
         result: dict = {"red": 0, "green": 0, "blue": 0}
+
+        matches: list = pattern.fullmatch(line)
+        
 
         return result
 
