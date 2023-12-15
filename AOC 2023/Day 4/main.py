@@ -11,7 +11,7 @@ number_pattern: re.Pattern = re.compile(number_pattern)
 
 
 class card:
-    def __init__(self, id: int, winning_set: set, lottery_set: set):
+    def __init__(self, id: int, winning_set: list, lottery_set: list):
         self.id = int(id)
         self.winning_set = winning_set
         self.lottery_set = lottery_set
@@ -42,7 +42,7 @@ def get_cards() -> list:
         win_lots = number_pattern.findall(win_lots)
         drawn_lots = number_pattern.findall(drawn_lots)
 
-        return card(c_id, set(win_lots), set(drawn_lots))
+        return card(c_id, win_lots, drawn_lots)
 
     cards: list = [get_card(line) for line in lines]
     return cards
