@@ -103,4 +103,5 @@ if __name__ == "__main__":
     gear_parts = get_gear_parts()
     # Sol 560670
     print(sum_parts(parts))
+    # Sol 91622824
     print(sum_gear_ratios(gear_parts))
