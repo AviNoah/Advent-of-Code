@@ -1,10 +1,9 @@
 import re
 
-pattern = r"(\d+)"
+digit_pattern = r"(\d+)"
+non_special = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", ".", "\n"}
 
-non_special = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "."}
-
-# We will find all values using regex, and then check in a rectanular grid around them if they contain a special symbol,
+# We will find all values using regex, and then check in a rectangular grid around them if they contain a special symbol,
 # this prevents duplicates and more efficient
 
 
@@ -13,11 +12,11 @@ def get_values() -> list:
         lines = f.readlines()
 
     def get_value(row: int, col: int) -> str:
-        if 0 <= row < len(lines) and 0 <= col < len(lines[0]):
+        if 0 <= row < len(lines) and 0 <= col < len(lines[row]):
             return lines[row][col]
         return "."  # This counts as just false
 
-    rows_matches = [re.finditer(pattern, line) for line in lines]
+    rows_matches = [re.finditer(digit_pattern, line) for line in lines]
 
     results: list = list()
 
