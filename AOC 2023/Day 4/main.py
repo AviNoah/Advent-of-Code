@@ -51,14 +51,29 @@ def get_cards() -> list:
 
 def count_packs(cards: list[card]) -> int:
     # Use deque for easy and quick insert
-    # copy, make a list of card and count of copies
-    result: list = [[_, 1] for _ in cards]
+    # copy, make a list of winning lots count and count of copies
+    copies: list = [1 for _ in cards]
+    result: list = list()
+    for i, card in enumerate(cards):
+        lot_win = len(card.get_winning_lots())
+        lot_win *= copies[i]
+        print(f"{copies[i]} copies of card {i+1}")
+
+        for j in range(1, lot_win + 1):
+            index = min(len(copies) - 1, i + j)
+            copies[index] += 1  # Make a copy
+
+    return sum(copies)
+
+    result: list = [[len(_.get_winning_lots()), 1] for _ in cards]
     result: deque = deque(result)
+
+    true_result: deque = deque()
 
     for __ in range(len(result)):
         data = result.popleft()  # Peek
-        tmp_card, copies = data
-        win_lots: int = len(tmp_card.get_winning_lots()) * copies
+        lots, copies = data
+        win_lots: int = lots * copies
 
         # Double next win_lot packs
         for _ in range(win_lots):
@@ -68,9 +83,9 @@ def count_packs(cards: list[card]) -> int:
 
         result.rotate(-win_lots)  # Rotate back
 
-        result.append(data)  # Add to end of queue
+        true_result.append(data)  # Add to end of queue
 
-    return sum(copies for _, copies in result)
+    return sum(copies for _, copies in true_result)
 
 
 def sum_points_new_rules(cards: list[card]) -> int:
@@ -95,5 +110,5 @@ def sum_points(cards: list[card]) -> int:
 if __name__ == "__main__":
     cards: list[card] = get_cards()
     # Solution 15268
-    print(sum_points(cards))
-    print(count_packs(cards))
+    print(f"sum is: {sum_points(cards)}")
+    print(f"count is: {count_packs(cards)}")
