@@ -48,7 +48,7 @@ def get_cards() -> list:
     return cards
 
 
-def sum_points(cards: list[card]) -> int:
+def sum_points_new_rules(cards: list[card]) -> int:
     # For every lottery, you win a copy of the cards in the next packs (as many as the lots you won)
 
     # A list of tuples containing winning lots count and score
@@ -61,6 +61,10 @@ def sum_points(cards: list[card]) -> int:
             lots_and_scores[i + j][1] *= 2  # Add a copy
 
     return sum
+
+
+def sum_points(cards: list[card]) -> int:
+    return sum(c.calculate_score() for c in cards)
 
 
 if __name__ == "__main__":
