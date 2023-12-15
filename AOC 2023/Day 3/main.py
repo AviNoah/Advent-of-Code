@@ -67,8 +67,16 @@ def get_gear_parts() -> list:
     parts_rows = get_parts()
     asterisk_rows = match_from_file(asterisk_pattern)
 
+    gear_parts: list = list()
+
     for i, row in enumerate(asterisk_rows):
-        ...
+        for match in row:
+            rng = range(match.start(), match.end())
+            gear_parts.append(
+                [part for part in parts_rows[i] if part.does_overlap(rng)]
+            )
+
+    return gear_parts
 
 
 def sum_parts(parts_tables: list[list]) -> int:
@@ -77,5 +85,7 @@ def sum_parts(parts_tables: list[list]) -> int:
 
 if __name__ == "__main__":
     parts = get_parts()
+    gear_parts = get_gear_parts()
     # Sol 560670
     print(sum_parts(parts))
+    print(gear_parts)
