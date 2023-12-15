@@ -42,4 +42,5 @@ def get_values() -> list:
 
 if __name__ == "__main__":
     vals = get_values()
+    # Sol 560670
     print(sum(vals))
