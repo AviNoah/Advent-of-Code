@@ -54,6 +54,5 @@ def sum_points(cards: list[card]) -> int:
 
 if __name__ == "__main__":
     cards: list[card] = get_cards()
-    for c in cards:
-        print(c)
+    # Solution 15268
     print(sum_points(cards))
