@@ -1,5 +1,5 @@
 # Card X: winning set | lotted numbers
-# Point calculation: 2^(n-1) where n is the amount of matching winning numbers from the lot
+# Point calculation: 2^(n-1) where n is the amount of matching winning numbers from the lot or 0
 
 
 def main():
