@@ -19,7 +19,7 @@ class part:
 
     def does_overlap(self, _range: range) -> bool:
         # Given range, check if st and ed are within it, _range has steps of 1.
-        return self.st in _range or self.ed in _range
+        return any([self.st <= x <= self.ed for x in _range])
 
 
 def get_value(row: int, col: int) -> str:
