@@ -64,6 +64,9 @@ def get_parts() -> list:
 
 
 def get_gear_parts() -> list:
+    # A gear is an asterisk symbol that is near exactly 2 gear parts
+    # a gear part is a number near a gear
+
     parts_rows = get_parts()
     asterisk_rows = match_from_file(asterisk_pattern)
 
@@ -71,10 +74,18 @@ def get_gear_parts() -> list:
 
     for i, row in enumerate(asterisk_rows):
         for match in row:
-            rng = range(match.start(), match.end())
-            gear_parts.append(
-                [part for part in parts_rows[i] if part.does_overlap(rng)]
-            )
+            rng = range(match.start(), match.end() + 1)
+            overlapping_parts = [
+                part
+                for j in range(i - 1, i + 2)
+                for part in parts_rows[j]
+                if part.does_overlap(rng)
+            ]
+
+            gear_parts.append(overlapping_parts)
+
+    # Ignore if not exactly two
+    gear_parts = [part for part in gear_parts if len(part) == 2]
 
     return gear_parts
 
