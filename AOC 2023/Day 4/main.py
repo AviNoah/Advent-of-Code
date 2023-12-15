@@ -2,6 +2,7 @@
 # Point calculation: 2^(n-1) where n is the amount of matching winning numbers from the lot or 0
 
 import re
+from collections import deque
 
 with open("input.txt", "r") as f:
     lines: list = f.readlines()
@@ -48,6 +49,30 @@ def get_cards() -> list:
     return cards
 
 
+def count_packs(cards: list[card]) -> int:
+    # Use deque for easy and quick insert
+    # copy, make a list of card and count of copies
+    result: list = [[_, 1] for _ in cards]
+    result: deque = deque(result)
+
+    for i in range(len(result)):
+        data = result.popleft()  # Peek
+        tmp_card, copies = data
+        win_lots: int = len(tmp_card.get_winning_lots()) * copies
+
+        # Double next win_lot packs
+        for _ in range(win_lots):
+            tmp = result.popleft()  # Peek
+            tmp[1] *= 2  # Double copies
+            result.append(tmp)  # Append back
+
+        result.rotate(-win_lots)  # Rotate back
+
+        result.append(data)  # Add to end of queue
+
+    return sum(copies for _, copies in result)
+
+
 def sum_points_new_rules(cards: list[card]) -> int:
     # For every lottery, you win a copy of the cards in the next packs (as many as the lots you won)
 
@@ -71,3 +96,4 @@ if __name__ == "__main__":
     cards: list[card] = get_cards()
     # Solution 15268
     print(sum_points(cards))
+    print(count_packs(cards))
