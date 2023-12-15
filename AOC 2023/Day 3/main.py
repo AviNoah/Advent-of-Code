@@ -31,7 +31,7 @@ def get_values() -> list:
             if any(
                 [
                     bool(get_value(row, col) not in non_special)
-                    for col in range(st - 1, ed + 1)  # between st-1 and ed+1 exclusive
+                    for col in range(st - 1, ed + 1)  # between st-1 and ed inclusive
                     for row in range(i - 1, i + 2)  # between i-1 and i+1 inclusive
                 ]
             ):
