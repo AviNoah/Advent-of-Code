@@ -26,9 +26,9 @@ class card:
         return f"Card {self.id} has {len(lots)} winning numbers ({', '.join(lots)}, so it is worth {self.calculate_score()} points.)"
 
 
-def main():
+def get_cards():
     return
 
 
 if __name__ == "__main__":
-    main()
+    get_cards()
