@@ -13,7 +13,7 @@ with open("input.txt", "r") as f:
 
 class part:
     def __init__(self, value: int, st: int, ed: int):
-        self.value = value
+        self.value = int(value)
         self.st = st
         self.ed = ed
 
@@ -94,9 +94,13 @@ def sum_parts(parts_tables: list[list]) -> int:
     return sum(part.value for part_row in parts_tables for part in part_row)
 
 
+def sum_gear_ratios(gears: list[list]) -> int:
+    return sum(row[0].value * row[1].value for row in gears)
+
+
 if __name__ == "__main__":
     parts = get_parts()
     gear_parts = get_gear_parts()
     # Sol 560670
     print(sum_parts(parts))
-    print(gear_parts)
+    print(sum_gear_ratios(gear_parts))
