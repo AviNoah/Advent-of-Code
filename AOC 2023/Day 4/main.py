@@ -55,7 +55,7 @@ def count_packs(cards: list[card]) -> int:
     result: list = [[_, 1] for _ in cards]
     result: deque = deque(result)
 
-    for i in range(len(result)):
+    for __ in range(len(result)):
         data = result.popleft()  # Peek
         tmp_card, copies = data
         win_lots: int = len(tmp_card.get_winning_lots()) * copies
