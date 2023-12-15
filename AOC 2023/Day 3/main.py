@@ -56,11 +56,15 @@ def get_parts() -> list:
     return results
 
 
+def get_gear_parts() -> list:
+    parts = get_parts()
+
+
 def sum_parts(parts_tables: list[list]) -> int:
     return sum(part.value for part_row in parts_tables for part in part_row)
 
 
 if __name__ == "__main__":
-    vals = get_parts()
+    parts = get_parts()
     # Sol 560670
-    print(sum_parts(vals))
+    print(sum_parts(parts))
