@@ -1,6 +1,8 @@
 # Card X: winning set | lotted numbers
 # Point calculation: 2^(n-1) where n is the amount of matching winning numbers from the lot or 0
 
+import re
+
 with open("input.txt", "r") as f:
     lines: list = f.readlines()
 
@@ -26,9 +28,25 @@ class card:
         return f"Card {self.id} has {len(lots)} winning numbers ({', '.join(lots)}, so it is worth {self.calculate_score()} points.)"
 
 
-def get_cards():
-    return
+def get_cards() -> list:
+    def get_card(line: str) -> card:
+        c_id, lots = line.split(":", maxsplit=1)
+        c_id = re.match(r"(\d+)", line).group(1)  # Get id
+        win_lots, drawn_lots = lots.split("|", maxsplit=1)
+
+        win_lots: list = win_lots.split(" ")
+        drawn_lots: list = drawn_lots.split(" ")
+
+        return card(c_id, set(win_lots), set(drawn_lots))
+
+    cards: list = [get_card(line) for line in lines]
+    return cards
+
+
+def sum_points(cards: list[card]) -> int:
+    return sum(c.calculate_score() for c in cards)
 
 
 if __name__ == "__main__":
-    get_cards()
+    cards: list[card] = get_cards()
+    print(sum_points(cards))
