@@ -1,7 +1,7 @@
 import re
 
 digit_pattern = r"(\d+)"
-asterik_pattern = r"\*"
+asterisk_pattern = r"\*"
 non_special = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", ".", "\n"}
 
 with open("input.txt", "r") as f:
@@ -65,7 +65,10 @@ def get_parts() -> list:
 
 def get_gear_parts() -> list:
     parts_rows = get_parts()
-    asterisk_rows = match_from_file(asterik_pattern)
+    asterisk_rows = match_from_file(asterisk_pattern)
+
+    for i, row in enumerate(asterisk_rows):
+        ...
 
 
 def sum_parts(parts_tables: list[list]) -> int:
