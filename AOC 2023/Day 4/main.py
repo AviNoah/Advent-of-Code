@@ -24,7 +24,8 @@ class card:
 
     def calculate_score(self) -> int:
         power = len(self.get_winning_lots()) - 1
-        power = max(power, 0)
+        if power < 0:
+            return 0
         return 2**power
 
     def __str__(self):
@@ -53,4 +54,6 @@ def sum_points(cards: list[card]) -> int:
 
 if __name__ == "__main__":
     cards: list[card] = get_cards()
+    for c in cards:
+        print(c)
     print(sum_points(cards))
