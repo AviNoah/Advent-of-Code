@@ -31,7 +31,7 @@ class card:
 def get_cards() -> list:
     def get_card(line: str) -> card:
         c_id, lots = line.split(":", maxsplit=1)
-        c_id = re.match(r"(\d+)", line).group(1)  # Get id
+        c_id = re.findall(r"(\d+)", c_id)[0]  # Get id
         win_lots, drawn_lots = lots.split("|", maxsplit=1)
 
         win_lots: list = win_lots.split(" ")
