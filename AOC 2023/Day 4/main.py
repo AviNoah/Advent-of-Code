@@ -65,28 +65,6 @@ def count_packs(cards: list[card]) -> int:
 
     return sum(copies)
 
-    result: list = [[len(_.get_winning_lots()), 1] for _ in cards]
-    result: deque = deque(result)
-
-    true_result: deque = deque()
-
-    for __ in range(len(result)):
-        data = result.popleft()  # Peek
-        lots, copies = data
-        win_lots: int = lots * copies
-
-        # Double next win_lot packs
-        for _ in range(win_lots):
-            tmp = result.popleft()  # Peek
-            tmp[1] *= 2  # Double copies
-            result.append(tmp)  # Append back
-
-        result.rotate(-win_lots)  # Rotate back
-
-        true_result.append(data)  # Add to end of queue
-
-    return sum(copies for _, copies in true_result)
-
 
 def sum_points_new_rules(cards: list[card]) -> int:
     # For every lottery, you win a copy of the cards in the next packs (as many as the lots you won)
