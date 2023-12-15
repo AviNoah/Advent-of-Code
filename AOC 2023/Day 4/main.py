@@ -6,6 +6,9 @@ import re
 with open("input.txt", "r") as f:
     lines: list = f.readlines()
 
+number_pattern: str = r"(\d+)"
+number_pattern: re.Pattern = re.compile(number_pattern)
+
 
 class card:
     def __init__(self, id: int, winning_set: set, lottery_set: set):
@@ -20,22 +23,23 @@ class card:
         return winning_lots
 
     def calculate_score(self) -> int:
-        power = len(self.get_winning_lots())
-        return 2 ** (power - 1)
+        power = len(self.get_winning_lots()) - 1
+        power = max(power, 0)
+        return 2**power
 
     def __str__(self):
         lots = self.get_winning_lots()
-        return f"Card {self.id} has {len(lots)} winning numbers ({', '.join(lots)}, so it is worth {self.calculate_score()} points.)"
+        return f"Card {self.id} has {len(lots)} winning numbers ({', '.join(lots)}), so it is worth {self.calculate_score()} points."
 
 
 def get_cards() -> list:
     def get_card(line: str) -> card:
         c_id, lots = line.split(":", maxsplit=1)
-        c_id = re.findall(r"(\d+)", c_id)[0]  # Get id
+        c_id = number_pattern.search(c_id).group()  # Get id
         win_lots, drawn_lots = lots.split("|", maxsplit=1)
 
-        win_lots: list = win_lots.split(" ")
-        drawn_lots: list = drawn_lots.split(" ")
+        win_lots = number_pattern.findall(win_lots)
+        drawn_lots = number_pattern.findall(drawn_lots)
 
         return card(c_id, set(win_lots), set(drawn_lots))
 
