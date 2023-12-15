@@ -53,15 +53,14 @@ def count_packs(cards: list[card]) -> int:
     # Use deque for easy and quick insert
     # copy, make a list of winning lots count and count of copies
     copies: list = [1 for _ in cards]
-    result: list = list()
+
     for i, card in enumerate(cards):
         lot_win = len(card.get_winning_lots())
-        lot_win *= copies[i]
         print(f"{copies[i]} copies of card {i+1}")
-
-        for j in range(1, lot_win + 1):
-            index = min(len(copies) - 1, i + j)
-            copies[index] += 1  # Make a copy
+        for _ in range(copies[i]):
+            for j in range(1, lot_win + 1):
+                index = min(len(copies) - 1, i + j)
+                copies[index] += 1  # Make a copy
 
     return sum(copies)
 
