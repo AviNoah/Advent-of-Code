@@ -40,12 +40,6 @@ def get_values() -> list:
     return results
 
 
-def get_gears() -> list:
-    # A gear is an astrik symbol *
-    # A gear ratio is the product of two parts adjacent to a gear.
-    ...
-
-
 if __name__ == "__main__":
     vals = get_values()
     # Sol 560670
