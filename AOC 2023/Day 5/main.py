@@ -31,8 +31,10 @@ def transform(map1: dict, map2: dict) -> dict:
     # Given map1 and map2, search for map1 values as keys in map2,
     # and return corresponding map1 keys : map2 values
 
-    # Discard anything but map1 key
-    return make_map_to_dict(map(lambda d1_k, *_: {d1_k: map2.get(d1_k)}, map1, map2))
+    # Discard anything but map1 key and value
+    return make_map_to_dict(
+        map(lambda d1_k, d1_v, *_: {d1_k: map2.get(d1_v)}, map1, map2)
+    )
 
 
 if __name__ == "__main__":
