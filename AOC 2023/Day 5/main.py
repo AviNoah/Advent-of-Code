@@ -41,7 +41,7 @@ class my_map:
         result: str = self.get_map_name() + "\n"
 
         # Logs
-        result += "\n".join(self.logs)
+        result += "\n".join(self.logs) + "\n"
 
         # Padding for key and values
         padding = len(self.get_map_name())
