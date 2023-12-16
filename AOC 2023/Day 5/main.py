@@ -47,8 +47,11 @@ class my_map:
         padding = len(self.get_map_name())
 
         # Key value names
-        result += "{:<{}} {:<{}}".format(
-            str(self.key_name), padding, str(self.value_name), padding
+        result += (
+            "{:<{}} {:<{}}".format(
+                str(self.key_name), padding, str(self.value_name), padding
+            )
+            + "\n"
         )
 
         # Values
