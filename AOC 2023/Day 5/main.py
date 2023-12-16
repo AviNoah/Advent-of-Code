@@ -25,6 +25,7 @@ class my_map:
 
         # Discard anything but map1 key and value
 
+        # TODO: Fix mapping unmapped numbers
         tmp_dict: list[dict] = [
             {d1_k: other.get_value(d1_v)} for d1_k, d1_v in self.map.items()
         ]
@@ -94,7 +95,7 @@ def make_map(
 if __name__ == "__main__":
     map1: my_map = my_map(make_map(1, 10, 10), "seed", "soil")
     print(map1)
-    map2: my_map = my_map(make_map(10, 50, 10), "soil", "fertilizer")
+    map2: my_map = my_map(make_map(10, 50, 12), "soil", "fertilizer")
     print(map2)
     map3: my_map = map1.transform(map2)
     print(map3)
