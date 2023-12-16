@@ -88,4 +88,5 @@ if __name__ == "__main__":
     cards: list[card] = get_cards()
     # Solution 15268
     print(f"sum is: {sum_points(cards)}")
+    # Solution 6283755
     print(f"count is: {count_packs(cards)}")
