@@ -26,7 +26,7 @@ class my_map:
         # Discard anything but map1 key and value
 
         tmp_dict: list[dict] = [
-            {d1_k: other.map.get(d1_v)} for d1_k, d1_v in self.map.items()
+            {d1_k: other.get_value(d1_v)} for d1_k, d1_v in self.map.items()
         ]
         tmp_dict: dict = make_map_to_dict(tmp_dict)
 
@@ -35,6 +35,10 @@ class my_map:
         logs.append(log)
 
         return my_map(tmp_dict, self.key_name, other.value_name, logs)
+
+    def get_value(self, key: str) -> str:
+        # According to the question, any unmapped number corresponds to itself as the destination
+        return str(self.map.get(key, key))  # If key doesn't exist, return key.
 
     def __str__(self) -> str:
         # Name
