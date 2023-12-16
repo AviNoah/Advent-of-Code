@@ -32,6 +32,19 @@ class my_map:
 
         return my_map(tmp_dict, self.key_name, other.value_name)
 
+    def __str__(self) -> str:
+        result: str = self.get_map_name() + "\n"
+        padding = len(self.get_map_name())
+        result += "{:<{}} {:<{}}".format(
+            str(self.key_name), padding, str(self.value_name), padding
+        )
+
+        for key, value in self.map.items():
+            padded = "{:<{}} {:<{}}".format(str(key), padding, str(value), padding)
+            result += f"{padded}\n"
+
+        return result
+
 
 def make_map_to_dict(my_map: map | list[dict]) -> dict:
     # Convert map or list of dicts a single dict.
