@@ -30,15 +30,28 @@ class my_map:
         ]
         tmp_dict: dict = make_map_to_dict(tmp_dict)
 
-        return my_map(tmp_dict, self.key_name, other.value_name)
+        log: str = f"Transformed from {self.get_map_name()} to {other.get_map_name()}"
+        logs: list = self.logs.copy()
+        logs.append(log)
+
+        return my_map(tmp_dict, self.key_name, other.value_name, logs)
 
     def __str__(self) -> str:
+        # Name
         result: str = self.get_map_name() + "\n"
+
+        # Logs
+        result += "\n".join(self.logs)
+
+        # Padding for key and values
         padding = len(self.get_map_name())
+
+        # Key value names
         result += "{:<{}} {:<{}}".format(
             str(self.key_name), padding, str(self.value_name), padding
         )
 
+        # Values
         for key, value in self.map.items():
             padded = "{:<{}} {:<{}}".format(str(key), padding, str(value), padding)
             result += f"{padded}\n"
