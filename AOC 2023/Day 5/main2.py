@@ -12,8 +12,8 @@ class conversion_map:
         self.value_name: str = value_name
         self.ranges: list[list[int]] = ranges
 
-    def get_min(self) -> list:
-        # Return the range with the lowest key value pair
+    def get_min(self) -> int:
+        # Return the value with the lowest key value pair
         # Search by minimal source
         lowest_pair: tuple = min(self.ranges, key=lambda rng: rng[1])
 
@@ -165,6 +165,8 @@ def part2():
     # Seeds are now a range instead of individual seed numbers, they come in pairs so:
     seeds: list[list[int]] = group_elements(seeds, 2)  # Break to groups of 2
 
+    # TODO: make seeds into a range, still havent implemented it
+
     maps: list[conversion_map] = get_maps()
 
     maps: list[conversion_map] = maps[
@@ -172,8 +174,13 @@ def part2():
     ]  # Reverse map, go from lowest loc to its corresponding seed.
 
     loc_map, *maps = maps
-    lowest_loc = loc_map.get_min()
+    lowest_loc: int = loc_map.get_min()
 
+    for map in maps:
+        lowest_loc = map.get_value(lowest_loc)
+
+    print(f"Lowest location is {lowest_loc}")
+    return
     # TODO: Fix this, this generates insane amounts of seeds, must optimize somehow
     # A list of lists of tuples
     total_seeds: list[list[int, int]] = [
