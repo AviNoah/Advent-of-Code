@@ -27,7 +27,20 @@ class conversion_map:
         # Given an other conversion_map object, return a new conversion map than converts
         # destination ranges to other's source values.
         # TODO: Implement this
-        raise NotImplementedError
+        total_ranges: list = list()
+
+        key_name = self.key_name
+        value_name = other.value_name
+
+        # self.value will feed into other.key to bridge the gap
+        for se_dest, se_src, se_len in self.ranges:
+            ranges: list = list()
+            for ot_dest, ot_src, ot_len in other.ranges:
+                # populate ranges
+                raise NotImplementedError
+            total_ranges.extend(ranges)
+
+        return conversion_map(key_name, value_name, total_ranges)
 
     def __str__(self) -> str:
         # Name
