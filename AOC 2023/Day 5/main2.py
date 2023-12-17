@@ -23,6 +23,12 @@ class conversion_map:
     def get_full_name(self) -> str:
         return f"{self.key_name}-to-{self.value_name}"
 
+    def intersect(self, other):
+        # Given an other conversion_map object, return a new conversion map than converts
+        # destination ranges to other's source values.
+        # TODO: Implement this
+        
+
     def __str__(self) -> str:
         # Name
         result: str = self.get_map_name() + "\n"
@@ -164,9 +170,13 @@ def part2():
 
     seeds_map: conversion_map = conversion_map("seed", "seed_range", seeds)
 
-    # Strategy, maybe find a way to find minimum between two maps? check if that helps
+    # Make an intersection between maps, inductively reach seeds-to-location
 
     maps: list[conversion_map] = get_maps()
+
+    
+    for map in maps:
+        seeds_map = seeds_map.intersect(map)
 
     # store solution here
     lowest_loc: tuple = None
