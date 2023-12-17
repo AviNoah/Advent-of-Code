@@ -142,7 +142,7 @@ def main():
     seeds: list[int] = get_seeds()
     maps: list[conversion_map] = get_maps()
 
-    results: list[int, int] = transform_seeds(seeds, maps, print_logs=True)
+    results: list[int, int] = transform_seeds(seeds, maps, print_logs=False)
 
     for seed, result in results:
         print(f"{seed} -> {result}")
