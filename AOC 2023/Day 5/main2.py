@@ -158,7 +158,11 @@ def part2():
     # Seeds are now a range instead of individual seed numbers, they come in pairs so:
     seeds: list[list[int]] = group_elements(seeds, 2)  # Break to groups of 2
 
-    # TODO: make seeds into a range, still haven't implemented it
+    for seed_range in seeds:
+        # maps must have src dest and len, make src and dest the same.
+        seed_range.insert(1, seed_range[0])
+
+    seeds_map: conversion_map = conversion_map("seed", "seed_range", seeds)
 
     maps: list[conversion_map] = get_maps()
 
