@@ -6,11 +6,11 @@ with open("input.txt", "r") as f:
 
 class conversion_map:
     def __init__(
-        self, key_name: str, value_name: str, ranges: list[int, int, int] = list()
+        self, key_name: str, value_name: str, ranges: list[list[int]] = list()
     ):
         self.key_name: str = key_name
         self.value_name: str = value_name
-        self.ranges: list[int, int, int] = ranges
+        self.ranges: list[list[int]] = ranges
 
     def get_value(self, key: int) -> int:
         # If value is in any of the ranges, return value, if not return key
@@ -98,7 +98,7 @@ def get_maps() -> list[conversion_map]:
         data: list[int] = [int(s) for s in data if s != ""]  # Convert to ints
 
         # Group every 3 numbers together, this is a separate range data
-        data: list[int, int, int] = group_elements(data, 3)
+        data: list[list[int]] = group_elements(data, 3)
         return conversion_map(key_name, value_name, data)
 
     maps: list[conversion_map] = [
