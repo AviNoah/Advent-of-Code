@@ -106,3 +106,21 @@ def get_maps() -> list[conversion_map]:
     ]
 
     return maps
+
+
+def transform_seed(
+    seed: int, maps: list[conversion_map], print_logs: bool = False
+) -> int:
+    # Given a seed, convert it in the conversion map list until it is exhausted, return final result
+    logs: list = list()
+
+    for map in maps:
+        tmp = map.get_value(seed)
+        logs.append(f"{map.key_name} {seed} corresponds to {map.value_name} {tmp}")
+        seed = tmp
+
+    if print_logs:
+        for log in logs:
+            print(f"- {log}")
+
+    return seed
