@@ -48,6 +48,24 @@ class conversion_map:
         return result
 
 
+def group_elements(iterable, group_size) -> list[list]:
+    # Group elements in groups of group_size, return resulting list[list]
+    result = []
+    current_group = []
+
+    for element in iterable:
+        current_group.append(element)
+        if len(current_group) == group_size:
+            result.append(current_group)
+            current_group = []
+
+    # If there are remaining elements, create a last group
+    if current_group:
+        result.append(current_group)
+
+    return result
+
+
 def get_seeds() -> list[int]:
     # Return a list of seeds for lines
     global lines
@@ -73,23 +91,6 @@ def get_maps() -> list[conversion_map]:
     )  # Captures key value and entire set of data for the map
 
     maps: list[re.Match] = map_pattern.finditer(full_data)
-
-    def group_elements(iterable, group_size) -> list[list]:
-        # Group elements in groups of group_size, return resulting list[list]
-        result = []
-        current_group = []
-
-        for element in iterable:
-            current_group.append(element)
-            if len(current_group) == group_size:
-                result.append(current_group)
-                current_group = []
-
-        # If there are remaining elements, create a last group
-        if current_group:
-            result.append(current_group)
-
-        return result
 
     def map_from_line(key_name: str, value_name: str, data: str) -> conversion_map:
         # Data is a big string containing multiples of number triplets
