@@ -149,7 +149,7 @@ def main():
         print(f"{seed} -> {result}")
 
     # Solution is 379811651
-    lowest_loc = min(results, key=lambda x: x[1])
+    lowest_loc: tuple = min(results, key=lambda x: x[1])
     print(f"Lowest location is {lowest_loc[1]} for seed {lowest_loc[0]}")
 
     # Part 2
@@ -160,11 +160,12 @@ def main():
     total_seeds: list[list[int, int]] = [
         transform_seeds(range(st, st + rng), maps, print_logs=False)
         for seed_range in seeds
-        for st, rng in seed_range
+        for st, rng in [seed_range]
     ]
 
     # Find the minimum in each list of tuples, return the minimum from those lists
-    lowest_loc = min(total_seeds, key=lambda x: min(x, key=lambda y: y[1]))
+    lowest_loc: list[tuple] = min(total_seeds, key=lambda x: min(x, key=lambda y: y[1]))
+    lowest_loc: tuple = min(results, key=lambda x: x[1])
     print(f"Lowest location is {lowest_loc[1]} for seed {lowest_loc[0]}")
 
 
