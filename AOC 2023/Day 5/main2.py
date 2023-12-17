@@ -169,8 +169,12 @@ def part2():
     ]
 
     # Find the minimum in each list of tuples, return the minimum from those lists
-    lowest_loc: list[tuple] = min(total_seeds, key=lambda x: min(x, key=lambda y: y[1]))
-    lowest_loc: tuple = min(lowest_loc, key=lambda x: x[1])
+    lowest_loc: tuple[int, int] = total_seeds[0][0]
+
+    for results in total_seeds:
+        for result in results:
+            lowest_loc = min(lowest_loc, result, key=lambda tup: tup[1])
+
     print(f"Lowest location is {lowest_loc[1]} for seed {lowest_loc[0]}")
 
 
