@@ -147,6 +147,7 @@ def main():
     for seed, result in results:
         print(f"{seed} -> {result}")
 
+    # Solution is 379811651
     lowest_loc = min(results, key=lambda x: x[1])
     print(f"Lowest location is {lowest_loc[1]} for seed {lowest_loc[0]}")
 
