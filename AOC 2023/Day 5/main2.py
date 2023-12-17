@@ -1,3 +1,9 @@
+import re
+
+with open("input.txt", "r") as f:
+    lines: list[str] = f.readlines()
+
+
 class conversion_map:
     def __init__(
         self, key_name: str, value_name: str, ranges: list[int, int, int] = list()
@@ -40,3 +46,17 @@ class conversion_map:
             result += f"{padded}\n"
 
         return result
+
+
+def get_seeds() -> list[int]:
+    # Return a list of seeds for lines
+    global lines
+    full_data: str = "".join(lines).replace("\n", " ")
+    seeds_pattern: re.Pattern = re.compile(
+        r"seeds:((?:\s\d+)*)"
+    )  # Capture all numbers after seeds:
+
+    seeds: re.Match = seeds_pattern.search(full_data)
+    seeds: list[int] = [int(s) for s in seeds.group(1).split(" ") if s != ""]
+
+    return seeds
