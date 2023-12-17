@@ -156,6 +156,7 @@ def main():
     # Seeds are now a range instead of individual seed numbers, they come in pairs so:
     seeds: list[list[int]] = group_elements(seeds, 2)  # Break to groups of 2
 
+    # TODO: Fix this, this generates insane amounts of seeds, must optimize somehow
     # A list of lists of tuples
     total_seeds: list[list[int, int]] = [
         transform_seeds(range(st, st + rng), maps, print_logs=False)
