@@ -98,7 +98,7 @@ def get_maps() -> list[conversion_map]:
         data: list[int] = [int(s) for s in data if s != ""]  # Convert to ints
 
         # Group every 3 numbers together, this is a separate range data
-        data: list[list[int, int, int]] = group_elements(data, 3)
+        data: list[int, int, int] = group_elements(data, 3)
         return conversion_map(key_name, value_name, data)
 
     maps: list[conversion_map] = [
