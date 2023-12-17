@@ -147,6 +147,9 @@ def main():
     for seed, result in results:
         print(f"{seed} -> {result}")
 
+    lowest_loc = min(results, key=lambda x: x[1])
+    print(f"Lowest location is {lowest_loc[1]} for seed {lowest_loc[0]}")
+
 
 if __name__ == "__main__":
     main()
