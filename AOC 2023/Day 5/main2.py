@@ -60,3 +60,49 @@ def get_seeds() -> list[int]:
     seeds: list[int] = [int(s) for s in seeds.group(1).split(" ") if s != ""]
 
     return seeds
+
+
+def get_maps() -> list[conversion_map]:
+    # Return a list of conversion_maps from lines
+    global lines
+
+    full_data: str = "".join(lines).replace("\n", " ")
+
+    map_pattern: re.Pattern = re.compile(
+        r"(\w+)-to-(\w+) map:((?:\s*\d+ \d+ \d+\s*)+)"
+    )  # Captures key value and entire set of data for the map
+
+    maps: list[re.Match] = map_pattern.finditer(full_data)
+
+    def group_elements(iterable, group_size) -> list[list]:
+        # Group elements in groups of group_size, return resulting list[list]
+        result = []
+        current_group = []
+
+        for element in iterable:
+            current_group.append(element)
+            if len(current_group) == group_size:
+                result.append(current_group)
+                current_group = []
+
+        # If there are remaining elements, create a last group
+        if current_group:
+            result.append(current_group)
+
+        return result
+
+    def map_from_line(key_name: str, value_name: str, data: str) -> conversion_map:
+        # Data is a big string containing multiples of number triplets
+        data = data.replace("\n", "")  # Remove line breaks
+        data: list[str] = data.split(" ")
+        data: list[int] = [int(s) for s in data if s != ""]  # Convert to ints
+
+        # Group every 3 numbers together, this is a separate range data
+        data: list[list[int, int, int]] = group_elements(data, 3)
+        return conversion_map(key_name, value_name, data)
+
+    maps: list[conversion_map] = [
+        map_from_line(match.group(1), match.group(2), match.group(3)) for match in maps
+    ]
+
+    return maps
