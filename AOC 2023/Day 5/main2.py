@@ -27,7 +27,7 @@ class conversion_map:
         # Given an other conversion_map object, return a new conversion map than converts
         # destination ranges to other's source values.
         # TODO: Implement this
-        
+        raise NotImplementedError
 
     def __str__(self) -> str:
         # Name
@@ -174,7 +174,6 @@ def part2():
 
     maps: list[conversion_map] = get_maps()
 
-    
     for map in maps:
         seeds_map = seeds_map.intersect(map)
 
