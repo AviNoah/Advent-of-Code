@@ -123,6 +123,8 @@ def transform_seed(
         for log in logs:
             print(f"- {log}")
 
+        print()  # Add a line break
+
     return seed
 
 
@@ -140,7 +142,7 @@ def main():
     seeds: list[int] = get_seeds()
     maps: list[conversion_map] = get_maps()
 
-    results: list[int, int] = transform_seeds(seeds, maps)
+    results: list[int, int] = transform_seeds(seeds, maps, print_logs=True)
 
     for seed, result in results:
         print(f"{seed} -> {result}")
