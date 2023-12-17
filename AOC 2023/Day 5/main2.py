@@ -152,6 +152,21 @@ def main():
     lowest_loc = min(results, key=lambda x: x[1])
     print(f"Lowest location is {lowest_loc[1]} for seed {lowest_loc[0]}")
 
+    # Part 2
+    # Seeds are now a range instead of individual seed numbers, they come in pairs so:
+    seeds: list[list[int]] = group_elements(seeds, 2)  # Break to groups of 2
+
+    # A list of lists of tuples
+    total_seeds: list[list[int, int]] = [
+        transform_seeds(range(st, st + rng), maps, print_logs=False)
+        for seed_range in seeds
+        for st, rng in seed_range
+    ]
+
+    # Find the minimum in each list of tuples, return the minimum from those lists
+    lowest_loc = min(total_seeds, key=lambda x: min(x, key=lambda y: y[1]))
+    print(f"Lowest location is {lowest_loc[1]} for seed {lowest_loc[0]}")
+
 
 if __name__ == "__main__":
     main()
