@@ -139,7 +139,7 @@ def transform_seeds(
     return tuples
 
 
-def main():
+def part1():
     seeds: list[int] = get_seeds()
     maps: list[conversion_map] = get_maps()
 
@@ -152,9 +152,13 @@ def main():
     lowest_loc: tuple = min(results, key=lambda x: x[1])
     print(f"Lowest location is {lowest_loc[1]} for seed {lowest_loc[0]}")
 
-    # Part 2
+
+def part2():
+    seeds: list[int] = get_seeds()
     # Seeds are now a range instead of individual seed numbers, they come in pairs so:
     seeds: list[list[int]] = group_elements(seeds, 2)  # Break to groups of 2
+
+    maps: list[conversion_map] = get_maps()
 
     # TODO: Fix this, this generates insane amounts of seeds, must optimize somehow
     # A list of lists of tuples
@@ -166,8 +170,13 @@ def main():
 
     # Find the minimum in each list of tuples, return the minimum from those lists
     lowest_loc: list[tuple] = min(total_seeds, key=lambda x: min(x, key=lambda y: y[1]))
-    lowest_loc: tuple = min(results, key=lambda x: x[1])
+    lowest_loc: tuple = min(lowest_loc, key=lambda x: x[1])
     print(f"Lowest location is {lowest_loc[1]} for seed {lowest_loc[0]}")
+
+
+def main():
+    part1()
+    part2()
 
 
 if __name__ == "__main__":
