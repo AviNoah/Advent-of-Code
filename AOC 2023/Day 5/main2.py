@@ -124,3 +124,27 @@ def transform_seed(
             print(f"- {log}")
 
     return seed
+
+
+def transform_seeds(
+    seeds: list[int], maps: list[conversion_map], print_logs: bool = False
+) -> list[int, int]:
+    # Return a list of 2 element tuples containing starting seed and result
+    tuples: list[int, int] = [
+        (seed, transform_seed(seed, maps, print_logs)) for seed in seeds
+    ]
+    return tuples
+
+
+def main():
+    seeds: list[int] = get_seeds()
+    maps: list[conversion_map] = get_maps()
+
+    results: list[int, int] = transform_seeds(seeds, maps)
+
+    for seed, result in results:
+        print(f"{seed} -> {result}")
+
+
+if __name__ == "__main__":
+    main()
