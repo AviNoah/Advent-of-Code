@@ -6,6 +6,14 @@ class conversion_map:
         self.value_name: str = value_name
         self.ranges: list[int, int, int] = ranges
 
+    def get_value(self, key: int) -> int:
+        # If value is in any of the ranges, return value, if not return key
+        for d_st, s_st, rng_len in self.ranges:
+            if d_st <= key < d_st + rng_len:
+                diff = key - d_st
+                return s_st + diff  # Return new value
+        return key
+
     def get_full_name(self) -> str:
         return f"{self.key_name}-to-{self.value_name}"
 
