@@ -164,6 +164,8 @@ def part2():
 
     seeds_map: conversion_map = conversion_map("seed", "seed_range", seeds)
 
+    # Strategy, maybe find a way to find minimum between two maps? check if that helps
+
     maps: list[conversion_map] = get_maps()
 
     # store solution here
