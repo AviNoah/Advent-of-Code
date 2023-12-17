@@ -15,9 +15,9 @@ class conversion_map:
     def get_value(self, key: int) -> int:
         # If value is in any of the ranges, return value, if not return key
         for d_st, s_st, rng_len in self.ranges:
-            if d_st <= key < d_st + rng_len:
-                diff = key - d_st
-                return s_st + diff  # Return new value
+            if s_st <= key < s_st + rng_len:
+                diff = key - s_st
+                return d_st + diff  # Return new value
         return key
 
     def get_full_name(self) -> str:
