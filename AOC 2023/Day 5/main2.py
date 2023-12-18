@@ -35,19 +35,23 @@ class conversion_map:
         # self.value will feed into other.key to bridge the gap
         for se_dest, se_src, se_len in self.ranges:
             ranges: list = list()
+            # We will generate a list of ranges dealing with everything between se_src and se_src + se_len
             for ot_dest, ot_src, ot_len in other.ranges:
                 # populate ranges
-                raise NotImplementedError
-            total_ranges.extend(ranges)
+                if se_src <= ot_src < se_src + se_len:
+                    _len = se_src + se_len - ot_src
+                    ranges.append((ot_dest, se_src, _len))
+
+                total_ranges.extend(ranges)
 
         return conversion_map(key_name, value_name, total_ranges)
 
     def __str__(self) -> str:
         # Name
-        result: str = self.get_map_name() + "\n"
+        result: str = self.get_full_name() + "\n"
 
         # Padding for key and values
-        padding = len(self.get_map_name())
+        padding = len(self.get_full_name())
 
         # Key value names
         result += (
@@ -197,7 +201,14 @@ def part2():
 
 def main():
     # part1()
-    part2()
+    # part2()
+
+    maps: list[conversion_map] = get_maps()
+    map, *maps = maps
+    for m in maps:
+        map = map.intersect(m)
+
+    print(map)
 
 
 if __name__ == "__main__":
