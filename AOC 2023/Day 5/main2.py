@@ -34,15 +34,32 @@ class conversion_map:
 
         # self.value will feed into other.key to bridge the gap
         for se_dest, se_src, se_len in self.ranges:
-            ranges: list = list()
             # We will generate a list of ranges dealing with everything between se_src and se_src + se_len
             for ot_dest, ot_src, ot_len in other.ranges:
                 # populate ranges
-                if se_src <= ot_src < se_src + se_len:
-                    _len = se_src + se_len - ot_src
-                    ranges.append((ot_dest, se_src, _len))
+                # The diff between self value to other key - how much we need to advance
+                diff = se_dest - ot_src
 
-                total_ranges.extend(ranges)
+                if diff >= 0:
+                    if ot_len <= diff:
+                        # Irrelevant, cant reach it
+                        continue  # Skip range
+
+                    _st = se_src  # Meet difference
+                    _dst = ot_dest + diff
+                    _len = ot_len - diff  # Remaining length ( remaining range )
+                else:
+                    diff *= -1
+                    if se_len <= diff:
+                        # Irrelevant, cant reach it
+                        continue  # Skip range
+
+                    _st = se_src + diff  # Meet difference
+                    _dst = ot_dest + diff
+                    _len = ot_len - diff  # Remaining length ( remaining range )
+
+                total_ranges.append((_dst, _st, _len))
+                continue
 
         return conversion_map(key_name, value_name, total_ranges)
 
