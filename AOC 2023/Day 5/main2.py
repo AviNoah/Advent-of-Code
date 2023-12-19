@@ -233,7 +233,8 @@ def intersect_example():
 
 def main():
     # part1()
-    part2()
+    # part2()
+    intersect_example()
 
 
 if __name__ == "__main__":
