@@ -42,6 +42,9 @@ class conversion_map:
     def intersect_range(rng1: tuple, ranges: list[tuple]) -> list[tuple]:
         # Given a range rng1, and a list of ranges, fill the empty ranges in between it and ranges
         # with new range tuples and return result
+        # The new list of ranges will be bounded between rng1 start and rng1 start + rng1 length
+        
+        
         ...
 
     def __str__(self) -> str:
