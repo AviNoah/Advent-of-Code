@@ -10,11 +10,17 @@ class conversion_map:
     ):
         self.key_name: str = key_name
         self.value_name: str = value_name
-        self.ranges: list[list[int]] = ranges
+        # Sort them by source.
+        self.ranges: list[list[int]] = sorted(ranges, key=lambda r: r[1])
 
     def get_value(self, key: int) -> int:
         # If value is in any of the ranges, return value, if not return key
-        for d_st, s_st, rng_len in self.ranges:
+        return self.get_value_static(key, self.ranges)
+
+    @staticmethod
+    def get_value_static(key: int, ranges: list[tuple]) -> int:
+        # If value is in any of the ranges, return value, if not return key
+        for d_st, s_st, rng_len in ranges:
             if s_st <= key < s_st + rng_len:
                 diff = key - s_st
                 return d_st + diff  # Return new value
@@ -24,24 +30,52 @@ class conversion_map:
         return f"{self.key_name}-to-{self.value_name}"
 
     def intersect(self, other):
-        # Given an other conversion_map object, return a new conversion map than converts
-        # destination ranges to other's source values.
+        # Given another conversion map, make an intermediary map that directly
+        # converts keys from self to other's values
 
-        total_ranges: list = list()
+        total: list = list()
+        for my_rng in self.ranges:
+            for rng in other.ranges:
+                total.extend(self.range_intersection(my_rng, rng))
 
-        key_name = self.key_name
-        value_name = other.value_name
+        return conversion_map(self.key_name, other.value_name, total)
+        ...
 
-        total_ranges: list[list] = list()
+    @staticmethod
+    def range_intersection(range1: tuple, range2: tuple) -> list[tuple]:
+        # The intersection of range1 keys to values in range2
+        # range1's values will be inserted as keys into range2
+        # We only need to care about values between range1's bounds
+        d1, s1, l1 = range1
+        d2, s2, l2 = range2
 
-        # Copy and sort ranges by source in ascending order
-        ranges: list(tuple) = sorted(other.ranges, key=lambda rng: rng[1])
+        end = s2 + l2
+        start = s2 - d1
 
-        for rng in self.ranges:
-            # Filter only those that are within the bounds of range
+        diff = end - start
+        if diff < 0:
+            return [range1]  # They are not intersecting
+
+        if diff > l1 + l2:
+            return [range1]  # They are not intersecting
+
+        # They are definitely intersecting
+
+        if s2 > d1:
+            # Completely contained within it
             ...
 
-        return conversion_map(key_name, value_name, total_ranges)
+        if diff < l2:
+            # partially intersecting from the left
+            # diff is len, source start is s1
+            d2 = conversion_map.get_value_static(d1)  # dest start
+            return [(d1, s1, 0), (d2, s1, diff), (d1 + diff, s1 + diff, l1 - diff)]
+
+        # Partially intersecting from the right
+
+        d2 = conversion_map.get_value_static(start)  # dest start
+
+        return [(d1, s1, start), (d2, s1 + start, l1 - start), (d1 + l1, s1 + l1, 0)]
 
     def __str__(self) -> str:
         # Name
