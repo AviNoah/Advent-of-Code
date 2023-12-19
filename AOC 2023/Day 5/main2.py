@@ -45,8 +45,8 @@ class conversion_map:
                         # Irrelevant, cant reach it
                         continue  # Skip range
 
-                    _st = se_src  # Meet difference
-                    _dst = ot_dest + diff
+                    _st = se_src
+                    _dst = ot_dest + diff  # Meet difference
                     _len = ot_len - diff  # Remaining length ( remaining range )
                 else:
                     diff *= -1
@@ -55,8 +55,8 @@ class conversion_map:
                         continue  # Skip range
 
                     _st = se_src + diff  # Meet difference
-                    _dst = ot_dest + diff
-                    _len = ot_len - diff  # Remaining length ( remaining range )
+                    _dst = ot_dest
+                    _len = se_len - diff  # Remaining length ( remaining range )
 
                 total_ranges.append((_dst, _st, _len))
                 continue
