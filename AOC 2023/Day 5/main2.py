@@ -214,22 +214,26 @@ def part2():
         seeds_map = seeds_map.intersect(map)
 
     # store solution here
-    lowest_loc: tuple = None
+    lowest_loc: tuple = min(seeds_map.ranges, key=lambda rng: rng[1])
     print(f"Lowest location is {lowest_loc[1]} for seed {lowest_loc[0]}")
 
 
-def main():
-    # part1()
-    # part2()
-
-    """
+def intersect_example():
     maps: list[conversion_map] = get_maps()
     map, *maps = maps
     for m in maps:
         map = map.intersect(m)
 
     print(map)
-    """
+
+    # store solution here
+    lowest_loc: tuple = min(map.ranges, key=lambda rng: rng[1])
+    print(f"Lowest location is {lowest_loc[1]} for seed {lowest_loc[0]}")
+
+
+def main():
+    # part1()
+    part2()
 
 
 if __name__ == "__main__":
