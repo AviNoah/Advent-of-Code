@@ -35,6 +35,7 @@ class conversion_map:
         # self.value will feed into other.key to bridge the gap
         for se_dest, se_src, se_len in self.ranges:
             # We will generate a list of ranges dealing with everything between se_src and se_src + se_len
+            ranges: list = list()
             for ot_dest, ot_src, ot_len in other.ranges:
                 # populate ranges
                 # The diff between self value to other key - how much we need to advance
@@ -60,14 +61,29 @@ class conversion_map:
                     _dst = ot_dest
                     _len = se_len - diff  # Remaining length ( remaining range )
 
-                total_ranges.append((_dst, _st, _len))
+                ranges.append((_dst, _st, _len))
                 continue
 
             # TODO: find missing unmapped ranges for self that weren't overridden by other ranges
             # Add them to total_ranges
-            tmp: tuple = (se_dest, se_src, se_len)
+            tmp: list = [se_dest, se_src, se_len]
             # Compare tmp to total_ranges so far, return a list of unmapped ranges according to tmp
-            total_ranges.append(tmp)  # Temporarily just add tmp
+
+            # Iterate over a copy
+            for rng in ranges[:]:
+                diff = tmp[0] - rng[0]  # self key against other key
+                if diff < 0:
+                    # We are missing inputs!
+                    diff *= -1
+                    key, value, _ = tmp
+                    ranges.append((key, value, diff))
+
+                    # Update tmp
+                    tmp[0] += diff  # Advance key
+                    tmp[1] += diff  # Advance value
+                    tmp[2] -= diff  # Deduct remaining length
+
+            total_ranges.extend(ranges)
 
         return conversion_map(key_name, value_name, total_ranges)
 
@@ -239,10 +255,9 @@ def intersect_example():
 
 def main():
     # part1()
+    part2()  # Prev ans: 222541566
 
-    # Prev ans: 222541566
-    part2()
-    # intersect_example()
+    #  intersect_example()
 
 
 if __name__ == "__main__":
