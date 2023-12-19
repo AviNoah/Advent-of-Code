@@ -42,71 +42,7 @@ class conversion_map:
     def intersect_range(rng1: tuple, ranges: list[tuple]) -> list[tuple]:
         # Given a range rng1, and a list of ranges, fill the empty ranges in between it and ranges
         # with new range tuples and return result
-
-        # self.value will feed into other.key to bridge the gap
-        for se_dest, se_src, se_len in self.ranges:
-            # We will generate a list of ranges dealing with everything between se_src and se_src + se_len
-            ranges: list = list()
-            for ot_dest, ot_src, ot_len in other.ranges:
-                # populate ranges
-                # The diff between self value to other key - how much we need to advance
-                diff = se_dest - ot_src
-
-                if diff >= 0:
-                    # self dest is larger than other source, must advance other
-                    if ot_len <= diff:
-                        # Irrelevant, cant reach it
-                        continue  # Skip range
-
-                    _st = se_src
-                    _dst = ot_dest + diff  # Meet difference
-                    _len = min(
-                        ot_len - diff, se_len
-                    )  # Remaining length ( remaining range )
-                else:
-                    # self dest is larger than other source, must advance self
-                    diff *= -1
-                    if se_len <= diff:
-                        # Irrelevant, cant reach it
-                        continue  # Skip range
-
-                    _st = se_src + diff  # Meet difference
-                    _dst = ot_dest
-                    _len = se_len - diff  # Remaining length ( remaining range )
-
-                ranges.append((_dst, _st, _len))
-                continue
-
-            # TODO: find missing unmapped ranges for self that weren't overridden by other ranges
-            # Add them to total_ranges
-            tmp: list = [se_dest, se_src, se_len]
-            # Compare tmp to total_ranges so far, return a list of unmapped ranges according to tmp
-
-            # Iterate over a copy
-            for rng in ranges[:]:
-                diff = tmp[0] - rng[0]  # self key against other key
-                if diff < 0:
-                    # We are missing inputs!
-                    diff *= -1
-                    key, value, _ = tmp
-                    ranges.append((key, value, diff))
-
-                    # Update tmp
-                    tmp[0] += diff  # Advance key
-                    tmp[1] += diff  # Advance value
-                    tmp[2] -= diff  # Deduct remaining length
-                else:
-                    # This is for the last unmapped range to complete
-                    # self key is larger than other key
-                    # Advance rng[2] steps towards a.
-                    key = rng[0] + rng[2]  # Start at the end of other range
-                    # Difference in steps we must advance in self key to reach other key + other range len
-                    diff = key - tmp[0]
-                    # Advance dest and decrease remaining length by diff.
-                    tmp = [key, tmp[1] + diff, tmp[2] - diff]
-                    ranges.append(tuple(tmp))
-
-            total_ranges.extend(ranges)
+        ...
 
     def __str__(self) -> str:
         # Name
