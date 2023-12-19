@@ -49,7 +49,7 @@ class conversion_map:
 
                     _st = se_src
                     _dst = ot_dest + diff  # Meet difference
-                    _len = ot_len - diff  # Remaining length ( remaining range )
+                    _len = min(ot_len - diff, se_len)  # Remaining length ( remaining range )
                 else:
                     # self dest is larger than other source, must advance self
                     diff *= -1
