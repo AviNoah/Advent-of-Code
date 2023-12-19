@@ -43,9 +43,38 @@ class conversion_map:
         # Given a range rng1, and a list of ranges, fill the empty ranges in between it and ranges
         # with new range tuples and return result
         # The new list of ranges will be bounded between rng1 start and rng1 start + rng1 length
-        
-        
-        ...
+        # Tuples contain dest src and len
+        s_dest, s_src, s_len = rng1
+
+        # Copy and sort ranges by source in ascending order
+        ranges: list(tuple) = sorted(ranges, key=lambda rng: rng[1])
+
+        # o_src is strictly bigger than s_src, except for the last range
+        *ranges, f_range = ranges
+
+        results: list[tuple] = list()
+
+        for _, o_src, _ in ranges:
+            # The amount of steps self has to take until it reaches another range
+            steps_cleared = o_src - s_src
+            results.append((s_dest, s_src, steps_cleared))
+
+            # Advance
+            s_dest += steps_cleared
+            s_src += steps_cleared
+            s_len -= steps_cleared
+
+        # Finally handle last range, the output should be end of range until the end of self range
+        _, f_src, f_len = f_range
+        _src = f_src + f_len  # Set starting point at the end of range
+        diff = _src - s_src  # Find difference
+
+        _dest = s_dest + diff  # Advance destination by difference
+        _len = s_len - diff  # Remaining steps
+
+        results.append((_dest, _src, _len))
+
+        return results
 
     def __str__(self) -> str:
         # Name
