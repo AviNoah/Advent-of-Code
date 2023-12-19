@@ -39,18 +39,7 @@ class conversion_map:
 
         for rng in self.ranges:
             # Filter only those that are within the bounds of range
-            def is_bounded(rng_to_test: tuple) -> bool:
-                # Check if it is completely bound within rng
-                return all(
-                    [
-                        rng[1] <= x <= rng[1] + rng[2]
-                        for x in [rng_to_test[1], rng_to_test[1] + rng_to_test[2]]
-                    ]
-                )
-
-            filtered = list(filter(lambda rng: is_bounded(rng), ranges))
-            
-            total_ranges.extend(self.intersect_range(rng, filtered))
+            total_ranges.extend(self.intersect_range(rng, ranges))
 
         return conversion_map(key_name, value_name, total_ranges)
 
@@ -92,6 +81,23 @@ class conversion_map:
 
         results.extend(ranges)
         return results
+
+    @staticmethod
+    def intersect_two_ranges(rng1: tuple, rng2: tuple) -> list[tuple]:
+        # Intersect two ranges and return a list of unmapped ranges between them.
+        # There are three possible scenarios: one is inside of another, one is partially inside, both are completely separate
+        # Only scenario 3 allows creating a new range between them
+        # Default to destination values from rng1
+
+        dest, a, b = rng1
+        _, c, d = rng2
+
+        new_range: tuple = None
+        if a + b < c:
+            st = a + b
+            _len = c - a + b
+            dest = dest + 
+            new_range = ()
 
     def __str__(self) -> str:
         # Name
