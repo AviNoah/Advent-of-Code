@@ -33,8 +33,12 @@ class conversion_map:
         value_name = other.value_name
 
         total_ranges: list[list] = list()
+
+        # Copy and sort ranges by source in ascending order
+        ranges: list(tuple) = sorted(other.ranges, key=lambda rng: rng[1])
+
         for rng in self.ranges:
-            total_ranges.extend(self.intersect_range(rng, other.ranges))
+            total_ranges.extend(self.intersect_range(rng, ranges))
 
         return conversion_map(key_name, value_name, total_ranges)
 
@@ -46,13 +50,15 @@ class conversion_map:
         # Tuples contain dest src and len
         s_dest, s_src, s_len = rng1
 
-        # Copy and sort ranges by source in ascending order
-        ranges: list(tuple) = sorted(ranges, key=lambda rng: rng[1])
-
         # Remove from list any ranges that are not within the bounds of s_src and s_src + s_len
-        ranges: list(tuple) = filter(
-            lambda _dst, _src, _len: s_src <= _src <= s_src + s_len, ranges
-        )
+        def f(rng) -> bool:
+            diff = min(s_len, rng[2])
+            return any([s_src <= x <= s_src + s_len for x in [rng[1], rng[1] + diff]])
+
+        ranges: list(tuple) = list(filter(lambda rng: f(rng), ranges))
+
+        if not ranges:
+            return [rng1]  # None are within its bounds
 
         # o_src is strictly bigger than s_src, except for the last range
         *ranges, f_range = ranges
