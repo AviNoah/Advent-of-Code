@@ -38,7 +38,19 @@ class conversion_map:
         ranges: list(tuple) = sorted(other.ranges, key=lambda rng: rng[1])
 
         for rng in self.ranges:
-            total_ranges.extend(self.intersect_range(rng, ranges))
+            # Filter only those that are within the bounds of range
+            def is_bounded(rng_to_test: tuple) -> bool:
+                # Check if it is completely bound within rng
+                return all(
+                    [
+                        rng[1] <= x <= rng[1] + rng[2]
+                        for x in [rng_to_test[1], rng_to_test[1] + rng_to_test[2]]
+                    ]
+                )
+
+            filtered = list(filter(lambda rng: is_bounded(rng), ranges))
+            
+            total_ranges.extend(self.intersect_range(rng, filtered))
 
         return conversion_map(key_name, value_name, total_ranges)
 
@@ -49,13 +61,6 @@ class conversion_map:
         # The new list of ranges will be bounded between rng1 start and rng1 start + rng1 length
         # Tuples contain dest src and len
         s_dest, s_src, s_len = rng1
-
-        # Remove from list any ranges that are not within the bounds of s_src and s_src + s_len
-        def f(rng) -> bool:
-            diff = min(s_len, rng[2])
-            return any([s_src <= x <= s_src + s_len for x in [rng[1], rng[1] + diff]])
-
-        ranges: list(tuple) = list(filter(lambda rng: f(rng), ranges))
 
         if not ranges:
             return [rng1]  # None are within its bounds
