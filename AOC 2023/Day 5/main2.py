@@ -32,6 +32,17 @@ class conversion_map:
         key_name = self.key_name
         value_name = other.value_name
 
+        total_ranges: list[list] = list()
+        for rng in self.ranges:
+            total_ranges.extend(self.intersect_range(rng, other.ranges))
+
+        return conversion_map(key_name, value_name, total_ranges)
+
+    @staticmethod
+    def intersect_range(rng1: tuple, ranges: list[tuple]) -> list[tuple]:
+        # Given a range rng1, and a list of ranges, fill the empty ranges in between it and ranges
+        # with new range tuples and return result
+
         # self.value will feed into other.key to bridge the gap
         for se_dest, se_src, se_len in self.ranges:
             # We will generate a list of ranges dealing with everything between se_src and se_src + se_len
@@ -49,7 +60,9 @@ class conversion_map:
 
                     _st = se_src
                     _dst = ot_dest + diff  # Meet difference
-                    _len = min(ot_len - diff, se_len)  # Remaining length ( remaining range )
+                    _len = min(
+                        ot_len - diff, se_len
+                    )  # Remaining length ( remaining range )
                 else:
                     # self dest is larger than other source, must advance self
                     diff *= -1
@@ -82,10 +95,18 @@ class conversion_map:
                     tmp[0] += diff  # Advance key
                     tmp[1] += diff  # Advance value
                     tmp[2] -= diff  # Deduct remaining length
+                else:
+                    # This is for the last unmapped range to complete
+                    # self key is larger than other key
+                    # Advance rng[2] steps towards a.
+                    key = rng[0] + rng[2]  # Start at the end of other range
+                    # Difference in steps we must advance in self key to reach other key + other range len
+                    diff = key - tmp[0]
+                    # Advance dest and decrease remaining length by diff.
+                    tmp = [key, tmp[1] + diff, tmp[2] - diff]
+                    ranges.append(tuple(tmp))
 
             total_ranges.extend(ranges)
-
-        return conversion_map(key_name, value_name, total_ranges)
 
     def __str__(self) -> str:
         # Name
