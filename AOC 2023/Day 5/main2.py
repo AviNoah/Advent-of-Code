@@ -49,6 +49,11 @@ class conversion_map:
         # Copy and sort ranges by source in ascending order
         ranges: list(tuple) = sorted(ranges, key=lambda rng: rng[1])
 
+        # Remove from list any ranges that are not within the bounds of s_src and s_src + s_len
+        ranges: list(tuple) = filter(
+            lambda _dst, _src, _len: s_src <= _src <= s_src + s_len, ranges
+        )
+
         # o_src is strictly bigger than s_src, except for the last range
         *ranges, f_range = ranges
 
