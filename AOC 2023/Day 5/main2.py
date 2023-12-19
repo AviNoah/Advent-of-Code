@@ -74,6 +74,7 @@ class conversion_map:
 
         results.append((_dest, _src, _len))
 
+        results.extend(ranges)
         return results
 
     def __str__(self) -> str:
