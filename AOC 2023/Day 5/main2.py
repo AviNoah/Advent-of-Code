@@ -222,12 +222,14 @@ def main():
     # part1()
     # part2()
 
+    """
     maps: list[conversion_map] = get_maps()
     map, *maps = maps
     for m in maps:
         map = map.intersect(m)
 
     print(map)
+    """
 
 
 if __name__ == "__main__":
