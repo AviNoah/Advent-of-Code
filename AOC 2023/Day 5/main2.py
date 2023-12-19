@@ -41,6 +41,7 @@ class conversion_map:
                 diff = se_dest - ot_src
 
                 if diff >= 0:
+                    # self dest is larger than other source, must advance other
                     if ot_len <= diff:
                         # Irrelevant, cant reach it
                         continue  # Skip range
@@ -49,6 +50,7 @@ class conversion_map:
                     _dst = ot_dest + diff  # Meet difference
                     _len = ot_len - diff  # Remaining length ( remaining range )
                 else:
+                    # self dest is larger than other source, must advance self
                     diff *= -1
                     if se_len <= diff:
                         # Irrelevant, cant reach it
