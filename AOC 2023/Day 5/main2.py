@@ -26,7 +26,7 @@ class conversion_map:
     def intersect(self, other):
         # Given an other conversion_map object, return a new conversion map than converts
         # destination ranges to other's source values.
-        # TODO: Implement this
+
         total_ranges: list = list()
 
         key_name = self.key_name
@@ -62,6 +62,12 @@ class conversion_map:
 
                 total_ranges.append((_dst, _st, _len))
                 continue
+
+            # TODO: find missing unmapped ranges for self that weren't overridden by other ranges
+            # Add them to total_ranges
+            tmp: tuple = (se_dest, se_src, se_len)
+            # Compare tmp to total_ranges so far, return a list of unmapped ranges according to tmp
+            total_ranges.append(tmp)  # Temporarily just add tmp
 
         return conversion_map(key_name, value_name, total_ranges)
 
@@ -233,8 +239,10 @@ def intersect_example():
 
 def main():
     # part1()
-    # part2()
-    intersect_example()
+
+    # Prev ans: 222541566
+    part2()
+    # intersect_example()
 
 
 if __name__ == "__main__":
