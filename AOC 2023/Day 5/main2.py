@@ -49,33 +49,39 @@ class conversion_map:
         d1, s1, l1 = range1
         d2, s2, l2 = range2
 
-        end = s2 + l2
-        start = s2 - d1
+        end1 = s1 + l1
+        end2 = s2 + l2
+        start = max(s1, s2)
+        end = min(end1, end2)
 
-        diff = end - start
-        if diff < 0:
-            return [range1]  # They are not intersecting
-
-        if diff > l1 + l2:
-            return [range1]  # They are not intersecting
+        # Check if the ranges do not intersect
+        if start >= end:
+            return [range1]
 
         # They are definitely intersecting
 
-        if s2 > d1:
-            # Completely contained within it
-            ...
+        if s1 <= s2 and end1 <= end2:
+            # range1 is completely contained within range2
+            return [
+                (d2 + (s1 - s2), s1, l1),
+                (d1, end1, 0),
+                (d2 + (s1 - s2) + l1, end1, 0),
+            ]
 
-        if diff < l2:
-            # partially intersecting from the left
-            # diff is len, source start is s1
-            d2 = conversion_map.get_value_static(d1)  # dest start
-            return [(d1, s1, 0), (d2, s1, diff), (d1 + diff, s1 + diff, l1 - diff)]
+        if s2 <= s1 and end2 <= end1:
+            # range2 is completely contained within range1
+            return [
+                (d1, s1, s2 - s1),
+                (d2, s2, l2),
+                (d1 + (s2 - s1) + l2, end, end1 - end),
+            ]
 
-        # Partially intersecting from the right
-
-        d2 = conversion_map.get_value_static(start)  # dest start
-
-        return [(d1, s1, start), (d2, s1 + start, l1 - start), (d1 + l1, s1 + l1, 0)]
+        # Partially intersecting
+        return [
+            (d1, start, s1 + l1 - start),
+            (d2 + (start - s2), start, end - start),
+            (d1 + (end - s1), end, end1 - (end - s1)),
+        ]
 
     def __str__(self) -> str:
         # Name
