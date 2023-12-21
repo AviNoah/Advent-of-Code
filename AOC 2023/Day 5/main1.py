@@ -40,3 +40,9 @@ class conversion_range:
         # Intersect one range with another, meaning pass self's values into other's keys, return
         # a list of ranges where the sources are self's source, and the destinations are other's destination
         raise NotImplementedError
+
+    def to_str_with_padding(self, padding: int) -> str:
+        padded = "{:<{}} {:<{}} {:<{}}".format(
+            self.dest_start, padding, self.src_start, padding, self.length, padding
+        )
+        return padded
