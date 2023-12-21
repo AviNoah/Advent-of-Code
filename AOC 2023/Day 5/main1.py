@@ -67,15 +67,14 @@ class conversion_range:
             # Doesn't end inside
             st = self.copy()
             st.length = other.src_start - st.dest_start
-            mid = self.copy()
-            mid.length = 0
-            length_passed = st.length + mid.length
+
+            length_passed = st.length
             end = conversion_range(
                 other.dest_start,
                 self.src_start + length_passed,
                 self.length - length_passed,
             )
-            return [st, mid, end]
+            return [st, end]
 
         elif end_inside:
             # Doesn't start inside
@@ -85,15 +84,13 @@ class conversion_range:
             st.src_start += length_passed
             st.length -= length_passed
 
-            mid = self.copy()
-            mid.length = 0
-            length_passed = st.length + mid.length
+            length_passed = st.length
             end = conversion_range(
                 self.dest_start + length_passed,
                 self.src_start + length_passed,
                 self.length - length_passed,
             )
-            return [st, mid, end]
+            return [st, end]
 
     def to_str_with_padding(self, padding: int) -> str:
         padded = "{:<{}} {:<{}} {:<{}}".format(
