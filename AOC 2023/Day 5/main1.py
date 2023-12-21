@@ -195,12 +195,22 @@ def part1():
 
 
 def part2():
-    ...
+    seeds: list[int] = get_seeds()
+    # Seeds are now a range instead of individual seed numbers, they come in pairs so:
+    seeds: list[list[int]] = group_elements(seeds, 2)  # Break to groups of 2
+
+    for seed_range in seeds:
+        # maps must have src dest and len, make src and dest the same.
+        seed_range.insert(1, seed_range[0])
+
+    seeds: list[conversion_range] = [conversion_range(*seed) for seed in seeds]
+
+    seeds_map: conversion_map = conversion_map("seed", "seed", seeds)
 
 
 def main():
-    part1()  # Solution is 379811651
-    #  part2()  # Prev ans: 222541566
+    #  part1()  # Solution is 379811651
+    part2()  # Prev ans: 222541566
 
 
 if __name__ == "__main__":
