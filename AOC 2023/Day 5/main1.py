@@ -56,6 +56,24 @@ class conversion_map:
         self.value_name: str = value_name
         self.ranges: list[conversion_range] = ranges
 
+    def get_key(self, value: int) -> int:
+        # Search in ranges for key matching value, if none found, return value
+        for range in self.ranges:
+            key = range.get_key(value)
+            if not key is None:
+                return key
+
+        return value
+
+    def get_value(self, key: int) -> int:
+        # Search in ranges for value matching key, if none found, return key
+        for range in self.ranges:
+            value = range.get_value(key)
+            if not value is None:
+                return value
+
+        return key
+
     def __str__(self) -> str:
         # Name
         result: str = self.get_full_name() + "\n"
