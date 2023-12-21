@@ -31,7 +31,7 @@ class conversion_range:
 
     def get_value(self, key: int) -> int | None:
         # Get value matching key
-        if self.is_value_in_range(key):
+        if self.is_key_in_range(key):
             diff = key - self.src_start
             return diff + self.dest_start
         return None
@@ -177,7 +177,21 @@ def get_maps() -> list[conversion_map]:
 
 
 def part1():
-    ...
+    seeds: list[int] = get_seeds()
+    maps: list[conversion_map] = get_maps()
+
+    def transform_seed(seed: int) -> int:
+        # Given a seed, convert it in the conversion map list until it is exhausted, return final result
+        for map in maps:
+            tmp = map.get_value(seed)
+            seed = tmp
+
+        return seed
+
+    results: list[int, int] = [(seed, transform_seed(seed)) for seed in seeds]
+
+    lowest_loc: tuple = min(results, key=lambda x: x[1])
+    print(f"Lowest location is {lowest_loc[1]} for seed {lowest_loc[0]}")
 
 
 def part2():
