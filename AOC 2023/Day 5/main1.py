@@ -149,6 +149,12 @@ class conversion_map:
             for ot in other.ranges:
                 total_ranges.extend(se.intersect(ot))
 
+        # Remove duplicates
+        total_ranges = list(set(total_ranges))
+        # Remove mapping to itself
+        total_ranges = [
+            range for range in total_ranges if range.dest_start != range.src_start
+        ]
         return conversion_map(key_name, value_name, total_ranges)
 
     @staticmethod
@@ -274,7 +280,7 @@ def part2():
     maps: list[conversion_map] = get_maps()
 
     for map in maps:
-        seeds_map = seeds_map.intersect(map)
+        seeds_map: conversion_map = seeds_map.intersect(map)
         print(seeds_map.get_full_name(), len(seeds_map.ranges))
 
     # Seeds map is now a map that converts seeds directly to locations
