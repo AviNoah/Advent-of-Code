@@ -4,6 +4,8 @@ with open("input.txt", "r") as f:
     lines: list[str] = f.readlines()
 
 
+# TODO: Maybe make conversion range focus on two parameters start and length, and make another class
+# That has 2 ranges start and length who share similar length to ease on readability
 class conversion_range:
     def __init__(self, dest_start: int, src_start: int, range_length: int):
         # I will be referring to src as key and dest as value in this code
@@ -287,9 +289,10 @@ def part2():
 
     maps: list[conversion_map] = get_maps()
 
+    print(seeds_map)
     for map in maps:
         seeds_map: conversion_map = seeds_map.intersect(map)
-        #  print(seeds_map)
+        print(seeds_map)
         #  print(seeds_map.get_full_name(), len(seeds_map.ranges))
 
     # Seeds map is now a map that converts seeds directly to locations
