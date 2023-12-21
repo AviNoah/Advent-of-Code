@@ -1,3 +1,9 @@
+import re
+
+with open("input.txt", "r") as f:
+    lines = f.readlines()
+
+
 class race:
     def __init__(
         self,
@@ -30,8 +36,19 @@ class race_boat:
         return vel * dt > race.max_dist
 
 
+def get_races() -> list[race]:
+    global lines
+    time: list = re.findall("\d+", lines[0])
+    dist: list = re.findall("\d+", lines[1])
+
+    races: zip = zip(time, dist)
+    races: list[race] = [race(time, dist) for time, dist in races]
+    return races
+
+
 def main():
-    return
+    races: list[race] = get_races()
+    print(races)
 
 
 if __name__ == "__main__":
