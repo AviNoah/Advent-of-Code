@@ -77,6 +77,16 @@ class conversion_map:
 
         return key
 
+    def get_local_min_key(self) -> conversion_range:
+        # Return locally minimum key
+        range: conversion_range = min(self.ranges, key=lambda x: x.src_start)
+        return range.src_start
+
+    def get_local_min_value(self) -> conversion_range:
+        # Return locally minimum key
+        range: conversion_range = min(self.ranges, key=lambda x: x.dest_start)
+        return range.dest_start
+
     @staticmethod
     def from_line(key_name: str, value_name: str, data: str):
         # Data is a big string containing multiples of number triplets
