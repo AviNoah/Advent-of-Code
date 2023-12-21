@@ -163,7 +163,7 @@ class conversion_map:
         # Remove duplicates
         total_ranges = list(set(total_ranges))
 
-        # Remove mapping to itself
+        # Remove mapping to itself, this is default behavior in get value
         total_ranges = [
             range for range in total_ranges if range.dest_start != range.src_start
         ]
