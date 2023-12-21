@@ -1,4 +1,5 @@
 import re
+from math import sqrt, ceil, floor
 
 with open("input.txt", "r") as f:
     lines = f.readlines()
@@ -12,6 +13,25 @@ class race:
     ):
         self.max_time = int(max_time)  # In ms
         self.max_dist = int(max_dist)  # In mm
+
+    def count_possible_wins(self, initial_vel: int, acc: int) -> int:
+        # Count possible ways to win a race with given initial conditions (in mm/ms and mm/ms^2 respectively)
+        # The function describing this movement is:
+        # dist = (t*acc + initial_vel) * (maxtime-t)  # this is a parabola
+        # to find when it is equal to max_dist, we will simplify and get:
+        # acc*t^2 + initial_vel*t - (max_dist/(max_time-1)) = 0
+        # t1,2 = (-initial_vel +- sqrt(initial_vel^2 + (4*acc*max_dist/(max_time-1))))/(2*acc)
+
+        s_root = initial_vel**2 + (4 * acc * self.max_dist) / (self.max_time - 1)
+        s_root = sqrt(s_root)
+
+        # Range of answers lays between t1 and t2 -> (t2 <= t <= t1)
+        t1 = -initial_vel + s_root
+        t1 /= 2 * acc
+        t2 = -initial_vel - s_root
+        t2 /= 2 * acc
+
+        return floor(t1) - ceil(t2)  # Return range in whole integers
 
 
 class race_boat:
@@ -46,9 +66,15 @@ def get_races() -> list[race]:
     return races
 
 
+def part1(boat: race_boat, races: list[race]) -> list[int]:
+    # Count all ways to beat the record of every race
+    return [race.count_possible_wins(initial_vel=0, acc=1) for race in races]
+
+
 def main():
+    boat: race_boat = race_boat()
     races: list[race] = get_races()
-    print(races)
+    print(boat, races)
 
 
 if __name__ == "__main__":
