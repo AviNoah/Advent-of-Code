@@ -9,7 +9,7 @@ class race:
 
 
 class race_boat:
-    def __init__(self, races: list[race], velocity: int = 0):
+    def __init__(self, velocity: int = 0):
         self.velocity = velocity  # in mm/ms
 
     def charge(self, time: int) -> int:
