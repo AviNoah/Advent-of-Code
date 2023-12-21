@@ -141,6 +141,19 @@ class conversion_map:
         range: conversion_range = min(self.ranges, key=lambda x: x.dest_start)
         return range.dest_start
 
+    def intersect(self, other):
+        total_ranges: list[conversion_range] = list()
+
+        key_name: str = self.key_name
+        value_name: str = other.value_name
+
+        # Intersect ranges
+        for se in self.ranges:
+            for ot in other.ranges:
+                total_ranges.extend(se.intersect(ot))
+
+        return conversion_map(key_name, value_name, total_ranges)
+
     @staticmethod
     def from_line(key_name: str, value_name: str, data: str):
         # Data is a big string containing multiples of number triplets
