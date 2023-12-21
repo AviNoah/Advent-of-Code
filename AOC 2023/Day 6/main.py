@@ -17,6 +17,11 @@ class race_boat:
         acc = 1  # 1mm/ms^2
         return self.velocity + time * acc
 
+    def accelerate(self, time: int) -> int:
+        # Add charge to velocity and return new velocity
+        self.velocity = self.charge(time)
+        return self.velocity
+
     def race(self, time: int, race: race) -> bool:
         # Start a race, return whether or not we won
         vel = self.charge(time)
