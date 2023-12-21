@@ -50,7 +50,9 @@ class race:
             possible_wins += 1
 
         elif t_max_f == t_max:
-            possible_wins -= 1  # Cannot be counted as a way to win since its on the very max
+            possible_wins -= (
+                1  # Cannot be counted as a way to win since its on the very max
+            )
 
         if t_min_c < t_min:
             possible_wins += 1
@@ -90,16 +92,15 @@ def get_races() -> list[race]:
     return races
 
 
-def part1(boat: race_boat, races: list[race]) -> list[int]:
+def part1():
     # Count all ways to beat the record of every race
-    return [race.count_possible_wins(initial_vel=0, acc=1) for race in races]
+    races: list[race] = get_races()
+    part1_ans = [race.count_possible_wins(initial_vel=0, acc=1) for race in races]
+    print(reduce(lambda a, b: a * b, part1_ans))
 
 
 def main():
-    boat: race_boat = race_boat()
-    races: list[race] = get_races()
-    part1_ans = part1(boat, races)
-    print(reduce(lambda a, b: a * b, part1_ans))
+    part1()  # Solution was 160816
 
 
 if __name__ == "__main__":
