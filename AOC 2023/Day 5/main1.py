@@ -275,6 +275,7 @@ def part2():
 
     for map in maps:
         seeds_map = seeds_map.intersect(map)
+        print(seeds_map.get_full_name(), len(seeds_map.ranges))
 
     # Seeds map is now a map that converts seeds directly to locations
     lowest_location = seeds_map.get_local_min_value()
