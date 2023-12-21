@@ -132,6 +132,20 @@ def group_elements(iterable, group_size) -> list[list]:
     return result
 
 
+def get_seeds() -> list[int]:
+    # Return a list of seeds, each entry contains one seed
+    global lines
+    full_data: str = "".join(lines).replace("\n", " ")
+    seeds_pattern: re.Pattern = re.compile(
+        r"seeds:((?:\s\d+)*)"
+    )  # Capture all numbers after seeds:
+
+    seeds: re.Match = seeds_pattern.search(full_data)
+    seeds: list[int] = [int(s) for s in seeds.group(1).split(" ") if s != ""]
+
+    return seeds
+
+
 def get_maps() -> list[conversion_map]:
     # Return a list of conversion_maps from lines
     global lines
