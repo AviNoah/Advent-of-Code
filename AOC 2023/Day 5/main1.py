@@ -36,10 +36,64 @@ class conversion_range:
             return diff + self.dest_start
         return None
 
+    def copy(self):
+        return conversion_range(self.dest_start, self.src_start, self.length)
+
     def intersect(self, other) -> list:
         # Intersect one range with another, meaning pass self's values into other's keys, return
-        # a list of ranges where the sources are self's source, and the destinations are other's destination
-        raise NotImplementedError
+        # a list of 3 ranges where the sources are self's source, and the destinations are other's destination
+        # self key -> self value -> other key -> other value => self key -> other value
+
+        start_inside = self.is_value_in_range(other.src_start)
+        end_inside = self.is_value_in_range(other.src_end)
+
+        if start_inside and end_inside:
+            st = self.copy()
+            st.length = other.src_start - st.dest_start
+            mid = other
+            length_passed = st.length + mid.length
+            end = conversion_range(
+                self.dest_start + length_passed,
+                self.src_start + length_passed,
+                self.length - length_passed,
+            )
+
+            return [st, mid, end]
+
+        if not start_inside and not end_inside:
+            return [self.copy()]
+
+        if start_inside:
+            # Doesn't end inside
+            st = self.copy()
+            st.length = other.src_start - st.dest_start
+            mid = self.copy()
+            mid.length = 0
+            length_passed = st.length + mid.length
+            end = conversion_range(
+                other.dest_start,
+                self.src_start + length_passed,
+                self.length - length_passed,
+            )
+            return [st, mid, end]
+
+        elif end_inside:
+            # Doesn't start inside
+            st = other.copy()
+            length_passed = self.dest_start - st.src_start
+            st.dest_start += length_passed
+            st.src_start += length_passed
+            st.length -= length_passed
+
+            mid = self.copy()
+            mid.length = 0
+            length_passed = st.length + mid.length
+            end = conversion_range(
+                self.dest_start + length_passed,
+                self.src_start + length_passed,
+                self.length - length_passed,
+            )
+            return [st, mid, end]
 
     def to_str_with_padding(self, padding: int) -> str:
         padded = "{:<{}} {:<{}} {:<{}}".format(
@@ -206,6 +260,15 @@ def part2():
     seeds: list[conversion_range] = [conversion_range(*seed) for seed in seeds]
 
     seeds_map: conversion_map = conversion_map("seed", "seed", seeds)
+
+    maps: list[conversion_map] = get_maps()
+
+    for map in maps:
+        seeds_map = seeds_map.intersect(map)
+
+    # Seeds map is now a map that converts seeds directly to locations
+    lowest_location = seeds_map.get_local_min_value()
+    print(f"Lowest location is {lowest_location}")
 
 
 def main():
