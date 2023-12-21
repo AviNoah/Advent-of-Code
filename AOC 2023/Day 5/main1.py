@@ -163,11 +163,6 @@ class conversion_map:
         # Remove duplicates
         total_ranges = list(set(total_ranges))
 
-        # Remove mapping to itself, this is default behavior in get value
-        total_ranges = [
-            range for range in total_ranges if range.dest_start != range.src_start
-        ]
-
         return conversion_map(key_name, value_name, total_ranges)
 
     @staticmethod
@@ -293,8 +288,9 @@ def part2():
     maps: list[conversion_map] = get_maps()
 
     for map in maps:
+        print(seeds_map)
         seeds_map: conversion_map = seeds_map.intersect(map)
-        print(seeds_map.get_full_name(), len(seeds_map.ranges))
+        #  print(seeds_map.get_full_name(), len(seeds_map.ranges))
 
     # Seeds map is now a map that converts seeds directly to locations
     lowest_location = seeds_map.get_local_min_value()
@@ -303,7 +299,7 @@ def part2():
 
 def main():
     #  part1()  # Solution is 379811651
-    part2()  # Prev ans: 222541566
+    part2()  # Prev ans: 0
 
 
 if __name__ == "__main__":
