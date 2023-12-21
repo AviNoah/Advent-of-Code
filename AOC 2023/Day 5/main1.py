@@ -98,3 +98,20 @@ class conversion_map:
             result += f"{padded}\n"
 
         return result
+
+
+def part1():
+    ...
+
+
+def part2():
+    ...
+
+
+def main():
+    part1()  # Solution is 379811651
+    #  part2()  # Prev ans: 222541566
+
+
+if __name__ == "__main__":
+    main()
