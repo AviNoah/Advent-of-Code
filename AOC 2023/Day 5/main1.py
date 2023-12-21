@@ -98,6 +98,17 @@ class conversion_range:
         )
         return padded
 
+    def __hash__(self):
+        # Hash range tuple only
+        return hash(self.dest_start) ^ hash(self.src_start) ^ hash(self.length)
+
+    def __eq__(self, other):
+        return (
+            self.dest_start == other.dest_start
+            and self.src_start == other.src_start
+            and self.length == other.length
+        )
+
 
 class conversion_map:
     def __init__(
@@ -151,10 +162,12 @@ class conversion_map:
 
         # Remove duplicates
         total_ranges = list(set(total_ranges))
+
         # Remove mapping to itself
         total_ranges = [
             range for range in total_ranges if range.dest_start != range.src_start
         ]
+
         return conversion_map(key_name, value_name, total_ranges)
 
     @staticmethod
