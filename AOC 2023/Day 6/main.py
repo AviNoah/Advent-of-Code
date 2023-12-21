@@ -1,5 +1,6 @@
 import re
 from math import sqrt, ceil, floor
+from functools import reduce
 
 with open("input.txt", "r") as f:
     lines = f.readlines()
@@ -74,7 +75,8 @@ def part1(boat: race_boat, races: list[race]) -> list[int]:
 def main():
     boat: race_boat = race_boat()
     races: list[race] = get_races()
-    print(boat, races)
+    part1_ans = part1(boat, races)
+    print(reduce(lambda a, b: a * b, part1_ans))
 
 
 if __name__ == "__main__":
