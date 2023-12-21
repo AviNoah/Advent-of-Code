@@ -82,10 +82,15 @@ class race_boat:
         return vel * dt > race.max_dist
 
 
-def get_races() -> list[race]:
+def get_races(ignore_kerning: bool = False) -> list[race] | race:
     global lines
     time: list = re.findall("\d+", lines[0])
     dist: list = re.findall("\d+", lines[1])
+
+    if ignore_kerning:
+        time = "".join(time)
+        dist = "".join(dist)
+        return race(time, dist)
 
     races: zip = zip(time, dist)
     races: list[race] = [race(time, dist) for time, dist in races]
@@ -99,8 +104,15 @@ def part1():
     print(reduce(lambda a, b: a * b, part1_ans))
 
 
+def part2():
+    # Count all ways to beat the record of every race
+    races: race = get_races(ignore_kerning=True)
+    print(races.count_possible_wins(initial_vel=0, acc=1))
+
+
 def main():
-    part1()  # Solution was 160816
+    #  part1()  # Solution was 160816
+    part2()  # Solution was 46561107
 
 
 if __name__ == "__main__":
