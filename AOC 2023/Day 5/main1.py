@@ -139,12 +139,12 @@ class conversion_map:
 
         return key
 
-    def get_local_min_key(self) -> conversion_range:
+    def get_local_min_key(self) -> int:
         # Return locally minimum key
         range: conversion_range = min(self.ranges, key=lambda x: x.src_start)
         return range.src_start
 
-    def get_local_min_value(self) -> conversion_range:
+    def get_local_min_value(self) -> int:
         # Return locally minimum key
         range: conversion_range = min(self.ranges, key=lambda x: x.dest_start)
         return range.dest_start
@@ -288,8 +288,8 @@ def part2():
     maps: list[conversion_map] = get_maps()
 
     for map in maps:
-        print(seeds_map)
         seeds_map: conversion_map = seeds_map.intersect(map)
+        #  print(seeds_map)
         #  print(seeds_map.get_full_name(), len(seeds_map.ranges))
 
     # Seeds map is now a map that converts seeds directly to locations
