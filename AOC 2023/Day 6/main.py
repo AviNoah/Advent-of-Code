@@ -10,8 +10,8 @@ class race:
         max_time: int,
         max_dist: int,
     ):
-        self.max_time = max_time  # In ms
-        self.max_dist = max_dist  # In mm
+        self.max_time = int(max_time)  # In ms
+        self.max_dist = int(max_dist)  # In mm
 
 
 class race_boat:
