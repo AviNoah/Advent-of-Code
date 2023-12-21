@@ -16,23 +16,33 @@ class race:
         self.max_dist = int(max_dist)  # In mm
 
     def count_possible_wins(self, initial_vel: int, acc: int) -> int:
-        # Count possible ways to win a race with given initial conditions (in mm/ms and mm/ms^2 respectively)
+        # Count possible ways to win a race with given initial conditions (in mm/ms and mm/ms**2 respectively)
         # The function describing this movement is:
-        # dist = (t*acc + initial_vel) * (maxtime-t)  # this is a parabola
-        # to find when it is equal to max_dist, we will simplify and get:
-        # acc*t^2 + initial_vel*t - (max_dist/(max_time-1)) = 0
-        # t1,2 = (-initial_vel +- sqrt(initial_vel^2 + (4*acc*max_dist/(max_time-1))))/(2*acc)
+        # dist = (t*acc + initial_vel) * (max_time-t)  # this is a parabola
 
-        s_root = initial_vel**2 + (4 * acc * self.max_dist) / (self.max_time - 1)
+        # to find when it is equal to max_dist, we will simplify and get:
+        # dist = -acc*t**2 + t(a*max_time - initial_vel) + initial_vel * max_time
+
+        # Lets find t when dist = max_dist
+        # [-acc]*t**2 + t[(a*max_time - initial_vel)] + [initial_vel * max_time - max_dist] = 0
+
+        A = -acc
+        B = acc * self.max_time - initial_vel
+        C = initial_vel * self.max_time - self.max_dist
+
+        s_root = B**2 - 4 * A * C
         s_root = sqrt(s_root)
 
         # Range of answers lays between t1 and t2 -> (t2 <= t <= t1)
-        t1 = -initial_vel + s_root
-        t1 /= 2 * acc
-        t2 = -initial_vel - s_root
-        t2 /= 2 * acc
+        t_min = -B - s_root
+        t_min /= 2 * A
+        t_max = -B + s_root
+        t_max /= 2 * A
 
-        return floor(t1) - ceil(t2)  # Return range in whole integers
+        if t_min > t_max:
+            t_min, t_max = t_max, t_min  # Make sure max is bigger
+
+        return floor(t_max) - ceil(t_min)  # Return range in whole integers
 
 
 class race_boat:
@@ -41,7 +51,7 @@ class race_boat:
 
     def charge(self, time: int) -> int:
         # Charge boat for time ms, return velocity in mm/ms
-        acc = 1  # 1mm/ms^2
+        acc = 1  # 1mm/ms**2
         return self.velocity + time * acc
 
     def accelerate(self, time: int) -> int:
