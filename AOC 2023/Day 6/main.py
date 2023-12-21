@@ -42,7 +42,20 @@ class race:
         if t_min > t_max:
             t_min, t_max = t_max, t_min  # Make sure max is bigger
 
-        return floor(t_max) - ceil(t_min)  # Return range in whole integers
+        t_max_f = floor(t_max)
+        t_min_c = ceil(t_min)
+
+        possible_wins = t_max_f - t_min_c
+        if t_max_f < t_max:
+            possible_wins += 1
+
+        elif t_max_f == t_max:
+            possible_wins -= 1  # Cannot be counted as a way to win since its on the very max
+
+        if t_min_c < t_min:
+            possible_wins += 1
+
+        return possible_wins  # Return range in whole integers
 
 
 class race_boat:
