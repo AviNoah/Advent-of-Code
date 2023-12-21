@@ -46,3 +46,34 @@ class conversion_range:
             self.dest_start, padding, self.src_start, padding, self.length, padding
         )
         return padded
+
+
+class conversion_map:
+    def __init__(
+        self, key_name: str, value_name: str, ranges: list[conversion_range] = list()
+    ):
+        self.key_name: str = key_name
+        self.value_name: str = value_name
+        self.ranges: list[conversion_range] = ranges
+
+    def __str__(self) -> str:
+        # Name
+        result: str = self.get_full_name() + "\n"
+
+        # Padding for key and values
+        padding = len(self.get_full_name())
+
+        # Key value names
+        result += (
+            "{:<{}} {:<{}}".format(
+                str(self.key_name), padding, str(self.value_name), padding
+            )
+            + "\n"
+        )
+
+        # Values
+        for range in self.ranges:
+            padded = range.to_str_with_padding(padding)
+            result += f"{padded}\n"
+
+        return result
