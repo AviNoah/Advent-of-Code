@@ -56,6 +56,9 @@ class conversion_map:
         self.value_name: str = value_name
         self.ranges: list[conversion_range] = ranges
 
+    def get_full_name(self) -> str:
+        return f"{self.key_name}-to-{self.value_name}"
+
     def get_key(self, value: int) -> int:
         # Search in ranges for key matching value, if none found, return value
         for range in self.ranges:
