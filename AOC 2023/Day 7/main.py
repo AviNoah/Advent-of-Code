@@ -36,23 +36,29 @@ class hand:
         # High-0; two-1; three-2; full-house-3; four-4; five-5
         # The amount of pairs is always count of unique - 1
 
+        if "J" in d.keys():
+            j_tmp = d.pop("J")
+            if j_tmp == 5:
+                d["J"] = 5  # Fix dict back
+                return 5
+            return_val = j_tmp + hand.evaluate_type(d, max(d, key=d.get))
+            d["J"] = j_tmp  # wild cards have been used
+
+            return return_val
+
+        # We no longer need to care about J
+        if not d:
+            return 0  # d is empty
+
         val_max: int = d.pop(key, 1)
         return_val: int = val_max - 1  # Subtract one from amount of pairs
-        sub_max_key: str = max(d, key=d.get)
 
-        # If J is the key or sub-key, one is added to the pairs, that's it
+        if not d:
+            return return_val  # d is empty now
 
-        if key == "J" or sub_max_key == "J":
-            # Wild card rules
-            tmp = d.pop(sub_max_key)  # Find new sub_max_key
-            
-            new_sub_max_key: str = max(d, key=d.get)
-            return_val += hand.evaluate_type(d, new_sub_max_key)
-            
-            d[sub_max_key] = tmp
-            return_val += 1
-        else:
-            ...
+        # Recurse
+        return_val += hand.evaluate_type(d, max(d, key=d.get))
+
         d[key] = val_max  # Return dict's state to normal
         return return_val
 
@@ -68,13 +74,13 @@ class hand:
             key_s_uniq: str = max(s_uniq, key=s_uniq.get)
             key_o_uniq: str = max(o_uniq, key=o_uniq.get)
 
-            s_val: int = s_uniq[key_s_uniq]
-            o_val: int = o_uniq[key_o_uniq]
-
             if wild_cards:
                 # Turn J's into USED wild cards once they are used
                 s_val = self.evaluate_type(s_uniq, key_s_uniq)
                 o_val = self.evaluate_type(o_uniq, key_o_uniq)
+            else:
+                s_val: int = s_uniq[key_s_uniq]
+                o_val: int = o_uniq[key_o_uniq]
 
             # Check if it has a higher rank by having more uniques
             if s_val > o_val:
