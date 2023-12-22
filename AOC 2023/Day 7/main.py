@@ -23,7 +23,7 @@ class hand:
 
             uniques[card] += 1
 
-        return max(uniques, uniques.values())
+        return max(uniques.values())
 
     def __eq__(self, other):
         # Both have same unique card counts, and have the same cards
@@ -65,7 +65,8 @@ def get_hands() -> list[hand]:
 
 
 def part1():
-    hands = get_hands()
+    hands: list[hand] = get_hands()
+    hands: list[hand] = sorted(hands)
     print(hands)
 
 
