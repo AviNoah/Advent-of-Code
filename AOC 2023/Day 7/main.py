@@ -11,7 +11,7 @@ with open("input.txt", "r") as f:
 class hand:
     def __init__(self, cards: list[str], bid: int):
         self.cards = cards
-        self.bid = bid
+        self.bid = int(bid)
 
     def count_uniques(self):
         # A hand is a list of 5 cards
@@ -67,7 +67,9 @@ def get_hands() -> list[hand]:
 def part1():
     hands: list[hand] = get_hands()
     hands: list[hand] = sorted(hands)
-    print(hands)
+
+    payout: list[int] = [hand.bid * (i + 1) for i, hand in enumerate(hands)]
+    print(sum(payout))
 
 
 def main():
