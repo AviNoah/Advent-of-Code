@@ -42,15 +42,14 @@ class hand:
             if val >= 4:
                 return val + 1  # Either four or five of a kind
 
-            tmp_value = d.pop(key)  # Pop to do max properly
-
             # Check for full house
             if val == 3:
+                tmp_value = d.pop(key)  # Pop to do max properly
                 tmp_max = max(d, key=d.get)  # There is definitely another key
                 if d.get(tmp_max) == 2:
                     val = 4  # Full house
 
-            d[key] = tmp_value  # Append back
+                d[key] = tmp_value  # Append back
 
             if tmp is not None:
                 d["1"] = tmp  # Wild cards have been used
