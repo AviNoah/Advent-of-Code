@@ -33,7 +33,7 @@ class hand:
         global card_dict
         s_uniq = self.count_uniques()
         o_uniq = other.count_uniques()
-        if o_uniq >= s_uniq:
+        if o_uniq > s_uniq:
             return False
         elif s_uniq > o_uniq:
             return True
