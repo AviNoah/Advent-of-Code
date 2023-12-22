@@ -42,9 +42,15 @@ class hand:
             if val >= 4:
                 return val + 1  # Either four or five of a kind
 
-            tmp_max = max(d, key=d.get)  # There is definitely another key
-            if d.get(tmp_max) == 2:
-                val = 4  # Full house
+            tmp_value = d.pop(key)  # Pop to do max properly
+
+            # If dict not empty
+            if d:
+                tmp_max = max(d, key=d.get)  # There is definitely another key
+                if d.get(tmp_max) == 2:
+                    val = 4  # Full house
+
+            d[key] = tmp_value  # Append back
 
             if tmp is not None:
                 d["1"] = tmp  # Wild cards have been used
@@ -179,7 +185,7 @@ def part2():
 
 def main():
     part1()  # Solution was 249638405
-    part2()  # Prev solution was 250912312
+    part2()  # Prev solution was 248488262
 
 
 if __name__ == "__main__":
