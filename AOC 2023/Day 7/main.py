@@ -57,15 +57,20 @@ class hand:
 
 def get_hands() -> list[hand]:
     global lines
-    hand_pattern = r"(\d+) (\d+)"
+    hand_pattern = r"([\d\S]+) (\d+)"
     hands: list[re.Match] = [re.match(hand_pattern, line) for line in lines]
     hands: list[hand] = [hand(match.group(1), match.group(2)) for match in hands]
 
     return hands
 
 
+def part1():
+    hands = get_hands()
+    print(hands)
+
+
 def main():
-    return
+    part1()
 
 
 if __name__ == "__main__":
