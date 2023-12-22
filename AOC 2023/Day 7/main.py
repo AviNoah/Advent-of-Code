@@ -44,8 +44,8 @@ class hand:
 
             tmp_value = d.pop(key)  # Pop to do max properly
 
-            # If dict not empty
-            if d:
+            # Check for full house
+            if val == 3:
                 tmp_max = max(d, key=d.get)  # There is definitely another key
                 if d.get(tmp_max) == 2:
                     val = 4  # Full house
@@ -185,7 +185,7 @@ def part2():
 
 def main():
     part1()  # Solution was 249638405
-    part2()  # Prev solution was 248488262
+    part2()  # Prev solution was 249437567
 
 
 if __name__ == "__main__":
