@@ -4,8 +4,9 @@ card_dict: dict = dict(card_dict)
 
 
 class hand:
-    def __init__(self, cards: list[str]):
+    def __init__(self, cards: list[str], bid: int):
         self.cards = cards
+        self.bid = bid
 
     def count_uniques(self):
         # A hand is a list of 5 cards
@@ -47,6 +48,10 @@ class hand:
 
     def __le__(self, other):
         return other > self or self == other
+
+
+def get_hands() -> list[hand]:
+    ...
 
 
 def main():
