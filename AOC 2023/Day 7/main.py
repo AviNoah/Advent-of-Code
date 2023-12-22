@@ -31,12 +31,12 @@ class hand:
     def evaluate_type(d: dict, key: str) -> int:
         # Return type of hand using d and key, return value of type,
         # doesn't alter dict at the end besides setting J's to used wild card 1's
-        # High-0; one-1; two-2; three-3; full-house-4; four-5; five-6
-        val = d.get(key, 0)
+        # High-1; two-2; three-3; full-house-4; four-5; five-6
+        val = int(d.get(key, 0))
         if key != "J":
             tmp = None
             if "J" in d.keys():
-                val += d.get("J", 0)
+                val += int(d.get("J", 0))
                 tmp = d.pop("J")
 
             if val >= 4:
@@ -47,7 +47,7 @@ class hand:
             # Check for full house
             if val == 3:
                 tmp_max = max(d, key=d.get)  # There is definitely another key
-                if d.get(tmp_max) == 2:
+                if int(d.get(tmp_max)) == 2:
                     val = 4  # Full house
 
             d[key] = tmp_value  # Append back
