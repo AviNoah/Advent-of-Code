@@ -44,8 +44,14 @@ class hand:
 
             if wild_cards:
                 # Make sure no duplicates are added if the key is already J
-                s_val += s_uniq.get("J", 0) if key_s_uniq != "J" else 0
-                o_val += o_uniq.get("J", 0) if key_o_uniq != "J" else 0
+                # Turn J's into USED wild cards if they are used
+                if key_s_uniq != "J" and "J" in s_uniq.keys():
+                    s_val += s_uniq.get("J", 0)
+                    s_uniq["1"] = s_uniq.pop("J")  # Wild cards have been used
+
+                if key_o_uniq != "J" and "J" in o_uniq.keys():
+                    o_val += o_uniq.get("J", 0)
+                    o_uniq["1"] = o_uniq.pop("J")  # Wild cards have been used
 
             # Check if it has a higher rank by having more uniques
             if s_val > o_val:
@@ -106,8 +112,24 @@ def part1():
 
 def part2():
     global card_dict, wild_cards
-    card_types: list = ["J", "2", "3", "4", "5", "6", "7", "8", "9", "T", "Q", "K", "A"]
+    card_types: list = [
+        "1",
+        "J",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "T",
+        "Q",
+        "K",
+        "A",
+    ]
     # J cards are now wild cards who can INCREASE RANK by changing the hand's type
+    # "1" cards don't really exist, they are meant to represent USED wild cards
     wild_cards = True
     card_dict = [(type, i) for i, type in enumerate(card_types)]
     card_dict = dict(card_dict)
@@ -116,7 +138,7 @@ def part2():
 
 
 def main():
-    part1()  # Solution was 249638405
+    #  part1()  # Solution was 249638405
     part2()  # Prev solution was 251043582
 
 
