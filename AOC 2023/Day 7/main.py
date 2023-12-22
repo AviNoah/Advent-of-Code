@@ -27,6 +27,45 @@ class hand:
 
         return uniques
 
+    @staticmethod
+    def evaluate_type(d: dict, key: str) -> int:
+        # Return type of hand using d and key, return value of type,
+        # doesn't alter dict at the end besides setting J's to used wild card 1's
+        # High-0; one-1; two-2; three-3; full-house-4; four-5; five-6
+        val = d.get(key, 0)
+        if key != "J":
+            tmp = None
+            if "J" in d.keys():
+                val += d.get("J", 0)
+                tmp = d.pop("J")
+
+            if val >= 4:
+                return val + 1  # Either four or five of a kind
+
+            tmp_max = max(d, key=d.get)  # There is definitely another key
+            if d.get(tmp_max) == 2:
+                val = 4  # Full house
+
+            if tmp is not None:
+                d["1"] = tmp  # Wild cards have been used
+
+            return val
+
+        # Do not turn J into 1, since it will be popped anyway
+
+        # Key is J, add second highest unique to complete its type
+        if val >= 4:
+            return 6  # Regardless of what the last unique is, J will make it a five of a kind.
+
+        # Val is 3 or less
+        tmp_max = max(d, key=d.get)  # This is 2 or less
+
+        if tmp_max == 2:
+            # Instead of a full house, J will fit itself to become a five of a kind
+            return 6
+
+        return 5  # J will fit itself to become four of a kind
+
     def compare_uniques(self, other) -> bool | None:
         # Compare uniques with another, return True if self's type is better, false if it is lesser,
         # or None if it is equal
@@ -43,15 +82,9 @@ class hand:
             o_val: int = o_uniq[key_o_uniq]
 
             if wild_cards:
-                # Make sure no duplicates are added if the key is already J
-                # Turn J's into USED wild cards if they are used
-                if key_s_uniq != "J" and "J" in s_uniq.keys():
-                    s_val += s_uniq.get("J", 0)
-                    s_uniq["1"] = s_uniq.pop("J")  # Wild cards have been used
-
-                if key_o_uniq != "J" and "J" in o_uniq.keys():
-                    o_val += o_uniq.get("J", 0)
-                    o_uniq["1"] = o_uniq.pop("J")  # Wild cards have been used
+                # Turn J's into USED wild cards once they are used
+                s_val = self.evaluate_type(s_uniq, key_s_uniq)
+                o_val = self.evaluate_type(o_uniq, key_o_uniq)
 
             # Check if it has a higher rank by having more uniques
             if s_val > o_val:
