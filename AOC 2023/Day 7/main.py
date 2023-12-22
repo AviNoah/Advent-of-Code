@@ -31,48 +31,30 @@ class hand:
     def evaluate_type(d: dict, key: str) -> int:
         # Return type of hand using d and key, return value of type,
         # doesn't alter dict at the end besides setting J's to used wild card 1's
-        # High-1; two-2; three-3; full-house-4; four-5; five-6
-        val = d.get(key, 0)
-        if key != "J":
-            tmp = None
-            if "J" in d.keys():
-                val += d.get("J", 0)
-                tmp = d.pop("J")
 
-            if val >= 4:
-                return val + 1  # Either four or five of a kind
+        # Return the amount of pairs found
+        # High-0; two-1; three-2; full-house-3; four-4; five-5
+        # The amount of pairs is always count of unique - 1
 
-            # Check for full house
-            if val == 3:
-                tmp_value = d.pop(key)  # Pop to do max properly
-                tmp_max = max(d, key=d.get)  # There is definitely another key
-                if d.get(tmp_max) == 2:
-                    val = 4  # Full house
+        val_max: int = d.pop(key, 1)
+        return_val: int = val_max - 1  # Subtract one from amount of pairs
+        sub_max_key: str = max(d, key=d.get)
 
-                d[key] = tmp_value  # Append back
+        # If J is the key or sub-key, one is added to the pairs, that's it
 
-            if tmp is not None:
-                d["1"] = tmp  # Wild cards have been used
-
-            return val
-
-        # Key is J, add second highest unique to complete its type
-        if val >= 4:
-            return 6  # Regardless of what the last unique is, J will make it a five of a kind.
-
-        tmp = d.pop("J")
-
-        # Val is 3 or less
-        tmp_max = max(d, key=d.get)  # This is 2 or less
-
-        # Do not turn J into 1, since it will be popped anyway
-        d["J"] = tmp
-
-        if tmp_max == "2":
-            # Instead of a full house, J will fit itself to become a five of a kind
-            return 6
-
-        return 5  # J will fit itself to become four of a kind
+        if key == "J" or sub_max_key == "J":
+            # Wild card rules
+            tmp = d.pop(sub_max_key)  # Find new sub_max_key
+            
+            new_sub_max_key: str = max(d, key=d.get)
+            return_val += hand.evaluate_type(d, new_sub_max_key)
+            
+            d[sub_max_key] = tmp
+            return_val += 1
+        else:
+            ...
+        d[key] = val_max  # Return dict's state to normal
+        return return_val
 
     def compare_uniques(self, other) -> bool | None:
         # Compare uniques with another, return True if self's type is better, false if it is lesser,
