@@ -2,6 +2,11 @@ card_types: list = ["2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K", 
 card_dict: list = [(type, i) for i, type in enumerate(card_types)]
 card_dict: dict = dict(card_dict)
 
+import re
+
+with open("input.txt", "r") as f:
+    lines: list = f.readlines()
+
 
 class hand:
     def __init__(self, cards: list[str], bid: int):
@@ -51,7 +56,12 @@ class hand:
 
 
 def get_hands() -> list[hand]:
-    ...
+    global lines
+    hand_pattern = r"(\d+) (\d+)"
+    hands: list[re.Match] = [re.match(hand_pattern, line) for line in lines]
+    hands: list[hand] = [hand(match.group(1), match.group(2)) for match in hands]
+
+    return hands
 
 
 def main():
