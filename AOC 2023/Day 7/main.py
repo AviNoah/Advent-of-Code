@@ -19,6 +19,34 @@ class hand:
 
         return max(uniques, uniques.values())
 
+    def __eq__(self, other):
+        # Both have same unique card counts, and have the same cards
+        return self.cards == other.cards
+
+    def __gt__(self, other):
+        s_uniq = self.count_uniques()
+        o_uniq = other.count_uniques()
+        if o_uniq >= s_uniq:
+            return False
+        elif s_uniq > o_uniq:
+            return True
+
+        for c1, c2 in zip(self.cards, other.cards):
+            if card_types[c1] > card_types[c2]:
+                return True
+            elif card_types[c1] < card_types[c2]:
+                return False
+        return False  # They are equal
+
+    def __ge__(self, other):
+        return self > other or self == other
+
+    def __lt__(self, other):
+        return other > self
+
+    def __le__(self, other):
+        return other > self or self == other
+
 
 def main():
     return
