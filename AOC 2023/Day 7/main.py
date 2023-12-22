@@ -24,6 +24,7 @@ class hand:
         return self.cards == other.cards
 
     def __gt__(self, other):
+        global card_dict
         s_uniq = self.count_uniques()
         o_uniq = other.count_uniques()
         if o_uniq >= s_uniq:
@@ -32,9 +33,9 @@ class hand:
             return True
 
         for c1, c2 in zip(self.cards, other.cards):
-            if card_types[c1] > card_types[c2]:
+            if card_dict[c1] > card_dict[c2]:
                 return True
-            elif card_types[c1] < card_types[c2]:
+            elif card_dict[c1] < card_dict[c2]:
                 return False
         return False  # They are equal
 
