@@ -89,12 +89,11 @@ def part1():
     hands: list[hand] = sorted(hands)
 
     payout: list[int] = [hand.bid * (i + 1) for i, hand in enumerate(hands)]
-    print([hand.cards for hand in hands])
     print(sum(payout))
 
 
 def main():
-    part1()
+    part1()  # Solution was 249638405
 
 
 if __name__ == "__main__":
