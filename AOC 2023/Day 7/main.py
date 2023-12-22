@@ -34,7 +34,7 @@ class hand:
         s_uniq: dict = self.count_uniques()
         o_uniq: dict = other.count_uniques()
 
-        while len(s_uniq) != 0 or len(o_uniq) != 0:
+        while len(s_uniq) != 0 and len(o_uniq) != 0:
             # Keys
             key_s_uniq: str = max(s_uniq, key=s_uniq.get)
             key_o_uniq: str = max(o_uniq, key=o_uniq.get)
