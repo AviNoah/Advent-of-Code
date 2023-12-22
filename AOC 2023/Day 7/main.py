@@ -35,15 +35,17 @@ class hand:
         o_uniq: dict = other.count_uniques()
 
         while len(s_uniq) != 0 or len(o_uniq) != 0:
-            m_s_uniq: int = max(s_uniq, key=s_uniq.get)
-            m_o_uniq: int = max(o_uniq, key=o_uniq.get)
+            # Keys
+            key_s_uniq: str = max(s_uniq, key=s_uniq.get)
+            key_o_uniq: str = max(o_uniq, key=o_uniq.get)
 
-            s_val: int = s_uniq[m_s_uniq]
-            o_val: int = o_uniq[m_o_uniq]
+            s_val: int = s_uniq[key_s_uniq]
+            o_val: int = o_uniq[key_o_uniq]
 
             if wild_cards:
-                s_val += s_uniq.get("J", 0)
-                o_val += o_uniq.get("J", 0)
+                # Make sure no duplicates are added if the key is already J
+                s_val += s_uniq.get("J", 0) if key_s_uniq != "J" else 0
+                o_val += o_uniq.get("J", 0) if key_o_uniq != "J" else 0
 
             # Check if it has a higher rank by having more uniques
             if s_val > o_val:
@@ -52,8 +54,8 @@ class hand:
                 return False
 
             # Same count of uniques, check for sub uniques
-            s_uniq.pop(m_s_uniq)
-            o_uniq.pop(m_o_uniq)
+            s_uniq.pop(key_s_uniq)
+            o_uniq.pop(key_o_uniq)
 
         return None
 
