@@ -117,7 +117,7 @@ def part2():
 
 def main():
     part1()  # Solution was 249638405
-    part2()
+    part2()  # Prev solution was 251043582
 
 
 if __name__ == "__main__":
