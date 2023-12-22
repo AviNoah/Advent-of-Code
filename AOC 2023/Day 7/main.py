@@ -13,7 +13,7 @@ class hand:
         self.cards = cards
         self.bid = int(bid)
 
-    def count_uniques(self):
+    def count_uniques(self) -> dict:
         # A hand is a list of 5 cards
         # Return a dictionary that shows how many times each card appears
         uniques: dict = dict()
@@ -23,7 +23,29 @@ class hand:
 
             uniques[card] += 1
 
-        return max(uniques.values())
+        return uniques
+
+    def compare_uniques(self, other) -> bool | None:
+        # Compare uniques with another, return True if self's type is better, false if it is lesser,
+        # or None if it is equal
+        s_uniq: dict = self.count_uniques()
+        o_uniq: dict = other.count_uniques()
+
+        while len(s_uniq) != 0 or len(o_uniq) != 0:
+            m_s_uniq: int = max(s_uniq, key=s_uniq.get)
+            m_o_uniq: int = max(o_uniq, key=o_uniq.get)
+
+            # Check if it has a higher rank by having more uniques
+            if s_uniq[m_s_uniq] > o_uniq[m_o_uniq]:
+                return True
+            elif o_uniq[m_o_uniq] > s_uniq[m_s_uniq]:
+                return False
+
+            # Same count of uniques, check for sub uniques
+            s_uniq.pop(m_s_uniq)
+            o_uniq.pop(m_o_uniq)
+
+        return None
 
     def __eq__(self, other):
         # Both have same unique card counts, and have the same cards
@@ -31,12 +53,10 @@ class hand:
 
     def __gt__(self, other):
         global card_dict
-        s_uniq = self.count_uniques()
-        o_uniq = other.count_uniques()
-        if o_uniq > s_uniq:
-            return False
-        elif s_uniq > o_uniq:
-            return True
+
+        result = self.compare_uniques(other)
+        if result is not None:
+            return result
 
         for c1, c2 in zip(self.cards, other.cards):
             if card_dict[c1] > card_dict[c2]:
@@ -69,6 +89,7 @@ def part1():
     hands: list[hand] = sorted(hands)
 
     payout: list[int] = [hand.bid * (i + 1) for i, hand in enumerate(hands)]
+    print([hand.cards for hand in hands])
     print(sum(payout))
 
 
