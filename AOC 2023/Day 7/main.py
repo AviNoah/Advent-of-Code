@@ -130,9 +130,13 @@ def part2():
     ]
     # J cards are now wild cards who can INCREASE RANK by changing the hand's type
     # "1" cards don't really exist, they are meant to represent USED wild cards
+
     wild_cards = True
     card_dict = [(type, i) for i, type in enumerate(card_types)]
     card_dict = dict(card_dict)
+
+    # Give them both the same value
+    card_dict["1"] = card_dict["J"]
 
     part1()  # Same logic
 
