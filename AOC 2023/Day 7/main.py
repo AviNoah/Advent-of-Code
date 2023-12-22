@@ -51,16 +51,19 @@ class hand:
 
             return val
 
-        # Do not turn J into 1, since it will be popped anyway
-
         # Key is J, add second highest unique to complete its type
         if val >= 4:
             return 6  # Regardless of what the last unique is, J will make it a five of a kind.
 
+        tmp = d.pop("J")
+
         # Val is 3 or less
         tmp_max = max(d, key=d.get)  # This is 2 or less
 
-        if tmp_max == 2:
+        # Do not turn J into 1, since it will be popped anyway
+        d["J"] = tmp
+
+        if tmp_max == "2":
             # Instead of a full house, J will fit itself to become a five of a kind
             return 6
 
