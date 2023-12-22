@@ -2,6 +2,8 @@ card_types: list = ["2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K", 
 card_dict: list = [(type, i) for i, type in enumerate(card_types)]
 card_dict: dict = dict(card_dict)
 
+wild_cards: bool = False
+
 import re
 
 with open("input.txt", "r") as f:
@@ -28,6 +30,7 @@ class hand:
     def compare_uniques(self, other) -> bool | None:
         # Compare uniques with another, return True if self's type is better, false if it is lesser,
         # or None if it is equal
+        global wild_cards
         s_uniq: dict = self.count_uniques()
         o_uniq: dict = other.count_uniques()
 
@@ -35,10 +38,17 @@ class hand:
             m_s_uniq: int = max(s_uniq, key=s_uniq.get)
             m_o_uniq: int = max(o_uniq, key=o_uniq.get)
 
+            s_val: int = s_uniq[m_s_uniq]
+            o_val: int = o_uniq[m_o_uniq]
+
+            if wild_cards:
+                s_val += s_uniq.get("J", 0)
+                o_val += o_uniq.get("J", 0)
+
             # Check if it has a higher rank by having more uniques
-            if s_uniq[m_s_uniq] > o_uniq[m_o_uniq]:
+            if s_val > o_val:
                 return True
-            elif o_uniq[m_o_uniq] > s_uniq[m_s_uniq]:
+            elif o_val > s_val:
                 return False
 
             # Same count of uniques, check for sub uniques
@@ -92,8 +102,20 @@ def part1():
     print(sum(payout))
 
 
+def part2():
+    global card_dict, wild_cards
+    card_types: list = ["J", "2", "3", "4", "5", "6", "7", "8", "9", "T", "Q", "K", "A"]
+    # J cards are now wild cards who can INCREASE RANK by changing the hand's type
+    wild_cards = True
+    card_dict = [(type, i) for i, type in enumerate(card_types)]
+    card_dict = dict(card_dict)
+
+    part1()  # Same logic
+
+
 def main():
     part1()  # Solution was 249638405
+    part2()
 
 
 if __name__ == "__main__":
