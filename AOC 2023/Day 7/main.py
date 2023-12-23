@@ -27,15 +27,15 @@ class hand:
 
         return uniques
 
-    @staticmethod
-    def evaluate_type(d: dict, key: str) -> int:
+    def evaluate_type(self) -> int:
         # Return type of hand using d and key, return value of type,
         # doesn't alter dict at the end besides setting J's to used wild card 1's
 
         # Return the amount of pairs found
         # High-0; one-1; two-2; three-3; full-house-4; four-5; five-6
         # The amount of pairs is always count of unique - 1
-        d: dict = d.copy()
+        d: dict = self.count_uniques()
+        key = max(d, key=d.get)
 
         j_tmp = 0
         if "J" in d.keys():
