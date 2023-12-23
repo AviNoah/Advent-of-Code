@@ -33,31 +33,47 @@ class hand:
         # doesn't alter dict at the end besides setting J's to used wild card 1's
 
         # Return the amount of pairs found
-        # High-0; two-1; three-2; full-house-3; four-4; five-5
+        # High-0; one-1; two-2; three-3; full-house-4; four-5; five-6
         # The amount of pairs is always count of unique - 1
+        d = d.copy()
 
+        j_tmp = 0
         if "J" in d.keys():
             j_tmp = d.pop("J")
             if j_tmp == 5:
-                d["J"] = 5  # Fix dict back
-                return 5
-            return_val = j_tmp + hand.evaluate_type(d, max(d, key=d.get))
-            d["J"] = j_tmp  # wild cards have been used
+                return 6
 
-            return return_val
+            # Get new max key
+            key = max(d, key=d.get)
+
+            # Join rest of code
 
         # We no longer need to care about J
+
+        return_val: int = d.pop(key)
         if not d:
-            return 0  # d is empty
+            # Dict is empty, meaning everything is the same character, even if there is J the result will be 5.
+            return 6  # Five of a kind
 
-        val_max: int = d.pop(key, 1)
-        return_val: int = val_max - 1  # Subtract one from amount of pairs
+        if return_val == 4:
+            return 5  # Four of a kind
 
-        if not d:
-            return return_val  # d is empty now
+        sub_max_key = max(d, key=d.get)
+        sub_val = d[sub_max_key]
 
-        # Recurse
-        return_val += hand.evaluate_type(d, max(d, key=d.get))
+        if sub_val == 2 and return_val == 3:
+            return 4  # Full house
+
+        if return_val == 3:
+            return 3  # Three of a kind
+
+        if sub_val == 2 and return_val == 2:
+            return 2  # Two pair
+
+        if return_val == 2:
+            return 1  # One pair
+
+        return 0  # High card
 
         d[key] = val_max  # Return dict's state to normal
         return return_val
@@ -76,8 +92,8 @@ class hand:
 
             if wild_cards:
                 # Turn J's into USED wild cards once they are used
-                s_val = self.evaluate_type(s_uniq, key_s_uniq)
-                o_val = self.evaluate_type(o_uniq, key_o_uniq)
+                s_val = self.evaluate_type(s_uniq.copy(), key_s_uniq)
+                o_val = self.evaluate_type(o_uniq.copy(), key_o_uniq)
             else:
                 s_val: int = s_uniq[key_s_uniq]
                 o_val: int = o_uniq[key_o_uniq]
