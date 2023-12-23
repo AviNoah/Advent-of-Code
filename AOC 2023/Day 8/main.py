@@ -82,9 +82,11 @@ def traverse(directions: str, nodes: dict) -> int:
 
 
 def traverse_multiple(directions: str, nodes: dict) -> int:
-    steps = 0
     node_objs: list[bi_node] = [nodes[key] for key in nodes.keys() if key[-1] == "A"]
+
+    steps = 0
     step_step = len(directions)
+
     periods = 1
     period_step = 1
 
@@ -99,13 +101,14 @@ def traverse_multiple(directions: str, nodes: dict) -> int:
         # Remove node_objs that have already reached a Z state
         node_objs = list(filter(lambda node: node.label[-1] != "Z", node_objs))
 
+        steps += step_step * periods
+
         if len(node_objs) < old_len:
             # We reached a Z state, add period
             period_step = 0
             step_step = steps
 
         period_step += 1
-        steps += step_step * periods
     return steps
 
 
