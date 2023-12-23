@@ -41,12 +41,12 @@ def get_separator() -> int:
             return i
 
 
-def get_directions() -> list:
+def get_directions() -> str:
     global lines
     directions: list = lines[: get_separator()]
     directions: str = "".join(directions).replace("\n", "")  # Remove \n
 
-    return list(directions)
+    return str(directions)
 
 
 def get_nodes() -> dict:
@@ -57,7 +57,7 @@ def get_nodes() -> dict:
     return dict({node.label: node for node in nodes})
 
 
-def traverse(directions: list, nodes: dict) -> int:
+def traverse(directions: str, nodes: dict) -> int:
     # Return the amount of steps needed to reach ZZZ from AAA
     steps = 0
     node_obj: bi_node = nodes.get("AAA")
@@ -78,7 +78,7 @@ def traverse(directions: list, nodes: dict) -> int:
 
 
 def part1():
-    directions: list = get_directions()
+    directions: str = get_directions()
     nodes: dict = get_nodes()
 
     print(f"Total steps for part 1: {traverse(directions, nodes)}")
