@@ -79,14 +79,12 @@ class hand:
         # Compare uniques with another, return True if self's type is better, false if it is lesser,
         # or None if it is equal
         global wild_cards
-        s_uniq: dict = self.count_uniques()
-        o_uniq: dict = other.count_uniques()
 
         # Check type
         if wild_cards:
             # Turn J's into USED wild cards once they are used
-            s_val = self.evaluate_type(s_uniq, max(s_uniq, key=s_uniq.get))
-            o_val = self.evaluate_type(o_uniq, max(o_uniq, key=o_uniq.get))
+            s_val = self.evaluate_type()
+            o_val = self.evaluate_type()
 
             if s_val > o_val:
                 return True
@@ -95,6 +93,9 @@ class hand:
             return None
 
         # Wild cards is False
+
+        s_uniq: dict = self.count_uniques()
+        o_uniq: dict = other.count_uniques()
 
         while len(s_uniq) != 0 and len(o_uniq) != 0:
             # Keys
