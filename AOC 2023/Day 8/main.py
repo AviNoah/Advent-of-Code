@@ -109,6 +109,7 @@ def traverse_multiple(directions: str, nodes: dict) -> int:
 
         if len(node_objs) < old_len:
             # We reached a new period frequency, it is old period + period_step
+            print(f"Periods is now: {periods}")
             periods += period_step
             period_step = 0
 
