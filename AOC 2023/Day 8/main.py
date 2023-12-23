@@ -84,21 +84,28 @@ def traverse(directions: str, nodes: dict) -> int:
 def traverse_multiple(directions: str, nodes: dict) -> int:
     steps = 0
     node_objs: list[bi_node] = [nodes[key] for key in nodes.keys() if key[-1] == "A"]
-    step_len = len(node_objs)
-    periods = 0  # May be useful when finding a obj ending with z
+    step_step = len(directions)
+    periods = 1
+    period_step = 1
 
     while node_objs:
-        periods += 1
-        steps += step_len  # Update outside of for loop
         for d in directions:
             node_objs: list = [
                 nodes.get(node_obj.get_next(d)) for node_obj in node_objs
             ]
 
-        step_len = steps
-        # Remove node_objs, add periods * step_len
+        old_len = len(node_objs)
+
+        # Remove node_objs that have already reached a Z state
         node_objs = list(filter(lambda node: node.label[-1] != "Z", node_objs))
 
+        if len(node_objs) < old_len:
+            # We reached a Z state, add period
+            period_step = 0
+            step_step = steps
+
+        period_step += 1
+        steps += step_step * periods
     return steps
 
 
@@ -118,7 +125,7 @@ def part2():
 
 def main():
     part1()  # Solution was 19241
-    part2()
+    part2()  # Last solution was 302231454903657293676544
 
 
 if __name__ == "__main__":
