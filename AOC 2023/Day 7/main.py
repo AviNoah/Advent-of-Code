@@ -77,7 +77,7 @@ class hand:
         # or None if it is equal
         # Check type
         s_val = self.evaluate_type()
-        o_val = self.evaluate_type()
+        o_val = other.evaluate_type()
 
         if s_val > o_val:
             return True
