@@ -85,33 +85,6 @@ class hand:
             return False
         return None
 
-        # Wild cards is False
-
-        s_uniq: dict = self.count_uniques()
-        o_uniq: dict = other.count_uniques()
-
-        while len(s_uniq) != 0 and len(o_uniq) != 0:
-            # The implementation of this may be wrong but it works
-
-            # Keys
-            key_s_uniq: str = max(s_uniq, key=s_uniq.get)
-            key_o_uniq: str = max(o_uniq, key=o_uniq.get)
-
-            s_val: int = s_uniq[key_s_uniq]
-            o_val: int = o_uniq[key_o_uniq]
-
-            # Check if it has a higher rank by having more uniques
-            if s_val > o_val:
-                return True
-            elif o_val > s_val:
-                return False
-
-            # Same count of uniques, check for sub uniques
-            s_uniq.pop(key_s_uniq)
-            o_uniq.pop(key_o_uniq)
-
-        return None
-
     def __eq__(self, other):
         # Both have same unique card counts, and have the same cards
         return self.cards == other.cards
