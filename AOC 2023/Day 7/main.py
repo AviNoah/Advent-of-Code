@@ -35,7 +35,7 @@ class hand:
         # Return the amount of pairs found
         # High-0; one-1; two-2; three-3; full-house-4; four-5; five-6
         # The amount of pairs is always count of unique - 1
-        d = d.copy()
+        d: dict = d.copy()
 
         j_tmp = 0
         if "J" in d.keys():
@@ -82,18 +82,26 @@ class hand:
         s_uniq: dict = self.count_uniques()
         o_uniq: dict = other.count_uniques()
 
+        # Check type
+        if wild_cards:
+            # Turn J's into USED wild cards once they are used
+            s_val = self.evaluate_type(s_uniq, max(s_uniq, key=s_uniq.get))
+            o_val = self.evaluate_type(o_uniq, max(o_uniq, key=o_uniq.get))
+
+            if s_val > o_val:
+                return True
+            elif o_val > s_val:
+                return False
+
+        # Both have same type, compare values
+
         while len(s_uniq) != 0 and len(o_uniq) != 0:
             # Keys
             key_s_uniq: str = max(s_uniq, key=s_uniq.get)
             key_o_uniq: str = max(o_uniq, key=o_uniq.get)
 
-            if wild_cards:
-                # Turn J's into USED wild cards once they are used
-                s_val = self.evaluate_type(s_uniq, key_s_uniq)
-                o_val = self.evaluate_type(o_uniq, key_o_uniq)
-            else:
-                s_val: int = s_uniq[key_s_uniq]
-                o_val: int = o_uniq[key_o_uniq]
+            s_val: int = s_uniq[key_s_uniq]
+            o_val: int = o_uniq[key_o_uniq]
 
             # Check if it has a higher rank by having more uniques
             if s_val > o_val:
