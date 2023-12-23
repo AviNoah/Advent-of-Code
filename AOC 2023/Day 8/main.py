@@ -8,6 +8,10 @@
 # Find total steps
 
 
+with open("input.txt", "r") as f:
+    lines: list = f.readlines()
+
+
 class bi_node:
     def __init__(self, label: str, left, right):
         self.label: str = label
@@ -15,8 +19,12 @@ class bi_node:
         self.right = right
 
 
+def part1():
+    ...
+
+
 def main():
-    return
+    part1()
 
 
 if __name__ == "__main__":
