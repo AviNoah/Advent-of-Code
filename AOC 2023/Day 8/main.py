@@ -101,6 +101,9 @@ def traverse_multiple(directions: str, nodes: dict) -> int:
         # Remove node_objs that have already reached a Z state
         node_objs = list(filter(lambda node: node.label[-1] != "Z", node_objs))
 
+        # Period frequency is the amount of times dir len must be stepped until we reach a
+        # state where we have more nodes ending in Z - we can just ignore them in further steps using the periods
+
         # Add step's step times the period frequency we are in
         steps += dir_len * periods
 
