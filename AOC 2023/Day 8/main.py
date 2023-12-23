@@ -82,6 +82,15 @@ def traverse(directions: str, nodes: dict) -> int:
     return steps
 
 
+def my_lcm(min_val, *integers) -> int:
+    # Return the LCM that is bigger or equal to min_val.
+    res = lcm(*integers, min_val)
+    if res >= min_val:
+        return res
+
+    return res * my_lcm(min_val // res, *integers)
+
+
 def traverse_multiple(directions: str, nodes: dict) -> int:
     node_objs: list[bi_node] = [nodes[key] for key in nodes.keys() if key[-1] == "A"]
 
@@ -114,7 +123,7 @@ def traverse_multiple(directions: str, nodes: dict) -> int:
             # their multiplication definitely returns all Z, but if they share common multiples they meet
             # much earlier (for example 2, 4 meet after 2 instead of 8, but 6, 7 meet at 42)
             print(f"Periods is now: {periods}")
-            periods = lcm(periods + period_step, periods)
+            periods = my_lcm(periods, periods + period_step, periods)
             period_step = 0
 
         period_step += 1
