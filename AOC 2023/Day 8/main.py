@@ -114,7 +114,7 @@ def traverse_multiple(directions: str, nodes: dict) -> int:
             # their multiplication definitely returns all Z, but if they share common multiples they meet
             # much earlier (for example 2, 4 meet after 2 instead of 8, but 6, 7 meet at 42)
             print(f"Periods is now: {periods}")
-            periods = max(lcm(periods + period_step, periods), periods)
+            periods = lcm(periods + period_step, periods)
             period_step = 0
 
         period_step += 1
