@@ -49,15 +49,20 @@ def get_directions() -> list:
     return list(directions)
 
 
-def get_nodes() -> list[bi_node]:
+def get_nodes() -> dict:
     global lines
     nodes: list = lines[get_separator() + 1 :]
     nodes: list = [bi_node.from_line(node) for node in nodes]
 
-    return nodes
+    return dict({node.label: node} for node in nodes)
 
 
-def traverse(directions: list, nodes: list[bi_node]) -> int:
+def find_node(label: str, nodes: dict) -> bi_node:
+    # Brute force-ish way to find node, trying to avoid to build a network graph
+    return nodes.get(label, None)
+
+
+def traverse(directions: list, nodes: dict) -> int:
     # Return the amount of steps needed to reach ZZZ from AAA
     steps = 0
     node = "AAA"
@@ -70,15 +75,14 @@ def traverse(directions: list, nodes: list[bi_node]) -> int:
                 ...
             else:
                 ...
-
     return steps
 
 
 def part1():
     directions: list = get_directions()
     print(directions)
-    nodes: list = get_nodes()
-    for node in nodes:
+    nodes: dict = get_nodes()
+    for label, node in nodes:
         print(node)
 
 
