@@ -77,6 +77,10 @@ def traverse(directions: str, nodes: dict) -> int:
     return steps
 
 
+def traverse_multiple(directions: str, nodes: dict) -> int:
+    ...
+
+
 def part1():
     directions: str = get_directions()
     nodes: dict = get_nodes()
@@ -84,8 +88,16 @@ def part1():
     print(f"Total steps for part 1: {traverse(directions, nodes)}")
 
 
+def part2():
+    directions: str = get_directions()
+    nodes: dict = get_nodes()
+
+    print(f"Total steps for part 2: {traverse_multiple(directions, nodes)}")
+
+
 def main():
     part1()  # Solution was 19241
+    part2()
 
 
 if __name__ == "__main__":
