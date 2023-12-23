@@ -57,6 +57,23 @@ def get_nodes() -> list[bi_node]:
     return nodes
 
 
+def traverse(directions: list, nodes: list[bi_node]) -> int:
+    # Return the amount of steps needed to reach ZZZ from AAA
+    steps = 0
+    node = "AAA"
+    periods = 0
+    while node != "ZZZ":
+        periods += 1
+        for d in directions:
+            steps += 1
+            if d == "R":
+                ...
+            else:
+                ...
+
+    return steps
+
+
 def part1():
     directions: list = get_directions()
     print(directions)
