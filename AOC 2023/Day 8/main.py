@@ -8,7 +8,7 @@
 # Find total steps
 import re
 
-node_pattern: re.Pattern = re.compile(r"")
+node_pattern: re.Pattern = re.compile(r"[A-Z]{3}")
 
 with open("input.txt", "r") as f:
     lines: list = f.readlines()
@@ -20,7 +20,8 @@ class bi_node:
         self.left = left  # The label of left
         self.right = right  # The label of right
 
-    def from_line(self, line: str):
+    @staticmethod
+    def from_line(line: str):
         # Return a bi_node object with relevant labels
         global node_pattern
         label, left, right = node_pattern.findall(line)
@@ -50,11 +51,14 @@ def get_nodes() -> list[bi_node]:
     nodes: list = lines[get_separator() + 1 :]
     nodes: list = [bi_node.from_line(node) for node in nodes]
 
+    return nodes
+
 
 def part1():
     directions: list = get_directions()
     print(directions)
-    ...
+    nodes: list = get_nodes()
+    print(nodes)
 
 
 def main():
