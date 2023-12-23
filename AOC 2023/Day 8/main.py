@@ -85,7 +85,7 @@ def part1():
 
 
 def main():
-    part1()
+    part1()  # Solution was 19241
 
 
 if __name__ == "__main__":
