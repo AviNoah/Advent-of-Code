@@ -54,7 +54,7 @@ def get_nodes() -> dict:
     nodes: list = lines[get_separator() + 1 :]
     nodes: list = [bi_node.from_line(node) for node in nodes]
 
-    return dict({node.label: node} for node in nodes)
+    return dict({node.label: node for node in nodes})
 
 
 def traverse(directions: list, nodes: dict) -> int:
