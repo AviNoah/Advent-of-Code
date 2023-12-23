@@ -85,7 +85,7 @@ def traverse_multiple(directions: str, nodes: dict) -> int:
     node_objs: list[bi_node] = [nodes[key] for key in nodes.keys() if key[-1] == "A"]
 
     steps = 0
-    step_step = len(directions)
+    dir_len = len(directions)
 
     periods = 1
     period_step = 1
@@ -101,12 +101,13 @@ def traverse_multiple(directions: str, nodes: dict) -> int:
         # Remove node_objs that have already reached a Z state
         node_objs = list(filter(lambda node: node.label[-1] != "Z", node_objs))
 
-        steps += step_step * periods
+        # Add step's step times the period frequency we are in
+        steps += dir_len * periods
 
         if len(node_objs) < old_len:
-            # We reached a Z state, add period
+            # We reached a new period frequency, it is old period + period_step
+            periods += period_step
             period_step = 0
-            step_step = steps
 
         period_step += 1
     return steps
@@ -128,7 +129,7 @@ def part2():
 
 def main():
     part1()  # Solution was 19241
-    part2()  # Last solution was 334033245
+    part2()  # Last solution was 576417
 
 
 if __name__ == "__main__":
