@@ -87,13 +87,17 @@ def traverse_multiple(directions: str, nodes: dict) -> int:
     step_len = len(node_objs)
     periods = 0  # May be useful when finding a obj ending with z
 
-    while not all([obj.label[-1] == "Z" for obj in node_objs]):
+    while node_objs:
         periods += 1
+        steps += step_len  # Update outside of for loop
         for d in directions:
-            steps += step_len
             node_objs: list = [
                 nodes.get(node_obj.get_next(d)) for node_obj in node_objs
             ]
+
+        step_len = steps
+        # Remove node_objs, add periods * step_len
+        node_objs = list(filter(lambda node: node.label[-1] != "Z", node_objs))
 
     return steps
 
