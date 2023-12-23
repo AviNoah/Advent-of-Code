@@ -20,6 +20,15 @@ class bi_node:
         self.left = left  # The label of left
         self.right = right  # The label of right
 
+    def get_next(self, inp: str) -> str:
+        # Return the label of the given input
+        if inp == "R":
+            return self.right
+        elif inp == "L":
+            return self.left
+
+        raise Exception(f"Invalid input: {inp}")
+
     @staticmethod
     def from_line(line: str):
         # Return a bi_node object with relevant labels
@@ -67,18 +76,22 @@ def traverse(directions: str, nodes: dict) -> int:
         periods += 1
         for d in directions:
             steps += 1
-            if d == "R":
-                node_obj: bi_node = nodes.get(node_obj.right)
-            elif d == "L":
-                node_obj: bi_node = nodes.get(node_obj.left)
-            else:
-                raise Exception(f"Invalid input: {d}")
+            node_obj = nodes.get(node_obj.get_next(d))
 
     return steps
 
 
 def traverse_multiple(directions: str, nodes: dict) -> int:
-    ...
+    steps = 0
+    node_objs: list[bi_node] = [nodes[key] for key in nodes.keys() if key[-1] == "A"]
+    step_len = len(node_objs)
+    periods = 0  # May be useful when finding a obj ending with z
+
+    while all([obj[-1] == "Z" for obj in node_objs]):
+        periods += 1
+        for d in directions:
+            steps += step_len
+            node_objs: list = [nodes.get(node_obj.get_next(d)) for node_obj in node_objs]
 
 
 def part1():
