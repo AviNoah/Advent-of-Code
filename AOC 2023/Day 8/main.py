@@ -79,10 +79,9 @@ def traverse(directions: list, nodes: dict) -> int:
 
 def part1():
     directions: list = get_directions()
-    print(directions)
     nodes: dict = get_nodes()
-    for label, node in nodes:
-        print(node)
+
+    print(f"Total steps for part 1: {traverse(directions, nodes)}")
 
 
 def main():
