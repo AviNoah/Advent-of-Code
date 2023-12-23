@@ -6,7 +6,9 @@
 # So the total steps are P * len(input)
 
 # Find total steps
+import re
 
+node_pattern: re.Pattern = re.compile(r"")
 
 with open("input.txt", "r") as f:
     lines: list = f.readlines()
@@ -20,7 +22,9 @@ class bi_node:
 
     def from_line(self, line: str):
         # Return a bi_node object with relevant labels
-        ...
+        global node_pattern
+        label, left, right = node_pattern.findall(line)
+        return bi_node(label, left, right)
 
 
 def get_separator() -> int:
