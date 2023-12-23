@@ -47,7 +47,7 @@ class hand:
 
         # We no longer need to care about J
 
-        return_val: int = d.pop(key)
+        return_val: int = d.pop(key) + j_tmp
         if not d:
             # Dict is empty, meaning everything is the same character, even if there is J the result will be 5.
             return 6  # Five of a kind
