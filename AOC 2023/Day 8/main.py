@@ -7,6 +7,7 @@
 
 # Find total steps
 import re
+from math import lcm
 
 node_pattern: re.Pattern = re.compile(r"[A-Z]{3}")
 
@@ -108,9 +109,12 @@ def traverse_multiple(directions: str, nodes: dict) -> int:
         steps += dir_len * periods
 
         if len(node_objs) < old_len:
-            # We reached a new period frequency, it is old period + period_step
+            # We reached a new period frequency, it is old period * LCM(period_step, old period)
+            # Assume we have current freq and another bigger freq since it has not appeared yet,
+            # their multiplication definitely returns all Z, but if they share common multiples they meet
+            # much earlier (for example 2, 4 meet after 2 instead of 8, but 6, 7 meet at 42)
             print(f"Periods is now: {periods}")
-            periods += period_step
+            periods *= lcm(period_step, periods)
             period_step = 0
 
         period_step += 1
