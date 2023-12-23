@@ -13,13 +13,43 @@ with open("input.txt", "r") as f:
 
 
 class bi_node:
-    def __init__(self, label: str, left, right):
+    def __init__(self, label: str, left: str, right: str):
         self.label: str = label
-        self.left = left
-        self.right = right
+        self.left = left  # The label of left
+        self.right = right  # The label of right
+
+    def from_line(self, line: str):
+        # Return a bi_node object with relevant labels
+        ...
+
+
+def get_separator() -> int:
+    # Returns the separator between node inputs and directions
+
+    global lines
+    for i, line in enumerate(lines):
+        if line == "\n":
+            # Finished parsing
+            return i
+
+
+def get_directions() -> list:
+    global lines
+    directions: list = lines[: get_separator()]
+    directions: str = "".join(directions).replace("\n", "")  # Remove \n
+
+    return list(directions)
+
+
+def get_nodes() -> list[bi_node]:
+    global lines
+    nodes: list = lines[get_separator() + 1 :]
+    nodes: list = [bi_node.from_line(node) for node in nodes]
 
 
 def part1():
+    directions: list = get_directions()
+    print(directions)
     ...
 
 
