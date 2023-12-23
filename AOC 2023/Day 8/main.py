@@ -57,24 +57,23 @@ def get_nodes() -> dict:
     return dict({node.label: node} for node in nodes)
 
 
-def find_node(label: str, nodes: dict) -> bi_node:
-    # Brute force-ish way to find node, trying to avoid to build a network graph
-    return nodes.get(label, None)
-
-
 def traverse(directions: list, nodes: dict) -> int:
     # Return the amount of steps needed to reach ZZZ from AAA
     steps = 0
-    node = "AAA"
+    node_obj: bi_node = nodes.get("AAA")
     periods = 0
-    while node != "ZZZ":
+
+    while node_obj.label != "ZZZ":
         periods += 1
         for d in directions:
             steps += 1
             if d == "R":
-                ...
+                node_obj = node_obj.right
+            elif d == "L":
+                node_obj = node_obj.left
             else:
-                ...
+                raise Exception(f"Invalid input: {d}")
+
     return steps
 
 
