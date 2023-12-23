@@ -75,9 +75,6 @@ class hand:
 
         return 0  # High card
 
-        d[key] = val_max  # Return dict's state to normal
-        return return_val
-
     def compare_uniques(self, other) -> bool | None:
         # Compare uniques with another, return True if self's type is better, false if it is lesser,
         # or None if it is equal
@@ -92,8 +89,8 @@ class hand:
 
             if wild_cards:
                 # Turn J's into USED wild cards once they are used
-                s_val = self.evaluate_type(s_uniq.copy(), key_s_uniq)
-                o_val = self.evaluate_type(o_uniq.copy(), key_o_uniq)
+                s_val = self.evaluate_type(s_uniq, key_s_uniq)
+                o_val = self.evaluate_type(o_uniq, key_o_uniq)
             else:
                 s_val: int = s_uniq[key_s_uniq]
                 o_val: int = o_uniq[key_o_uniq]
