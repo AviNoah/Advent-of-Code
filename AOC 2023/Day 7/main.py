@@ -92,8 +92,9 @@ class hand:
                 return True
             elif o_val > s_val:
                 return False
+            return None
 
-        # Both have same type, compare values
+        # Wild cards is False
 
         while len(s_uniq) != 0 and len(o_uniq) != 0:
             # Keys
