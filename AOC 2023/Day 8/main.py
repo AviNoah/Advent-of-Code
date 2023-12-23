@@ -148,7 +148,7 @@ def part2():
 
 def main():
     #  part1()  # Solution was 19241
-    part2()  # Last solution was 576417
+    part2()  # Last solution was 610577503542936539429259590149
 
 
 if __name__ == "__main__":
