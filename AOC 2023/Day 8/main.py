@@ -68,9 +68,9 @@ def traverse(directions: list, nodes: dict) -> int:
         for d in directions:
             steps += 1
             if d == "R":
-                node_obj = node_obj.right
+                node_obj: bi_node = nodes.get(node_obj.right)
             elif d == "L":
-                node_obj = node_obj.left
+                node_obj: bi_node = nodes.get(node_obj.left)
             else:
                 raise Exception(f"Invalid input: {d}")
 
