@@ -30,12 +30,12 @@ class hand:
     def evaluate_type(self) -> int:
         # Return type of hand
         # High-0; one-1; two-2; three-3; full-house-4; four-5; five-6
-
+        global wild_cards
         d: dict = self.count_uniques()
         key = max(d, key=d.get)
 
         j_tmp = 0
-        if "J" in d.keys():
+        if wild_cards and "J" in d.keys():
             j_tmp = d.pop("J")
             if j_tmp == 5:
                 return 6
@@ -75,18 +75,15 @@ class hand:
     def compare_uniques(self, other) -> bool | None:
         # Compare uniques with another, return True if self's type is better, false if it is lesser,
         # or None if it is equal
-        global wild_cards
-
         # Check type
-        if wild_cards:
-            s_val = self.evaluate_type()
-            o_val = self.evaluate_type()
+        s_val = self.evaluate_type()
+        o_val = self.evaluate_type()
 
-            if s_val > o_val:
-                return True
-            elif o_val > s_val:
-                return False
-            return None
+        if s_val > o_val:
+            return True
+        elif o_val > s_val:
+            return False
+        return None
 
         # Wild cards is False
 
@@ -94,6 +91,8 @@ class hand:
         o_uniq: dict = other.count_uniques()
 
         while len(s_uniq) != 0 and len(o_uniq) != 0:
+            # The implementation of this may be wrong but it works
+
             # Keys
             key_s_uniq: str = max(s_uniq, key=s_uniq.get)
             key_o_uniq: str = max(o_uniq, key=o_uniq.get)
