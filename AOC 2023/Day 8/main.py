@@ -8,6 +8,13 @@
 # Find total steps
 
 
+class bi_node:
+    def __init__(self, label: str, left, right):
+        self.label: str = label
+        self.left = left
+        self.right = right
+
+
 def main():
     return
 
