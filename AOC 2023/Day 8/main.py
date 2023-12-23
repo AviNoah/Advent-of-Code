@@ -27,6 +27,9 @@ class bi_node:
         label, left, right = node_pattern.findall(line)
         return bi_node(label, left, right)
 
+    def __str__(self):
+        return f"{self.label} = ({self.left}, {self.right})"
+
 
 def get_separator() -> int:
     # Returns the separator between node inputs and directions
@@ -58,7 +61,8 @@ def part1():
     directions: list = get_directions()
     print(directions)
     nodes: list = get_nodes()
-    print(nodes)
+    for node in nodes:
+        print(node)
 
 
 def main():
