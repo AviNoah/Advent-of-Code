@@ -89,7 +89,7 @@ def traverse_multiple(directions: str, nodes: dict) -> int:
     dir_len = len(directions)
 
     periods = 1
-    period_step = 1
+    period_step = 0
 
     while node_objs:
         for d in directions:
@@ -118,6 +118,8 @@ def traverse_multiple(directions: str, nodes: dict) -> int:
             period_step = 0
 
         period_step += 1
+
+    print(f"Periods is now: {periods}")
     return steps
 
 
@@ -136,7 +138,7 @@ def part2():
 
 
 def main():
-    part1()  # Solution was 19241
+    #  part1()  # Solution was 19241
     part2()  # Last solution was 576417
 
 
