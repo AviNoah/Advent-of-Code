@@ -119,7 +119,7 @@ def traverse_multiple(directions: str, nodes: dict) -> int:
 
         if len(node_objs) < old_len:
             # We reached a new period frequency.
-            
+
             # Assume we have current freq and another bigger freq since it has not appeared yet,
             # their multiplication definitely returns union of their Z's, but if they share common multiples they meet
             # much earlier (for example 2, 4 meet after 2 instead of 8, but 6, 7 meet at 42)
