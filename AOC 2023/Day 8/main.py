@@ -110,10 +110,6 @@ def traverse_multiple(directions: str, nodes: dict) -> int:
         steps += dir_len * periods
 
         if len(node_objs) < old_len:
-            dir_len = lcm(period_step, dir_len)
-            period_step = 0
-            break
-
             # We reached a new period frequency.
 
             # Assume we have current freq and another bigger freq since it has not appeared yet,
