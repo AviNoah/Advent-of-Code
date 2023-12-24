@@ -121,6 +121,19 @@ def traverse_multiple(directions: str, nodes: dict) -> int:
     return steps
 
 
+def find_period(directions: str, nodes: dict, node: str) -> int:
+    # Given an input of R and L turns, return for a given bi_node the first period it reaches a Z state
+
+    period = 0
+    while node.label[-1] != "Z":
+        for d in directions:
+            node: bi_node = nodes.get(node.get_next(d))
+
+        period += 1
+
+    return period
+
+
 def tr_mult(directions: str, nodes: dict) -> int:
     node_objs: list[bi_node] = [nodes[key] for key in nodes.keys() if key[-1] == "A"]
 
@@ -158,6 +171,18 @@ def tr_mult(directions: str, nodes: dict) -> int:
     return steps
 
 
+def tr_mult_optimized(directions: str, nodes: dict) -> int:
+    # We will need to find the periods of all nodes where they first reach a Z state.
+    # We will then find the LCM between the results and that will be the total amount of periods
+    # dir_len must be traversed, meaning steps will be dir_len * periods
+    node_objs: list[bi_node] = [nodes[key] for key in nodes.keys() if key[-1] == "A"]
+    periods: list = [find_period(directions, nodes, node) for node in node_objs]
+    periods: int = lcm(*periods)
+    dir_len = len(directions)
+
+    return dir_len * periods
+
+
 def part1():
     directions: str = get_directions()
     nodes: dict = get_nodes()
@@ -169,12 +194,12 @@ def part2():
     directions: str = get_directions()
     nodes: dict = get_nodes()
 
-    print(f"Total steps for part 2: {tr_mult(directions, nodes)}")
+    print(f"Total steps for part 2: {tr_mult_optimized(directions, nodes)}")
 
 
 def main():
     #  part1()  # Solution was 19241
-    part2()  # Last solution was 644701107125
+    part2()  # Solution was 9606140307013
 
 
 if __name__ == "__main__":
