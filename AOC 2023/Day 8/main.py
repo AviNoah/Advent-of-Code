@@ -122,7 +122,7 @@ def part2():
 
 
 def main():
-    #  part1()  # Solution was 19241
+    part1()  # Solution was 19241
     part2()  # Solution was 9606140307013
 
 
