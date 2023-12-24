@@ -107,9 +107,15 @@ def traverse_multiple(directions: str, nodes: dict) -> int:
         # state where we have more nodes ending in Z - we can just ignore them in further steps using the periods
 
         # Add dir_len times the period frequency we are in
-        steps += dir_len * periods
+        steps += dir_len * 1
 
         if len(node_objs) < old_len:
+            dir_len = lcm(period_step, dir_len)
+            periods += period_step
+            print(f"Periods is now: {periods}")
+            period_step = 0
+
+        elif False:
             # We reached a new period frequency.
 
             # Assume we have current freq and another bigger freq since it has not appeared yet,
@@ -121,7 +127,6 @@ def traverse_multiple(directions: str, nodes: dict) -> int:
 
         period_step += 1
 
-    print(f"Periods is now: {periods}")
     return steps
 
 
