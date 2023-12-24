@@ -93,10 +93,11 @@ def traverse_multiple(directions: str, nodes: dict) -> int:
     period_step = 0
 
     while node_objs:
-        for d in directions:
-            node_objs: list = [
-                nodes.get(node_obj.get_next(d)) for node_obj in node_objs
-            ]
+        for _ in range(periods):
+            for d in directions:
+                node_objs: list = [
+                    nodes.get(node_obj.get_next(d)) for node_obj in node_objs
+                ]
 
         old_len = len(node_objs)
 
@@ -110,7 +111,7 @@ def traverse_multiple(directions: str, nodes: dict) -> int:
         steps += dir_len * 1
 
         if len(node_objs) < old_len:
-            dir_len = lcm(period_step, dir_len)
+            dir_len = lcm(periods, dir_len)
             periods += period_step
             print(f"Periods is now: {periods}")
             period_step = 0
@@ -146,7 +147,7 @@ def part2():
 
 def main():
     #  part1()  # Solution was 19241
-    part2()  # Last solution was 610577503542936539429259590149
+    part2()  # Last solution was 644701107125
 
 
 if __name__ == "__main__":
