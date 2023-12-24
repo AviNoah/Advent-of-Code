@@ -108,22 +108,12 @@ def traverse_multiple(directions: str, nodes: dict) -> int:
         # state where we have more nodes ending in Z - we can just ignore them in further steps using the periods
 
         # Add dir_len times the period frequency we are in
-        steps += dir_len * 1
+        steps += dir_len
 
         if len(node_objs) < old_len:
             dir_len = lcm(periods, dir_len)
             periods += period_step
             print(f"Periods is now: {periods}")
-            period_step = 0
-
-        elif False:
-            # We reached a new period frequency.
-
-            # Assume we have current freq and another bigger freq since it has not appeared yet,
-            # their multiplication definitely returns union of their Z's, but if they share common multiples they meet
-            # much earlier (for example 2, 4 meet after 4 instead of 8, but 6, 7 meet at 42)
-            print(f"Periods is now: {periods}")
-            periods = lcm(periods, periods + period_step)
             period_step = 0
 
         period_step += 1
