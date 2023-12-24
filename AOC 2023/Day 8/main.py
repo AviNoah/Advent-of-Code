@@ -139,7 +139,7 @@ def tr_mult(directions: str, nodes: dict) -> int:
                 ]
 
         # Add dir_len * periods
-        steps += dir_len * periods
+        steps += dir_len * max(periods, 1)
 
         # Remove node_objs that have already reached a Z state
         old_len = len(node_objs)
