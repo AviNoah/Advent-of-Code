@@ -90,7 +90,7 @@ def traverse_multiple(directions: str, nodes: dict) -> int:
     dir_len = len(directions)
 
     periods = 1
-    period_step = 0
+    period_step = 1
 
     while node_objs:
         for _ in range(periods):
@@ -108,7 +108,7 @@ def traverse_multiple(directions: str, nodes: dict) -> int:
         # state where we have more nodes ending in Z - we can just ignore them in further steps using the periods
 
         # Add dir_len times the period frequency we are in
-        steps += dir_len
+        steps += dir_len * periods
 
         if len(node_objs) < old_len:
             dir_len = lcm(periods, dir_len)
@@ -116,6 +116,43 @@ def traverse_multiple(directions: str, nodes: dict) -> int:
             print(f"Periods is now: {periods}")
             period_step = 0
 
+        period_step += 1
+
+    return steps
+
+
+def tr_mult(directions: str, nodes: dict) -> int:
+    node_objs: list[bi_node] = [nodes[key] for key in nodes.keys() if key[-1] == "A"]
+
+    steps = 0
+
+    dir_len = len(directions)
+
+    periods = 0  # We start at 0 periods of dir_len
+    period_step = 0  # We start at 0 period dir_len steps from periods
+
+    while node_objs:
+        for _ in range(max(periods, 1)):
+            for d in directions:
+                node_objs: list = [
+                    nodes.get(node_obj.get_next(d)) for node_obj in node_objs
+                ]
+
+        # Add dir_len * periods
+        steps += dir_len * periods
+
+        # Remove node_objs that have already reached a Z state
+        old_len = len(node_objs)
+        node_objs = list(filter(lambda node: node.label[-1] != "Z", node_objs))
+
+        # Check if length changed:
+        if old_len > len(node_objs):
+            # period_step * periods is the distance from new frequency period to old period.
+            # It took periods + period_step*periods to reach a new frequency where list had shrunk.
+            periods += period_step * max(periods, 1)
+            period_step = 0
+
+        # We entered next period
         period_step += 1
 
     return steps
@@ -132,7 +169,7 @@ def part2():
     directions: str = get_directions()
     nodes: dict = get_nodes()
 
-    print(f"Total steps for part 2: {traverse_multiple(directions, nodes)}")
+    print(f"Total steps for part 2: {tr_mult(directions, nodes)}")
 
 
 def main():
