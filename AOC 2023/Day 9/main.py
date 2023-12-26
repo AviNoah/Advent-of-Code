@@ -20,14 +20,11 @@ def get_histories() -> list[list]:
         return [int(v) for v in values]
 
     histories: list[list] = [convert_all_to_ints(h) for h in histories]
-    print(histories)
+    return histories
 
 
 def derive(series: list) -> list:
-    series = series[:]  # Make copy
-    *series, end = series
-
-    return [series[i + 1] - elem for i, elem in enumerate(series)]
+    return [series[i + 1] - series[i] for i in range(len(series) - 1)]
 
 
 def main():
