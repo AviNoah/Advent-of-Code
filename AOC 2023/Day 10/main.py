@@ -24,6 +24,7 @@ pipe_grid = None
 
 class pipe:
     def __init__(self, symbol: str):
+        global cardinal_directions
         self.symbol: str = symbol
         self.type: str = pipe_types.get(symbol, "ground")
 
