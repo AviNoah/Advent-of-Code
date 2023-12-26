@@ -17,7 +17,14 @@ pipe_types: dict = {
 
 class pipe:
     def __init__(self, symbol: str):
-        ...
+        self.symbol: str = symbol
+        self.type: str = pipe_types.get(symbol, "ground")
+
+        self.from_card = None
+        self.to_card = None
+        cardinals = self.type.split("-")
+        if len(cardinals) == 2:
+            self.from_card, self.to_card = cardinals
 
 
 def part1():
