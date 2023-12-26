@@ -23,8 +23,18 @@ def get_histories() -> list[list]:
     print(histories)
 
 
+def derive(series: list) -> list:
+    series = series[:]  # Make copy
+    *series, end = series
+
+    return [series[i + 1] - elem for i, elem in enumerate(series)]
+
+
 def main():
-    get_histories()
+    histories: list[list] = get_histories()
+    for history in histories:
+        print(history)
+        print(derive(history))
 
 
 if __name__ == "__main__":
