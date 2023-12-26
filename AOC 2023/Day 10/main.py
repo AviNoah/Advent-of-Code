@@ -31,7 +31,7 @@ class pipe:
             self.from_card, self.to_card = cardinals
 
 
-def get_pipes() -> list[pipe]:
+def get_pipes() -> list[list[pipe]]:
     global lines
 
     def pipes_from_line(line: str) -> list[pipe]:
@@ -43,7 +43,7 @@ def get_pipes() -> list[pipe]:
 
 
 def part1():
-    pipes: pipe = get_pipes()
+    pipes: list[list[pipe]] = get_pipes()
 
 
 def part2():
