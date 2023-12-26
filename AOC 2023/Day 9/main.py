@@ -43,13 +43,21 @@ def part1():
     print(f"Extrapolated sum: {sum(results)}")
 
 
+def extrapolate_backwards(series: list) -> int:
+    # Reverse list
+    return extrapolate(series[::-1])
+
+
 def part2():
     histories: list[list] = get_histories()
+    results = [extrapolate_backwards(history) for history in histories]
+
+    print(f"Extrapolated sum: {sum(results)}")
 
 
 def main():
     part1()  # Solution was 1980437560
-    part2()
+    part2()  # SOlution was 977
 
 
 if __name__ == "__main__":
