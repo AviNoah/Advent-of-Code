@@ -29,18 +29,18 @@ class pipe:
         if len(self.cardinals) == 1:
             self.cardinals: list = list()
 
-    def get_displacements(self) -> list[tuple]:
-        # Return possible displacements
+    def get_displacements(self, from_dir: str) -> list[tuple]:
+        # Return possible displacements coming from from_dir
         vertical = list()
         horizontal = list()
 
-        if "north" in self.cardinals:
+        if "north" in self.cardinals and from_dir != "north":
             vertical.append(-1)
-        if "south" in self.cardinals:
+        if "south" in self.cardinals and from_dir != "south":
             vertical.append(1)
-        if "east" in self.cardinals:
+        if "east" in self.cardinals and from_dir != "east":
             horizontal.append(-1)
-        if "west" in self.cardinals:
+        if "west" in self.cardinals and from_dir != "west":
             horizontal.append(-1)
 
         results = [(0, v) for v in vertical]
