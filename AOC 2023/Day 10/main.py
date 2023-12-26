@@ -121,13 +121,12 @@ def count_steps() -> int:
         ]
     )
 
-    # Make sure the other pipe can receive from that side
-    travel_paths = filter(
-        lambda row, col, dir: pipe_at(row, col).directions[dir], travel_paths
-    )
-
     for row, col, dir in travel_paths:
-        steps = pipe_at(row, col).travel(row, col, dir)
+        p = pipe_at(row, col)
+        if not p.directions[dir]:
+            continue  # Invalid receiving end
+
+        steps = p.travel(row, col, dir)
         if steps:
             return steps
 
@@ -138,7 +137,10 @@ def part1():
     steps = count_steps()
     # Steps is always even, since there must be an equal amount of steps left and right,
     # and an equal amount of steps up and down, therefore the farthest point is always steps / 2 away
-    print(f"The farthest point from the start is {steps //2 } steps away")
+    if steps:
+        print(f"The farthest point from the start is {steps //2 } steps away")
+    else:
+        print(f"No loop for S found!")
 
 
 def part2():
