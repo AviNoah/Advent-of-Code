@@ -51,10 +51,10 @@ class pipe:
             self.travel(row, col + 1, "east")
 
 
-def pipe_at(i, j) -> pipe | None:
+def pipe_at(row, col) -> pipe | None:
     global pipe_grid
     try:
-        return pipe_grid[i][j]
+        return pipe_grid[row][col]
     except IndexError:
         return None
 
