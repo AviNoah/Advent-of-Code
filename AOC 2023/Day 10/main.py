@@ -47,10 +47,10 @@ class pipe:
             travel_path = (row - 1, col, "south")
         if self.directions["south"] and from_dir != "south":
             travel_path = (row + 1, col, "north")
-        if self.directions["east"] and from_dir != "east":
-            travel_path = (row, col - 1, "west")
         if self.directions["west"] and from_dir != "west":
-            travel_path = (row, col + 1, "east")
+            travel_path = (row, col - 1, "east")
+        if self.directions["east"] and from_dir != "east":
+            travel_path = (row, col + 1, "west")
 
         # Check if destination has a direction matching from_dir
         if not travel_path:
