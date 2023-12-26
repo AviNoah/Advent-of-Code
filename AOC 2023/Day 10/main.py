@@ -1,4 +1,5 @@
 # Find the shape of a pipe, marked S that will create a closed loop with other pipes surrounding it.
+# Afterwards, walk along the loop and find the farthest pipe from it.
 
 with open("input.txt", "r") as f:
     lines: list = f.readlines()
