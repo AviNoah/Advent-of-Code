@@ -15,7 +15,7 @@ pipe_types: dict = {
     "7": "south-west",
     "F": "south-east",
     ".": "ground",  # No pipe
-    "S": "start",  # Unknown pipe
+    "S": "east-west-north-south",  # Unknown pipe
 }
 
 
