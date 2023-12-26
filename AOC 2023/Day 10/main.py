@@ -42,13 +42,13 @@ class pipe:
         vertical = list()
         horizontal = list()
 
-        if "north" in self.cardinals and from_dir != "north":
+        if self.directions["north"] and from_dir != "north":
             vertical.append(-1)
-        if "south" in self.cardinals and from_dir != "south":
+        if self.directions["south"] and from_dir != "south":
             vertical.append(1)
-        if "east" in self.cardinals and from_dir != "east":
+        if self.directions["east"] and from_dir != "east":
             horizontal.append(-1)
-        if "west" in self.cardinals and from_dir != "west":
+        if self.directions["west"] and from_dir != "west":
             horizontal.append(-1)
 
         results = [(0, v) for v in vertical]
