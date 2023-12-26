@@ -43,8 +43,13 @@ def part1():
     print(f"Extrapolated sum: {sum(results)}")
 
 
+def part2():
+    histories: list[list] = get_histories()
+
+
 def main():
     part1()  # Solution was 1980437560
+    part2()
 
 
 if __name__ == "__main__":
