@@ -128,7 +128,7 @@ def count_steps() -> int:
 
         steps = p.travel(row, col, from_dir=from_dir)
         if steps:
-            return steps
+            return steps + 1  # Count S as well
 
     return None
 
