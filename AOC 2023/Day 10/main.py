@@ -113,10 +113,12 @@ def count_steps() -> int:
 
     # Check from every direction of S
     travel_paths = list(
-        (s_row - 1, s_col, "south"),
-        (s_row + 1, s_col, "north"),
-        (s_row, s_col - 1, "west"),
-        (s_row, s_col + 1, "east"),
+        [
+            (s_row - 1, s_col, "south"),
+            (s_row + 1, s_col, "north"),
+            (s_row, s_col - 1, "west"),
+            (s_row, s_col + 1, "east"),
+        ]
     )
 
     # Make sure the other pipe can receive from that side
