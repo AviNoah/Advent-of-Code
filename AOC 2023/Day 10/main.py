@@ -39,51 +39,44 @@ class pipe:
         for key in cardinals:
             self.directions[key] = True
 
-    def get_travel_paths(self, row, col, from_dir) -> list[tuple]:
+    def get_travel_path(self, row, col, from_dir) -> tuple:
         # Return a list of row, col, from_dir of paths we can take from current state.
-        travel_paths = list()
+        travel_path: tuple = None
 
         if self.directions["north"] and from_dir != "north":
-            travel_paths.append((row - 1, col, "south"))
+            travel_path = (row - 1, col, "south")
         if self.directions["south"] and from_dir != "south":
-            travel_paths.append(row + 1, col, "north")
+            travel_path = (row + 1, col, "north")
         if self.directions["east"] and from_dir != "east":
-            travel_paths.append(row, col - 1, "west")
+            travel_path = (row, col - 1, "west")
         if self.directions["west"] and from_dir != "west":
-            travel_paths.append(row, col + 1, "east")
-            
+            travel_path = (row, col + 1, "east")
+
         # Check if destination has a direction matching from_dir
-        travel_paths = filter(lambda (row, col, dir): pipe_at(row, col).directions[dir], travel_paths)
-        
-        return travel_paths
+        if not travel_path:
+            return None  # No matching paths
+
+        row, col, dir = travel_path
+        if pipe_at(row, col).directions[dir]:
+            return travel_path  # If other pipe has a receiving end
+        return None
 
     def travel(self, row, col, from_dir: str) -> int:
-        # Travel and return steps until reaching S
-        if self.symbol == "S":
-            return 0  # We arrived
+        # The amount of steps needed to reach S
+        steps = 0
+        tmp = self
 
-        travel_paths = list()
+        while tmp.symbol != "S":
+            steps += 1
+            travel_path = tmp.get_travel_path(row, col, from_dir)
+            if not travel_path:
+                # Unable to travel further, return None
+                return None
 
-        if self.directions["north"] and from_dir != "north":
-            travel_paths.append((row - 1, col, "south"))
-        if self.directions["south"] and from_dir != "south":
-            travel_paths.append(row + 1, col, "north")
-        if self.directions["east"] and from_dir != "east":
-            travel_paths.append(row, col - 1, "west")
-        if self.directions["west"] and from_dir != "west":
-            travel_paths.append(row, col + 1, "east")
+            row, col, from_dir = travel_path
+            tmp = pipe_at(row, col)
 
-        results = list()
-
-        for path in travel_paths:
-            row, col, dir = path
-            p = pipe_at(row, col)
-            if p:
-                results.append(1 + p.travel(row, col, dir))
-
-        results = filter(None, results)  # Filter OUT any None's
-        if results:
-            return results
+        return steps
 
 
 def pipe_at(row, col) -> pipe | None:
