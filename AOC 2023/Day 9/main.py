@@ -40,7 +40,7 @@ def part1():
     histories: list[list] = get_histories()
     results = [extrapolate(history) for history in histories]
 
-    print(results)
+    print(f"Extrapolated sum: {sum(results)}")
 
 
 def main():
