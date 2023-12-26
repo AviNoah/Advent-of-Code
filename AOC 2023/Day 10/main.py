@@ -55,6 +55,18 @@ class pipe:
         results.extend([(h, 0) for h in horizontal])
         return results
 
+    def travel(self, row, col, from_dir: str) -> list:
+        # Travel and return a list of pipes traveled to.
+
+        if self.directions["north"] and from_dir != "north":
+            self.travel(row - 1, col, "south")
+        if self.directions["south"] and from_dir != "south":
+            self.travel(row + 1, col, "north")
+        if self.directions["east"] and from_dir != "east":
+            self.travel(row, col - 1, "west")
+        if self.directions["west"] and from_dir != "west":
+            self.travel(row, col + 1, "east")
+
 
 def get_pipe(pipe_grid, i, j) -> pipe | None:
     try:
@@ -86,15 +98,10 @@ def find_S(pipes: list[list[pipe]]) -> tuple[int, int]:
 def find_loop(pipe_grid: list[list[pipe]]) -> int:
     # Return farthest point in a loop from starting point
     grid = [[[0] * len(pipe_grid[0])] * len(pipe_grid)]  # Init a grid of 0's
-    row, col = find_S(pipe_grid)
+    s_row, s_col = find_S(pipe_grid)
 
     # There are only two pipes actually coming from S, then, every other pipe in the main loop
     # is exclusively connected to two other pipes.
-
-    def helper(r, c):
-        ...
-
-    dirs = get_pipe(pipe_grid, row, col).get_displacements()
 
 
 def part1():
