@@ -24,11 +24,10 @@ class pipe:
         self.symbol: str = symbol
         self.type: str = pipe_types.get(symbol, "ground")
 
-        self.from_card = None
-        self.to_card = None
-        cardinals = self.type.split("-")
-        if len(cardinals) == 2:
-            self.from_card, self.to_card = cardinals
+        # A list of valid cardinals
+        self.cardinals: list = self.type.split("-")
+        if len(self.cardinals) == 1:
+            self.cardinals: list = list()
 
 
 def get_pipes() -> list[list[pipe]]:
