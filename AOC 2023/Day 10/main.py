@@ -121,12 +121,12 @@ def count_steps() -> int:
         ]
     )
 
-    for row, col, dir in travel_paths:
+    for row, col, from_dir in travel_paths:
         p = pipe_at(row, col)
-        if not p.directions[dir]:
+        if not p.directions[from_dir]:
             continue  # Invalid receiving end
 
-        steps = p.travel(row, col, dir)
+        steps = p.travel(row, col, from_dir=from_dir)
         if steps:
             return steps
 
