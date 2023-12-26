@@ -144,6 +144,8 @@ def part1():
 
 
 def part2():
+    # Maybe the farthest point from S creates two corners of a rectangle allowing us to focus on one area
+    # of the entire grid?
     pass
 
 
