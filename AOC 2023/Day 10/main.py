@@ -41,8 +41,24 @@ def get_pipes() -> list[list[pipe]]:
     return table
 
 
+def find_S(pipes: list[list[pipe]]) -> tuple[int, int]:
+    for row, pipe_row in enumerate(pipes):
+        for col, p in enumerate(pipe_row):
+            if p.symbol == "S":
+                return row, col
+
+    return None
+
+
+def find_loop(pipes: list[list[pipe]], row: int, col: int) -> int:
+    # Return farthest point in a loop from starting point
+    ...
+
+
 def part1():
     pipes: list[list[pipe]] = get_pipes()
+    row, col = find_S(pipes)
+    result = find_loop(pipes, row, col)
 
 
 def part2():
