@@ -18,16 +18,24 @@ pipe_types: dict = {
     "S": "east-west-north-south",  # Unknown pipe
 }
 
+cardinal_directions = ["south", "north", "east", "west"]
+
 
 class pipe:
     def __init__(self, symbol: str):
         self.symbol: str = symbol
         self.type: str = pipe_types.get(symbol, "ground")
 
+        # Set which directions the pipe CAN lead to
+
         # A list of valid cardinals
-        self.cardinals: list = self.type.split("-")
-        if len(self.cardinals) == 1:
-            self.cardinals: list = list()
+        cardinals: list = self.type.split("-")
+        if len(cardinals) == 1:
+            cardinals: list = list()
+
+        self.directions = dict.fromkeys(cardinal_directions, False)
+        for key in cardinals:
+            self.directions[key] = True
 
     def get_displacements(self, from_dir: str) -> list[tuple]:
         # Return possible displacements coming from from_dir
@@ -75,15 +83,23 @@ def find_S(pipes: list[list[pipe]]) -> tuple[int, int]:
     return None
 
 
-def find_loop(pipes: list[list[pipe]], row: int, col: int) -> int:
+def find_loop(pipe_grid: list[list[pipe]]) -> int:
     # Return farthest point in a loop from starting point
-    ...
+    grid = [[[0] * len(pipe_grid[0])] * len(pipe_grid)]  # Init a grid of 0's
+    row, col = find_S(pipe_grid)
+
+    # There are only two pipes actually coming from S, then, every other pipe in the main loop
+    # is exclusively connected to two other pipes.
+
+    def helper(r, c):
+        ...
+
+    dirs = get_pipe(pipe_grid, row, col).get_displacements()
 
 
 def part1():
     pipes: list[list[pipe]] = get_pipes()
-    row, col = find_S(pipes)
-    result = find_loop(pipes, row, col)
+    result = find_loop(pipes)
 
 
 def part2():
