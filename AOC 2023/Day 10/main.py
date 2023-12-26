@@ -10,8 +10,8 @@ pipe_types: dict = {
     "J": "north-west",
     "7": "south-west",
     "F": "south-east",
-    ".": "ground",
-    "S": "start",
+    ".": "ground",  # No pipe
+    "S": "start",  # Unknown pipe
 }
 
 
