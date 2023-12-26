@@ -134,7 +134,10 @@ def count_steps() -> int:
 
 
 def part1():
-    result = count_steps()
+    steps = count_steps()
+    # Steps is always even, since there must be an equal amount of steps left and right,
+    # and an equal amount of steps up and down, therefore the farthest point is always steps / 2 away
+    print(f"The farthest point from the start is {steps //2 } steps away")
 
 
 def part2():
