@@ -38,24 +38,6 @@ class pipe:
         for key in cardinals:
             self.directions[key] = True
 
-    def get_displacements(self, from_dir: str) -> list[tuple]:
-        # Return possible displacements coming from from_dir
-        vertical = list()
-        horizontal = list()
-
-        if self.directions["north"] and from_dir != "north":
-            vertical.append(-1)
-        if self.directions["south"] and from_dir != "south":
-            vertical.append(1)
-        if self.directions["east"] and from_dir != "east":
-            horizontal.append(-1)
-        if self.directions["west"] and from_dir != "west":
-            horizontal.append(-1)
-
-        results = [(0, v) for v in vertical]
-        results.extend([(h, 0) for h in horizontal])
-        return results
-
     def travel(self, row, col, from_dir: str) -> list:
         # Travel and return a list of pipes traveled to.
 
