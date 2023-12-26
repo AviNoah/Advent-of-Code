@@ -107,18 +107,34 @@ def find_S_coordinates() -> tuple[int, int]:
     return None
 
 
-def find_loop() -> int:
+def count_steps() -> int:
     global pipe_grid
     # Return farthest point in a loop from starting point
-    grid = [[[0] * len(pipe_grid[0])] * len(pipe_grid)]  # Init a grid of 0's
     s_row, s_col = find_S_coordinates(pipe_grid)
 
-    # There are only two pipes actually coming from S, then, every other pipe in the main loop
-    # is exclusively connected to two other pipes.
+    # Check from every direction of S
+    travel_paths = list(
+        (s_row - 1, s_col, "south"),
+        (s_row + 1, s_col, "north"),
+        (s_row, s_col - 1, "west"),
+        (s_row, s_col + 1, "east"),
+    )
+
+    # Make sure the other pipe can receive from that side
+    travel_paths = filter(
+        lambda row, col, dir: pipe_at(row, col).directions[dir], travel_paths
+    )
+
+    for row, col, dir in travel_paths:
+        steps = pipe_at(row, col).travel(row, col, dir)
+        if steps:
+            return steps
+
+    return None
 
 
 def part1():
-    result = find_loop()
+    result = count_steps()
 
 
 def part2():
