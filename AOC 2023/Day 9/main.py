@@ -27,11 +27,24 @@ def derive(series: list) -> list:
     return [series[i + 1] - series[i] for i in range(len(series) - 1)]
 
 
-def main():
+def extrapolate(series: list) -> int:
+    # Extrapolate series, return next number
+    if all([s == 0 for s in series]):
+        return 0
+
+    diff = derive(series)[-1]
+    return series[-1] + diff
+
+
+def part1():
     histories: list[list] = get_histories()
-    for history in histories:
-        print(history)
-        print(derive(history))
+    results = [extrapolate(history) for history in histories]
+
+    print(results)
+
+
+def main():
+    part1()
 
 
 if __name__ == "__main__":
