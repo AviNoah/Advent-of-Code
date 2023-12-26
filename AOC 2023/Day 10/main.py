@@ -149,7 +149,7 @@ def part2():
 
 def main():
     get_pipes()
-    part1()
+    part1()  # Solution was 6864
     part2()
 
 
