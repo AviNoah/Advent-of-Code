@@ -19,6 +19,7 @@ pipe_types: dict = {
 }
 
 cardinal_directions = ["south", "north", "east", "west"]
+pipe_grid = None
 
 
 class pipe:
@@ -69,25 +70,26 @@ class pipe:
 
 
 def get_pipe(pipe_grid, i, j) -> pipe | None:
+    global pipe_grid
     try:
         return pipe_grid[i][j]
     except IndexError:
         return None
 
 
-def get_pipes() -> list[list[pipe]]:
-    global lines
+def get_pipes():
+    global lines, pipe_grid
 
     def pipes_from_line(line: str) -> list[pipe]:
         line: str = line.replace("\n", "")
         return [pipe(char) for char in line]
 
-    table = [pipes_from_line(line) for line in lines]
-    return table
+    pipe_grid = [pipes_from_line(line) for line in lines]
 
 
-def find_S(pipes: list[list[pipe]]) -> tuple[int, int]:
-    for row, pipe_row in enumerate(pipes):
+def find_S_coordinates() -> tuple[int, int]:
+    global pipe_grid
+    for row, pipe_row in enumerate(pipe_grid):
         for col, p in enumerate(pipe_row):
             if p.symbol == "S":
                 return row, col
@@ -95,18 +97,18 @@ def find_S(pipes: list[list[pipe]]) -> tuple[int, int]:
     return None
 
 
-def find_loop(pipe_grid: list[list[pipe]]) -> int:
+def find_loop() -> int:
+    global pipe_grid
     # Return farthest point in a loop from starting point
     grid = [[[0] * len(pipe_grid[0])] * len(pipe_grid)]  # Init a grid of 0's
-    s_row, s_col = find_S(pipe_grid)
+    s_row, s_col = find_S_coordinates(pipe_grid)
 
     # There are only two pipes actually coming from S, then, every other pipe in the main loop
     # is exclusively connected to two other pipes.
 
 
 def part1():
-    pipes: list[list[pipe]] = get_pipes()
-    result = find_loop(pipes)
+    result = find_loop()
 
 
 def part2():
@@ -114,6 +116,7 @@ def part2():
 
 
 def main():
+    get_pipes()
     part1()
     part2()
 
