@@ -108,9 +108,8 @@ def find_S_coordinates() -> tuple[int, int]:
 
 
 def count_steps() -> int:
-    global pipe_grid
     # Return farthest point in a loop from starting point
-    s_row, s_col = find_S_coordinates(pipe_grid)
+    s_row, s_col = find_S_coordinates()
 
     # Check from every direction of S
     travel_paths = list(
