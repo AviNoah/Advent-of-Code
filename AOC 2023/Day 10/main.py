@@ -48,6 +48,13 @@ class pipe:
         return results
 
 
+def get_pipe(pipe_grid, i, j) -> pipe | None:
+    try:
+        return pipe_grid[i][j]
+    except IndexError:
+        return None
+
+
 def get_pipes() -> list[list[pipe]]:
     global lines
 
