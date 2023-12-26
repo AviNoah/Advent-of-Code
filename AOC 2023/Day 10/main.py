@@ -31,8 +31,19 @@ class pipe:
             self.from_card, self.to_card = cardinals
 
 
+def get_pipes() -> list[pipe]:
+    global lines
+
+    def pipes_from_line(line: str) -> list[pipe]:
+        line: str = line.replace("\n", "")
+        return [pipe(char) for char in line]
+
+    table = [pipes_from_line(line) for line in lines]
+    return table
+
+
 def part1():
-    pass
+    pipes: pipe = get_pipes()
 
 
 def part2():
