@@ -32,7 +32,7 @@ def extrapolate(series: list) -> int:
     if all([s == 0 for s in series]):
         return 0
 
-    diff = derive(series)[-1]
+    diff = extrapolate(derive(series))
     return series[-1] + diff
 
 
