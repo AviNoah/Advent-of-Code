@@ -51,7 +51,7 @@ class pipe:
             self.travel(row, col + 1, "east")
 
 
-def get_pipe(pipe_grid, i, j) -> pipe | None:
+def get_pipe(i, j) -> pipe | None:
     global pipe_grid
     try:
         return pipe_grid[i][j]
