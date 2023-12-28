@@ -241,6 +241,12 @@ def part2():
     global pipe_grid
     global marked_pipe_grid
 
+    # Strategy c (seems really good): use the marked_pipe_grid and a flood fill algorithm to find all outside
+    # cells, where to place though?
+
+    # Place sporadically - every few cells
+    # Place at every cell on the boarder that is marked False <- this seems better
+
     mark_main_loop()
     print(marked_pipe_grid)
     return
