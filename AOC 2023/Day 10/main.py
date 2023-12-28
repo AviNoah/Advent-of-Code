@@ -202,6 +202,10 @@ def part2():
 
     area = len(main_loop_grid[0]) * len(main_loop_grid) - count_steps()
 
+    # Strategy: Use the even-odd method to check if a cell is trapped between an even amount of pipes,
+    # although we must check for leaks, therefore we should use a recursive travel to check if there are any
+    # leaks - but we need to prevent it from circling on itself forever and entering an infinite loop
+
     print(f"Approximately {area}")
     return
     for row in main_loop_grid_symbols:
