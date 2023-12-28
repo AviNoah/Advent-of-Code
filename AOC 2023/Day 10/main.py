@@ -20,6 +20,7 @@ pipe_types: dict = {
 
 cardinal_directions = ["south", "north", "east", "west"]
 pipe_grid = None
+marked_pipe_grid = None
 
 
 class pipe:
@@ -81,7 +82,7 @@ class pipe:
     def travel_return_bounding_box(
         self, row, col, from_dir: str
     ) -> tuple[int, int, int, int]:
-        # The amount of steps needed to reach S
+        # The bounding box of the main loop
         r_max, r_min = row, row
         c_max, c_min = col, col
         tmp = self
@@ -98,6 +99,21 @@ class pipe:
             tmp = pipe_at(row, col)
 
         return r_max, r_min, c_max, c_min
+
+    def travel_and_mark(self, row, col, from_dir: str):
+        # Mark the main loop in a grid
+        global marked_pipe_grid
+        tmp = self
+
+        while tmp.symbol != "S":
+            travel_path = tmp.get_travel_path(row, col, from_dir)
+            if not travel_path:
+                # Unable to travel further, return None
+                return None
+
+            row, col, from_dir = travel_path
+            marked_pipe_grid[row][col] = True
+            tmp = pipe_at(row, col)
 
 
 def pipe_at(row, col) -> pipe | None:
@@ -190,10 +206,44 @@ def map_pipe_bounding_box():
     return None
 
 
+def mark_main_loop():
+    global marked_pipe_grid, pipe_grid
+    marked_pipe_grid = [
+        [False for _ in range(len(pipe_grid[0]))] for __ in range(len(pipe_grid))
+    ]
+    # Return the bounds of the pipe loop
+    s_row, s_col = find_S_coordinates()
+    marked_pipe_grid[s_row][s_col] = True
+
+    # Check from every direction of S
+    travel_paths = list(
+        [
+            (s_row - 1, s_col, "south"),
+            (s_row + 1, s_col, "north"),
+            (s_row, s_col - 1, "west"),
+            (s_row, s_col + 1, "east"),
+        ]
+    )
+
+    for row, col, from_dir in travel_paths:
+        p = pipe_at(row, col)
+        if not p.directions[from_dir]:
+            continue  # Invalid receiving end
+
+        p.travel_and_mark(row, col, from_dir=from_dir)
+
+    return None
+
+
 def part2():
     # Maybe the farthest point from S creates two corners of a rectangle allowing us to focus on one area
     # of the entire grid?
     global pipe_grid
+    global marked_pipe_grid
+
+    mark_main_loop()
+    print(marked_pipe_grid)
+    return
     bounding_box = map_pipe_bounding_box()
     r_max, r_min, c_max, c_min = bounding_box
 
@@ -205,7 +255,7 @@ def part2():
     # Strategy: Use the even-odd method to check if a cell is trapped between an even amount of pipes,
     # although we must check for leaks, therefore we should use a recursive travel to check if there are any
     # leaks - but we need to prevent it from circling on itself forever and entering an infinite loop
-    
+
     # Strategy b: use th even-odd method to count in the grid we got how many cells "could be" in the area.
     # Check if we need to subtract total length of pipe to get a good estimate
 
