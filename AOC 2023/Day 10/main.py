@@ -78,6 +78,27 @@ class pipe:
 
         return steps
 
+    def travel_return_bounding_box(
+        self, row, col, from_dir: str
+    ) -> tuple[int, int, int, int]:
+        # The amount of steps needed to reach S
+        r_max, r_min = row, row
+        c_max, c_min = col, col
+        tmp = self
+
+        while tmp.symbol != "S":
+            travel_path = tmp.get_travel_path(row, col, from_dir)
+            if not travel_path:
+                # Unable to travel further, return None
+                return None
+
+            row, col, from_dir = travel_path
+            r_max, r_min = max(row, r_max), min(row, r_min)
+            c_max, c_min = max(col, c_max), min(col, c_min)
+            tmp = pipe_at(row, col)
+
+        return r_max, r_min, c_max, c_min
+
 
 def pipe_at(row, col) -> pipe | None:
     global pipe_grid
@@ -143,9 +164,39 @@ def part1():
         print(f"No loop for S found!")
 
 
+def map_pipe_bounding_box():
+    # Return the bounds of the pipe loop
+    s_row, s_col = find_S_coordinates()
+
+    # Check from every direction of S
+    travel_paths = list(
+        [
+            (s_row - 1, s_col, "south"),
+            (s_row + 1, s_col, "north"),
+            (s_row, s_col - 1, "west"),
+            (s_row, s_col + 1, "east"),
+        ]
+    )
+
+    for row, col, from_dir in travel_paths:
+        p = pipe_at(row, col)
+        if not p.directions[from_dir]:
+            continue  # Invalid receiving end
+
+        bound_box = p.travel_return_bounding_box(row, col, from_dir=from_dir)
+        if bound_box:
+            return bound_box
+
+    return None
+
+
 def part2():
     # Maybe the farthest point from S creates two corners of a rectangle allowing us to focus on one area
     # of the entire grid?
+    bounding_box = map_pipe_bounding_box()
+    r_max, r_min, c_max, c_min = bounding_box
+    print(*bounding_box)
+
     pass
 
 
