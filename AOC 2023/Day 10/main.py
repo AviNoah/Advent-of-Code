@@ -198,9 +198,10 @@ def part2():
     r_max, r_min, c_max, c_min = bounding_box
 
     main_loop_grid = [row[c_min:c_max] for row in pipe_grid[r_min:r_max]]
+    main_loop_grid_symbols = [[p.symbol for p in row] for row in main_loop_grid]
 
     print(*bounding_box)
-    print(main_loop_grid)
+    print(main_loop_grid_symbols)
 
     pass
 
