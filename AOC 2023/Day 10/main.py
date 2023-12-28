@@ -197,9 +197,13 @@ def part2():
     bounding_box = map_pipe_bounding_box()
     r_max, r_min, c_max, c_min = bounding_box
 
-    main_loop_grid = [row[c_min:c_max+1] for row in pipe_grid[r_min:r_max+1]]
+    main_loop_grid = [row[c_min : c_max + 1] for row in pipe_grid[r_min : r_max + 1]]
     main_loop_grid_symbols = [[p.symbol for p in row] for row in main_loop_grid]
 
+    area = len(main_loop_grid[0]) * len(main_loop_grid) - count_steps()
+
+    print(f"Approximately {area}")
+    return
     for row in main_loop_grid_symbols:
         print(*row)
 
