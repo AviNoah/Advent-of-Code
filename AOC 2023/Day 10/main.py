@@ -205,6 +205,9 @@ def part2():
     # Strategy: Use the even-odd method to check if a cell is trapped between an even amount of pipes,
     # although we must check for leaks, therefore we should use a recursive travel to check if there are any
     # leaks - but we need to prevent it from circling on itself forever and entering an infinite loop
+    
+    # Strategy b: use th even-odd method to count in the grid we got how many cells "could be" in the area.
+    # Check if we need to subtract total length of pipe to get a good estimate
 
     print(f"Approximately {area}")
     return
