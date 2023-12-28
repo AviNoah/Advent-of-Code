@@ -193,9 +193,14 @@ def map_pipe_bounding_box():
 def part2():
     # Maybe the farthest point from S creates two corners of a rectangle allowing us to focus on one area
     # of the entire grid?
+    global pipe_grid
     bounding_box = map_pipe_bounding_box()
     r_max, r_min, c_max, c_min = bounding_box
+
+    main_loop_grid = [row[c_min:c_max] for row in pipe_grid[r_min:r_max]]
+
     print(*bounding_box)
+    print(main_loop_grid)
 
     pass
 
