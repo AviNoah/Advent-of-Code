@@ -43,7 +43,9 @@ class universe:
 
     def sum_pair_dists(self) -> int:
         # Return the sum of the minimal distances between galaxies:
-        return sum(self.pairs_dist())
+        # Since we are pairing each galaxy with each other, we are double counting
+        # Divide by two to fix this
+        return sum(self.pairs_dist()) // 2
 
     def expand(self):
         # Double any vertical or horizontal line that is completely devoid of galaxies.
