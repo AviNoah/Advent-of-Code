@@ -169,7 +169,7 @@ def part2():
     # This is obviously the slow way to do this
     # uni = uni.expand(1_000_000)
     uni_sum = uni.expand_optimized(1_000_000)
-    uni_sum = uni.expand_optimized(10)
+    uni_sum = uni.expand_optimized(2)
     print(f"After expanding sum is: {uni_sum}")
 
 
