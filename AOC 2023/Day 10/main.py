@@ -256,10 +256,10 @@ def flood(grid, row, col):
             grid[_row][_col] = None
 
             # Add neighbors to stack, if they had already been process, they will be skipped since they are None.
-            stack.append(_row + 1, _col)
-            stack.append(_row - 1, _col)
-            stack.append(_row, _col + 1)
-            stack.append(_row, _col - 1)
+            stack.append((_row + 1, _col))
+            stack.append((_row - 1, _col))
+            stack.append((_row, _col + 1))
+            stack.append((_row, _col - 1))
 
 
 def part2():
