@@ -253,6 +253,40 @@ def mark_squeeze_able_passthrough():
     """
     # TODO: Get all pipes that are in closed loop and check if they do not connect with a neighbour,
     # then set it and the neighbour as squeeze-able
+    global pipe_grid
+    copy_grid = pipe_grid[:]
+    copy_grid = [[p if p.is_in_closed_loop else None for p in row] for row in copy_grid]
+
+    row_len = len(copy_grid)
+    col_len = len(copy_grid[0])
+
+    def check_squeeze_ability(row, col) -> bool:
+        # Check if two pipes in a closed loop are next to each other and not connected.
+        checks = []
+
+        if row != row_len - 1:
+            checks.append((row + 1, col))
+        if row != 0:
+            checks.append((row - 1, col))
+        if col != col_len - 1:
+            checks.append((row, col + 1))
+        if col != 0:
+            checks.append((row - 1, col))
+
+        checks = filter(lambda pipe: pipe, checks)  # Remove Nones
+
+        if not checks:
+            return True  # Technically squeeze-able since nothing is behind it
+
+        return not all([copy_grid[row][col].do_connect(other) for other in checks])
+
+    for row in range(row_len):
+        for col in range(col_len):
+            if not copy_grid[row][col]:
+                continue  # Skip if None
+
+            copy_grid[row][col].is_squeeze_through = check_squeeze_ability(row, col)
+
     raise NotImplementedError
 
 
