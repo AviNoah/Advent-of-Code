@@ -39,6 +39,7 @@ class pipe:
         self.symbol: str = symbol
         self.type: str = pipe_types.get(symbol, "ground")
         self.is_in_closed_loop: bool = False
+        self.is_squeeze_through: bool = False
 
         # Set which directions the pipe CAN lead to
 
@@ -245,7 +246,14 @@ def flood(grid):
             grid[row][col] = None  # Passed
 
             if not tmp.is_in_closed_loop:
-                # Add neighbors to stack, if they had already been process, they will be skipped since they are None.
+                # Add neighbors to stack, if they had already been processed, they will be skipped since they are None.
+                stack.append((row + 1, col))
+                stack.append((row - 1, col))
+                stack.append((row, col + 1))
+                stack.append((row, col - 1))
+
+            if tmp.is_squeeze_through:
+                # Add neighbors to stack, if they had already been processed, they will be skipped since they are None.
                 stack.append((row + 1, col))
                 stack.append((row - 1, col))
                 stack.append((row, col + 1))
@@ -265,6 +273,8 @@ def flood(grid):
                 sub_stack.append((row, col - 1))
 
             # We only want this behavior to apply to other pipes in the closed loop
+            # if two have their backs to each other, mark them as None, as if there is no pipe there
+            # TODO: Mark pipes facing with their backs with the property is_squeeze_through
             sub_stack = filter(
                 lambda other: grid[other[0]][other[1]].is_in_closed_loop
                 if grid[other[0]][other[1]]
@@ -302,6 +312,7 @@ def part2():
 
     # Count how many False cells are left in the grid.
     area = count_falsies(main_loop_grid)
+    print(main_loop_grid)
     print(f"Area is: {area}")
 
     return
