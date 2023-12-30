@@ -264,7 +264,15 @@ def mark_squeeze_able_passthrough():
         if col != 0:
             checks.append((row, col - 1))
 
+        # Get pipe pointers
+        checks = [copy_grid[row][col] for row, col in checks]
+
         checks = filter(lambda pipe: pipe, checks)  # Remove Nones
+
+        if not checks:
+            return True  # Technically squeeze-able since nothing is behind it
+
+        checks = filter(lambda pipe: pipe.is_in_closed_loop, checks)
 
         if not checks:
             return True  # Technically squeeze-able since nothing is behind it
@@ -277,7 +285,6 @@ def mark_squeeze_able_passthrough():
                 continue  # Skip if None
 
             copy_grid[row][col].is_squeeze_through = check_squeeze_ability(row, col)
-            print(copy_grid[row][col])
 
 
 def flood(grid):
