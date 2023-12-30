@@ -113,6 +113,9 @@ class pipe:
 
     def do_connect(self, other) -> bool:
         # Return whether self and other can connected to each other (position is irrelevant)
+        if not isinstance(other, pipe):
+            return False
+
         valid_self_dirs = [key for key, value in self.directions.items() if value]
         # The reversed pipe of other shows what directions it accepts inputs from.
         valid_other_dirs = [key for key, value in other.directions.items() if not value]
