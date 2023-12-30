@@ -218,14 +218,12 @@ def flood(grid):
     # cell.is_in_closed_loop = False = not in the main loop,
     # cell = None = Flooded cell that was not in the main loop and was traveled through
 
-    # TODO: update logic to fit comment ^
-
     row_count = len(grid)
     col_count = len(grid[0])
 
     # Initial seed
     stack: list = []
-    
+
     # Add borders
     for row in range(row_count):
         stack.append((row, 0))
@@ -281,15 +279,13 @@ def flood(grid):
 
 
 def count_falsies(grid) -> int:
-    grid = [f for row in grid for f in row if f.is_in_closed_loop is False]
+    # Check if f is not None and if it is still considered not in a closed loop
+    grid = [f for row in grid for f in row if f and f.is_in_closed_loop is False]
     return len(grid)
 
 
 def part2():
     global pipe_grid
-
-    # TODO: the animal can squeeze between two pipes facing different directions, maybe
-    # reverse all pipes in the main loop and append travel paths to the stack
 
     # Mark main loop.
     main_loop_grid = pipe_grid[:]  # Do not destroy original
