@@ -49,22 +49,23 @@ class universe:
         # Double any vertical or horizontal line that is completely devoid of galaxies.
         # Return new resulting universe in a new object
         rows = len(self.universe)
-        cols = len(self.universe)
+        cols = len(self.universe[0])
 
         result = self.universe.copy()
 
         row = 0
         while row < rows:
             if all([result[row][col] == "." for col in range(cols)]):
-                result.insert(row, result[row])  # Double it
+                result.insert(row, result[row].copy())  # Double it
                 rows += 1  # Increase size
                 row += 1  # Skip double
             row += 1
 
         rows = len(result)
-        cols = len(result)
+        cols = len(result[0])
 
         col = 0
+        row = 0
         while col < cols:
             if all([result[row][col] == "." for row in range(rows)]):
                 [result[row].insert(col, ".") for row in range(rows)]  # Double it
