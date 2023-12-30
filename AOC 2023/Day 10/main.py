@@ -252,8 +252,6 @@ def mark_squeeze_able_passthrough():
 
             copy_grid[row][col].is_squeeze_through = check_squeeze_ability(row, col)
 
-    raise NotImplementedError
-
 
 def flood(grid):
     # Flood starts from borders of grid
