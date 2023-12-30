@@ -170,9 +170,6 @@ def part1():
 def part2():
     global lines
     uni: universe = universe.from_lines(lines)
-    print(f"Before expanding sum is: {uni.sum_pair_dists()}")
-    # This is obviously the slow way to do this
-    # uni = uni.expand(1_000_000)  # Slow way
     uni_sum = uni.expand_optimized(1_000_000)  # Optimized way
     print(f"After expanding sum is: {uni_sum}")
 
