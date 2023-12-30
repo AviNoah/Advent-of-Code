@@ -235,47 +235,54 @@ def mark_main_loop():
     return None
 
 
+def flood(grid, row, col):
+    # Flood starting from row col
+    # True = Pipe from main loop, False = not in the main loop, None = Flooded cell that was False
+    if grid[row][col] != False:
+        return  # Either flooded or a part of main loop, skip.
+
+    ...
+
+
 def part2():
     # Maybe the farthest point from S creates two corners of a rectangle allowing us to focus on one area
     # of the entire grid?
     global pipe_grid
     global marked_pipe_grid
 
-    # Strategy c (seems really good): use the marked_pipe_grid and a flood fill algorithm to find all outside
-    # cells, where to place though?
-
-    # Place sporadically - every few cells
-    # Place at every cell on the boarder that is marked False <- this seems better
-
-    mark_main_loop()
-    print(marked_pipe_grid)
-    return
-    bounding_box = map_pipe_bounding_box()
-    r_max, r_min, c_max, c_min = bounding_box
-
-    main_loop_grid = [row[c_min : c_max + 1] for row in pipe_grid[r_min : r_max + 1]]
-    main_loop_grid_symbols = [[p.symbol for p in row] for row in main_loop_grid]
-
-    area = len(main_loop_grid[0]) * len(main_loop_grid) - count_steps()
-
-    # Strategy: Use the even-odd method to check if a cell is trapped between an even amount of pipes,
+    # Strategy a: Use the even-odd method to check if a cell is trapped between an even amount of pipes,
     # although we must check for leaks, therefore we should use a recursive travel to check if there are any
     # leaks - but we need to prevent it from circling on itself forever and entering an infinite loop
 
     # Strategy b: use th even-odd method to count in the grid we got how many cells "could be" in the area.
     # Check if we need to subtract total length of pipe to get a good estimate
 
-    print(f"Approximately {area}")
-    return
-    for row in main_loop_grid_symbols:
-        print(*row)
+    # Strategy c: (seems really good): use the marked_pipe_grid and a flood fill algorithm to find all outside
+    # cells, where to place though?
+
+    # Place sporadically - every few cells
+    # Place at every cell on the boarder that is marked False <- this seems better
+
+    # Mark main loop.
+    mark_main_loop()
+    bounding_box = map_pipe_bounding_box()
+    r_max, r_min, c_max, c_min = bounding_box
+    # Get relevant bounding box of pipe loop
+    main_loop_grid = [
+        row[c_min : c_max + 1] for row in marked_pipe_grid[r_min : r_max + 1]
+    ]
+    for row in range(0, r_max - r_min):
+        flood(main_loop_grid, row, 0)
+
+    for col in range(0, c_max - c_min):
+        flood(main_loop_grid, 0, col)
+
+    # Count how many False cells are left in the grid.
+    main_loop_grid = [f for row in mark_main_loop for col in row if f is False]
+    area = len(main_loop_grid)
+    print(f"Area is: {area}")
 
     return
-
-    print(*bounding_box)
-    print(main_loop_grid_symbols)
-
-    pass
 
 
 def main():
