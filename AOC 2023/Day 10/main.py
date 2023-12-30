@@ -254,11 +254,11 @@ def flood(grid):
 
             # An easy way to check if two pipes are not facing each other is to check if they do face each other
             sub_stack = list()
-            if row != row_count:
+            if row != row_count - 1:
                 sub_stack.append((row + 1, col))
             if row != 0:
                 sub_stack.append((row - 1, col))
-            if col != col_count:
+            if col != col_count - 1:
                 sub_stack.append((row, col + 1))
             if col != 0:
                 sub_stack.append((row, col - 1))
