@@ -39,6 +39,7 @@ class pipe:
         global cardinal_directions
         self.symbol: str = symbol
         self.type: str = pipe_types.get(symbol, "ground")
+        self.is_in_closed_loop: bool = False
 
         # Set which directions the pipe CAN lead to
 
@@ -102,6 +103,8 @@ class pipe:
                 return None
 
             row, col, from_dir = travel_path
+
+            pipe_grid[row][col].is_in_closed_loop = True
             marked_pipe_grid[row][col] = True
             tmp = pipe_at(row, col)
 
@@ -193,6 +196,7 @@ def mark_main_loop():
     ]
     # Return the bounds of the pipe loop
     s_row, s_col = find_S_coordinates()
+    pipe_grid[s_row][s_col].is_in_closed_loop = True
     marked_pipe_grid[s_row][s_col] = True
 
     # Check from every direction of S
