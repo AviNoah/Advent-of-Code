@@ -81,20 +81,25 @@ class universe:
 
         return universe(result)
 
-    def pair_dist_optimized(self, rows, cols) -> int:
-        ...
-
-    def expand_optimized(self, value):
-        # An optimized solution that increases empty rows and cols by value.
-        value = max(value - 1, 1)
-
-        # Assume we have N rows that are just spaces, this will add N*value veritcal dist
+    def pair_dist_optimized(self, rows: int, cols: int, value: int) -> int:
+        # Assume we have N rows that are just spaces, this will add N*value vertical dist
         # Notice N does not effect the number of cols that are just spaces, M.
         # The horizontal dist will be added M*value to it
 
-        # Now if we check for the amount of empty rows and cols between every 2 galaxies, and
-        # get N and M and the galaxies positions, we can calculate for very large values of value
-        # very easily
+        results = list()
+        for i, galaxy1 in enumerate(self.get_galaxies()):
+            for j, galaxy2 in enumerate(self.get_galaxies()):
+                if i == j:
+                    continue  # Skip self
+                base_dist = universe.min_pair_dist(galaxy1, galaxy2)
+                # Calculate new dist in expanded universe
+                results.append(base_dist + rows * value + cols + value)
+
+        return results
+
+    def sum_pair_dists_optimized(self, value):
+        # An optimized solution that increases empty rows and cols by value.
+        value = max(value - 1, 1)
 
         raise NotImplementedError
 
@@ -102,6 +107,11 @@ class universe:
         self, galaxy1: tuple[int, int], galaxy2: tuple[int, int]
     ) -> tuple[int, int]:
         # Return a tuple containing count of empty rows and count of empty cols between two galaxies
+
+        # Now if we check for the amount of empty rows and cols between every 2 galaxies, and
+        # get N and M and the galaxies positions, we can calculate for very large values of value
+        # very easily
+
         r_min, r_max = min(galaxy1[0], galaxy2[0]), max(galaxy1[0], galaxy2[0])
         c_min, c_max = min(galaxy1[1], galaxy2[1]), max(galaxy1[1], galaxy2[1])
 
