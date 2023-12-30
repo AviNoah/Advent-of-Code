@@ -217,9 +217,9 @@ def flood(grid):
     # cell.is_in_closed_loop = True = Pipe from main loop,
     # cell.is_in_closed_loop = False = not in the main loop,
     # cell = None = Flooded cell that was not in the main loop
-    
+
     # TODO: update logic to fit comment ^
-    
+
     if grid[row][col] != False:
         return  # Either flooded or a part of main loop, skip.
 
@@ -237,18 +237,17 @@ def flood(grid):
         stack.append((col_count - 1, col))
 
     while stack:
-        _row, _col = stack.pop()
+        row, col = stack.pop()
 
-        if (0 <= _row < row_count and 0 <= _col < col_count) and grid[_row][
-            _col
-        ] == False:
-            grid[_row][_col] = None
+        if (0 <= row < row_count and 0 <= col < col_count):
+            if grid[row][col] and grid[row, col]:
+                grid[row][col] = None
 
-            # Add neighbors to stack, if they had already been process, they will be skipped since they are None.
-            stack.append((_row + 1, _col))
-            stack.append((_row - 1, _col))
-            stack.append((_row, _col + 1))
-            stack.append((_row, _col - 1))
+                # Add neighbors to stack, if they had already been process, they will be skipped since they are None.
+                stack.append((row + 1, col))
+                stack.append((row - 1, col))
+                stack.append((row, col + 1))
+                stack.append((row, col - 1))
 
 
 def count_falsies(grid) -> int:
