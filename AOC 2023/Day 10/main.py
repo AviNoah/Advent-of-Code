@@ -112,7 +112,7 @@ class pipe:
         symbol: str = pipe_types_reversed.get(self.symbol)
         return pipe(symbol)
 
-    def do_connect(self, other) -> bool:
+    def does_connect(self, other) -> bool:
         # Return whether self and other can connected to each other (position is irrelevant)
         if not isinstance(other, pipe):
             return False
@@ -278,7 +278,7 @@ def mark_squeeze_able_passthrough():
         if not checks:
             return True  # Technically squeeze-able since nothing is behind it
 
-        return not all([copy_grid[row][col].do_connect(other) for other in checks])
+        return not all([copy_grid[row][col].does_connect(other) for other in checks])
 
     for row in range(row_len):
         for col in range(col_len):
