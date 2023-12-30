@@ -243,6 +243,7 @@ def flood(grid):
             if not grid[row][col]:
                 continue
 
+            tmp: pipe = grid[row][col]
             grid[row][col] = None  # Passed
 
             if not grid[row][col].is_in_closed_loop:
@@ -255,7 +256,29 @@ def flood(grid):
             # Handle special case where animal can squeeze between pipes facing different directions
 
             # An easy way to check if two pipes are not facing each other is to check if they do face each other
-            ...
+            sub_stack = list()
+            sub_stack.append((row + 1, col))
+            sub_stack.append((row - 1, col))
+            sub_stack.append((row, col + 1))
+            sub_stack.append((row, col - 1))
+
+            # We only want this behavior to apply to other pipes in the closed loop
+            sub_stack = filter(
+                lambda other: other.is_in_closed_loop if other else False, sub_stack
+            )
+
+            if not sub_stack:
+                continue  # No possible pipes left
+
+            # Apply to any pipes surrounding the pipe that are NOT connected to it
+            sub_stack = filter(
+                lambda other: not tmp.do_connect(grid[row][col]), sub_stack
+            )
+
+            if not sub_stack:
+                continue  # No possible pipes left
+
+            stack.extend(sub_stack)
 
 
 def count_falsies(grid) -> int:
