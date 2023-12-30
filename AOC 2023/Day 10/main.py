@@ -359,6 +359,16 @@ def part2():
     main_loop_grid = pipe_grid[:]  # Do not destroy original
 
     # TODO: Must rethink strategy, this sets pipes that might be adjacent to one another but still close a loop
+
+    # Strategy: Artificially increase pipe loop size:
+    # when ever two pipes have their backs to each other, add a ground tile between them,
+    # and then copy all the pipes below and above i.e:
+    """
+    r--JL--7    r--J L--7    r--J.L--7
+    |......| => |... ...| => |.......| # Copy the element left to the cell
+    L------J    L--- ---J    L-------J
+    """
+
     flood(main_loop_grid)
 
     print_grid(main_loop_grid)
