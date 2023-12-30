@@ -296,7 +296,7 @@ def part2():
         flood(main_loop_grid, 0, col)
 
     # Count how many False cells are left in the grid.
-    main_loop_grid = [f for row in main_loop_grid for col in row if f is False]
+    main_loop_grid = [f for row in main_loop_grid for f in row if f is False]
     area = len(main_loop_grid)
     print(f"Area is: {area}")
 
