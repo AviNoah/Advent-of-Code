@@ -161,9 +161,9 @@ def figure_s_shape():
     checks = []
 
     if row != row_len - 1:
-        checks.append((row + 1, col, "north"))
+        checks.append((row + 1, col, "south"))
     if row != 0:
-        checks.append((row - 1, col, "south"))
+        checks.append((row - 1, col, "north"))
     if col != col_len - 1:
         checks.append((row, col + 1, "east"))
     if col != 0:
