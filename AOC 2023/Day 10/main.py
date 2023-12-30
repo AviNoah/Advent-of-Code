@@ -220,9 +220,6 @@ def flood(grid):
 
     # TODO: update logic to fit comment ^
 
-    if grid[row][col] != False:
-        return  # Either flooded or a part of main loop, skip.
-
     row_count = len(grid)
     col_count = len(grid[0])
 
