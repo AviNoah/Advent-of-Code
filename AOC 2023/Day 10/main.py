@@ -236,7 +236,7 @@ def mark_main_loop():
 
 
 def flood(grid):
-    # Flood starting from row col
+    # Flood starts from borders of grid
     # True = Pipe from main loop, False = not in the main loop, None = Flooded cell that was False
     if grid[row][col] != False:
         return  # Either flooded or a part of main loop, skip.
