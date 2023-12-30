@@ -122,6 +122,9 @@ class pipe:
         valid_other_dirs = [key for key, value in other.directions.items() if not value]
         return any([o in valid_self_dirs for o in valid_other_dirs])
 
+    def __repr__(self) -> str:
+        return "#"
+
 
 def pipe_at(row, col) -> pipe | None:
     global pipe_grid
@@ -339,6 +342,13 @@ def count_falsies(grid) -> int:
     return len(grid)
 
 
+def print_grid(grid):
+    print_grid = [[cell if cell else " " for cell in row] for row in grid]
+
+    for row in print_grid:
+        print(*row)
+
+
 def part2():
     global pipe_grid
 
@@ -349,8 +359,8 @@ def part2():
     main_loop_grid = pipe_grid[:]  # Do not destroy original
 
     flood(main_loop_grid)
-    for row in main_loop_grid:
-        print(*row)
+
+    print_grid(main_loop_grid)
 
     # Count how many False cells are left in the grid.
     area = count_falsies(main_loop_grid)
