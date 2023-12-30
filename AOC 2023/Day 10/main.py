@@ -172,7 +172,7 @@ def figure_s_shape():
     opposites = {"south": "north", "west": "east", "east": "west", "north": "south"}
 
     for row, col, dir in checks:
-        if pipe_grid[row][col].directions[opposites[dir]]:
+        if not pipe_grid[row][col].directions[opposites[dir]]:
             s_pipe.directions[dir] = False
 
 
