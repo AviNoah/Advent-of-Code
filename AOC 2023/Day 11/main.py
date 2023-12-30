@@ -100,10 +100,8 @@ class universe:
 def part1():
     global lines
     uni: universe = universe.from_lines(lines)
-    print(uni)
     print(f"Before expanding sum is: {uni.sum_pair_dists()}")
     uni = uni.expand()
-    print(uni)
     print(f"After expanding sum is: {uni.sum_pair_dists()}")
 
 
