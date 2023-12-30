@@ -51,6 +51,7 @@ class universe:
     def expand(self, value):
         # Expand by value any vertical or horizontal line that is completely devoid of galaxies.
         # Return new resulting universe in a new object
+        value = max(value - 1, 1)
         rows = len(self.universe)
         cols = len(self.universe[0])
 
@@ -103,7 +104,7 @@ def part1():
     global lines
     uni: universe = universe.from_lines(lines)
     print(f"Before expanding sum is: {uni.sum_pair_dists()}")
-    uni = uni.expand(10)
+    uni = uni.expand(9)
     print(f"After expanding sum is: {uni.sum_pair_dists()}")
 
 
