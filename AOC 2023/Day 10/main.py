@@ -244,7 +244,7 @@ def part2():
     global marked_pipe_grid
 
     # TODO: the animal can squeeze between two pipes facing different directions, maybe
-    # add a number to each pipe type that defines what directions their backs face
+    # reverse all pipes in the main loop and append travel paths to the stack
 
     # Mark main loop.
     main_loop_grid = marked_pipe_grid[:]
