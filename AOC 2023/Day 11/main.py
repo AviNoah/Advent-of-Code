@@ -32,7 +32,14 @@ class universe:
 
     def pairs_dist(self) -> list:
         # Given a list of galaxies' positions, return the minimal path between each of them
-        ...
+        results = list()
+        for i, galaxy1 in enumerate(self.get_galaxies):
+            for j, galaxy2 in enumerate(self.get_galaxies):
+                if i == j:
+                    continue  # Skip self
+                results.append(universe.min_pair_dist(galaxy1, galaxy2))
+
+        return results
 
     def sum_pair_dists(self) -> int:
         # Return the sum of the minimal distances between galaxies:
