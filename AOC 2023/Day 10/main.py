@@ -261,7 +261,10 @@ def flood(grid):
 
             # We only want this behavior to apply to other pipes in the closed loop
             sub_stack = filter(
-                lambda other: other.is_in_closed_loop if other else False, sub_stack
+                lambda other: grid[other[0]][other[1]].is_in_closed_loop
+                if grid[other[0]][other[1]]
+                else False,
+                sub_stack,
             )
 
             if not sub_stack:
@@ -269,7 +272,7 @@ def flood(grid):
 
             # Apply to any pipes surrounding the pipe that are NOT connected to it
             sub_stack = filter(
-                lambda other: not tmp.do_connect(grid[row][col]), sub_stack
+                lambda other: not tmp.do_connect(grid[other[0]][other[1]]), sub_stack
             )
 
             if not sub_stack:
