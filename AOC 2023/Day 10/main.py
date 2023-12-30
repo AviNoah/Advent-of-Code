@@ -235,7 +235,7 @@ def mark_main_loop():
     return None
 
 
-def flood(grid, row, col):
+def flood(grid):
     # Flood starting from row col
     # True = Pipe from main loop, False = not in the main loop, None = Flooded cell that was False
     if grid[row][col] != False:
@@ -245,7 +245,14 @@ def flood(grid, row, col):
     col_count = len(grid[0])
 
     # Initial seed
-    stack: list = [(row, col)]
+    stack: list = []
+    for row in range(row_count):
+        stack.append((row, 0))
+        stack.append((row, row_count - 1))
+
+    for col in range(col_count):
+        stack.append((0, col))
+        stack.append((col_count - 1, col))
 
     while stack:
         _row, _col = stack.pop()
@@ -268,32 +275,10 @@ def part2():
     global pipe_grid
     global marked_pipe_grid
 
-    # Strategy a: Use the even-odd method to check if a cell is trapped between an even amount of pipes,
-    # although we must check for leaks, therefore we should use a recursive travel to check if there are any
-    # leaks - but we need to prevent it from circling on itself forever and entering an infinite loop
-
-    # Strategy b: use th even-odd method to count in the grid we got how many cells "could be" in the area.
-    # Check if we need to subtract total length of pipe to get a good estimate
-
-    # Strategy c: (seems really good): use the marked_pipe_grid and a flood fill algorithm to find all outside
-    # cells, where to place though?
-
-    # Place sporadically - every few cells
-    # Place at every cell on the boarder that is marked False <- this seems better
-
     # Mark main loop.
-    mark_main_loop()
-    bounding_box = map_pipe_bounding_box()
-    r_max, r_min, c_max, c_min = bounding_box
-    # Get relevant bounding box of pipe loop
-    main_loop_grid = [
-        row[c_min : c_max + 1] for row in marked_pipe_grid[r_min : r_max + 1]
-    ]
-    for row in range(0, r_max - r_min):
-        flood(main_loop_grid, row, 0)
+    main_loop_grid = marked_pipe_grid[:]
 
-    for col in range(0, c_max - c_min):
-        flood(main_loop_grid, 0, col)
+    flood(main_loop_grid)
 
     # Count how many False cells are left in the grid.
     main_loop_grid = [f for row in main_loop_grid for f in row if f is False]
