@@ -214,7 +214,12 @@ def mark_main_loop():
 
 def flood(grid):
     # Flood starts from borders of grid
-    # True = Pipe from main loop, False = not in the main loop, None = Flooded cell that was False
+    # cell.is_in_closed_loop = True = Pipe from main loop,
+    # cell.is_in_closed_loop = False = not in the main loop,
+    # cell = None = Flooded cell that was not in the main loop
+    
+    # TODO: update logic to fit comment ^
+    
     if grid[row][col] != False:
         return  # Either flooded or a part of main loop, skip.
 
@@ -246,6 +251,11 @@ def flood(grid):
             stack.append((_row, _col - 1))
 
 
+def count_falsies(grid) -> int:
+    grid = [f for row in grid for f in row if f.is_in_closed_loop is False]
+    return len(grid)
+
+
 def part2():
     global pipe_grid
 
@@ -253,13 +263,12 @@ def part2():
     # reverse all pipes in the main loop and append travel paths to the stack
 
     # Mark main loop.
-    main_loop_grid = pipe_grid[:]
+    main_loop_grid = pipe_grid[:]  # Do not destroy original
 
     flood(main_loop_grid)
 
     # Count how many False cells are left in the grid.
-    main_loop_grid = [f for row in main_loop_grid for f in row if f is False]
-    area = len(main_loop_grid)
+    area = count_falsies(main_loop_grid)
     print(f"Area is: {area}")
 
     return
