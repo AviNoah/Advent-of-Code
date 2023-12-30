@@ -97,8 +97,9 @@ class universe:
 
         return results
 
-    def expand_optimized(self, value):
+    def expand_optimized(self, value) -> int:
         # An optimized solution that increases empty rows and cols by value.
+        # Return the sum of the values instead of returning a new universe object.
         value = max(value - 1, 1)
 
         raise NotImplementedError
