@@ -368,6 +368,12 @@ def part2():
     |......| => |... ...| => |.......| # Copy the element left to the cell
     L------J    L--- ---J    L-------J
     """
+    # problem: if this happens it won't work as intended:
+    """
+    ||      |.|
+    JL =>   .m. m means missing pipe!
+            J.L
+    """
 
     flood(main_loop_grid)
 
