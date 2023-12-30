@@ -17,7 +17,7 @@ class universe:
     def get_galaxies(self) -> list[tuple[int, int]]:
         # Return a list of galaxies locations
         rows = len(self.universe)
-        cols = len(self.universe)
+        cols = len(self.universe[0])
 
         result = [
             (row, col)
@@ -45,7 +45,8 @@ class universe:
         # Return the sum of the minimal distances between galaxies:
         # Since we are pairing each galaxy with each other, we are double counting
         # Divide by two to fix this
-        return sum(self.pairs_dist()) // 2
+        pairs: list = self.pairs_dist()
+        return sum(pairs) // 2
 
     def expand(self):
         # Double any vertical or horizontal line that is completely devoid of galaxies.
