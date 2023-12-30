@@ -18,6 +18,17 @@ pipe_types: dict = {
     "S": "east-west-north-south",  # Unknown pipe
 }
 
+pipe_types_reversed: dict = {
+    "|": "-",
+    "-": "|",
+    "L": "7",
+    "J": "F",
+    "7": "L",
+    "F": "J",
+    ".": ".",  # No pipe
+    "S": "S",  #  Keep as S  # TODO: Maybe figure out what S needs to be
+}
+
 cardinal_directions = ["south", "north", "east", "west"]
 pipe_grid = None
 marked_pipe_grid = None
@@ -34,7 +45,7 @@ class pipe:
         # A list of valid cardinals
         cardinals: list = self.type.split("-")
         if len(cardinals) == 1:
-            cardinals: list = list()
+            cardinals: list = list()  # Empty list
 
         self.directions = dict.fromkeys(cardinal_directions, False)
         for key in cardinals:
@@ -93,6 +104,12 @@ class pipe:
             row, col, from_dir = travel_path
             marked_pipe_grid[row][col] = True
             tmp = pipe_at(row, col)
+
+    def reverse(self):
+        # Reverse type of pipe
+        global pipe_types_reversed
+        symbol: str = pipe_types_reversed.get(self.symbol)
+        return pipe(symbol)
 
 
 def pipe_at(row, col) -> pipe | None:
@@ -223,10 +240,11 @@ def flood(grid):
 
 
 def part2():
-    # Maybe the farthest point from S creates two corners of a rectangle allowing us to focus on one area
-    # of the entire grid?
     global pipe_grid
     global marked_pipe_grid
+
+    # TODO: the animal can squeeze between two pipes facing different directions, maybe
+    # add a number to each pipe type that defines what directions their backs face
 
     # Mark main loop.
     main_loop_grid = marked_pipe_grid[:]
