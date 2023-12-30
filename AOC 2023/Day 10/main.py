@@ -195,6 +195,7 @@ def mark_main_loop():
     # Check from every direction of S
     travel_paths = list(
         [
+            # TODO: make sure S is not on a border, if it is, do not allow out of index
             (s_row - 1, s_col, "south"),
             (s_row + 1, s_col, "north"),
             (s_row, s_col - 1, "west"),
