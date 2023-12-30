@@ -81,6 +81,11 @@ class universe:
 
         return universe(result)
 
+    def expand_optimized(self, value):
+        # An optimized solution that increases empty rows and cols by value.
+        value = max(value - 1, 1)
+        raise NotImplementedError
+
     def __str__(self) -> str:
         string = ""
         for row in self.universe:
@@ -104,12 +109,18 @@ def part1():
     global lines
     uni: universe = universe.from_lines(lines)
     print(f"Before expanding sum is: {uni.sum_pair_dists()}")
-    uni = uni.expand(9)
+    uni = uni.expand(2)
     print(f"After expanding sum is: {uni.sum_pair_dists()}")
 
 
 def part2():
-    pass
+    global lines
+    uni: universe = universe.from_lines(lines)
+    print(f"Before expanding sum is: {uni.sum_pair_dists()}")
+    # This is obviously the slow way to do this
+    uni = uni.expand(1_000_000)
+    uni = uni.expand_optimized(1_000_000)
+    print(f"After expanding sum is: {uni.sum_pair_dists()}")
 
 
 def main():
