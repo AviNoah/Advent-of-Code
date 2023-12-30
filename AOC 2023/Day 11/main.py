@@ -84,6 +84,15 @@ class universe:
     def expand_optimized(self, value):
         # An optimized solution that increases empty rows and cols by value.
         value = max(value - 1, 1)
+
+        # Assume we have N rows that are just spaces, this will add N*value veritcal dist
+        # Notice N does not effect the number of cols that are just spaces, M.
+        # The horizontal dist will be added M*value to it
+
+        # Now if we check for the amount of empty rows and cols between every 2 galaxies, and
+        # get N and M and the galaxies positions, we can calculate for very large values of value
+        # very easily
+
         raise NotImplementedError
 
     def __str__(self) -> str:
