@@ -101,6 +101,8 @@ class universe:
     def expand_optimized(self, value) -> int:
         # An optimized solution that increases empty rows and cols by value.
         # Return the sum of the values instead of returning a new universe object.
+
+        # Times value means having value - 1 more copies of the object
         value = max(value - 1, 1)
         pairs: list = self.pair_dist_optimized(value)
         # Since we are double counting, divide by 2
@@ -165,9 +167,10 @@ def part2():
     uni: universe = universe.from_lines(lines)
     print(f"Before expanding sum is: {uni.sum_pair_dists()}")
     # This is obviously the slow way to do this
-    uni = uni.expand(1_000_000)
-    uni = uni.expand_optimized(1_000_000)
-    print(f"After expanding sum is: {uni.sum_pair_dists()}")
+    # uni = uni.expand(1_000_000)
+    uni_sum = uni.expand_optimized(1_000_000)
+    uni_sum = uni.expand_optimized(10)
+    print(f"After expanding sum is: {uni_sum}")
 
 
 def main():
