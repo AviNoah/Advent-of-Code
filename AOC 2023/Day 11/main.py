@@ -94,7 +94,7 @@ class universe:
                 base_dist = universe.min_pair_dist(galaxy1, galaxy2)
                 rows, cols = self.count_empty_rows_and_cols(galaxy1, galaxy2)
                 # Calculate new dist in expanded universe
-                results.append(base_dist + rows * value + cols + value)
+                results.append(base_dist + rows * value + cols * value)
 
         return results
 
