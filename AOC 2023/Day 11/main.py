@@ -84,7 +84,7 @@ class universe:
     @staticmethod
     def from_lines(lines: list):
         # Return a universe object from lines
-        lines = [line.replace("\n", "").split() for line in lines]
+        lines = [list(line.replace("\n", "")) for line in lines]
         return universe(lines)
 
     @staticmethod
@@ -96,6 +96,8 @@ class universe:
 def part1():
     global lines
     uni: universe = universe.from_lines(lines)
+    print(uni)
+    uni = uni.expand()
     print(uni)
 
 
