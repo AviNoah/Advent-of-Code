@@ -214,6 +214,48 @@ def mark_main_loop():
     return None
 
 
+def mark_squeeze_able_passthrough():
+    # Mark pipes in the original grid where an animal can squeeze through them
+    """
+    # An easy way to check if two pipes are not facing each other is to check if they do face each other
+    sub_stack = list()
+    if row != row_count - 1:
+        sub_stack.append((row + 1, col))
+    if row != 0:
+        sub_stack.append((row - 1, col))
+    if col != col_count - 1:
+        sub_stack.append((row, col + 1))
+    if col != 0:
+        sub_stack.append((row, col - 1))
+
+    # We only want this behavior to apply to other pipes in the closed loop
+    # if two have their backs to each other, mark them as None, as if there is no pipe there
+    # TODO: Mark pipes facing with their backs with the property is_squeeze_through
+    sub_stack = filter(
+        lambda other: grid[other[0]][other[1]].is_in_closed_loop
+        if grid[other[0]][other[1]]
+        else False,
+        sub_stack,
+    )
+
+    if not sub_stack:
+        continue  # No possible pipes left
+
+    # Apply to any pipes surrounding the pipe that are NOT connected to it
+    sub_stack = filter(
+        lambda other: not tmp.do_connect(grid[other[0]][other[1]]), sub_stack
+    )
+
+    if not sub_stack:
+        continue  # No possible pipes left
+
+    stack.extend(list(sub_stack))
+    """
+    # TODO: Get all pipes that are in closed loop and check if they do not connect with a neighbour,
+    # then set it and the neighbour as squeeze-able
+    raise NotImplementedError
+
+
 def flood(grid):
     # Flood starts from borders of grid
     # cell.is_in_closed_loop = True = Pipe from main loop,
@@ -261,40 +303,6 @@ def flood(grid):
 
             # Handle special case where animal can squeeze between pipes facing different directions
 
-            # An easy way to check if two pipes are not facing each other is to check if they do face each other
-            sub_stack = list()
-            if row != row_count - 1:
-                sub_stack.append((row + 1, col))
-            if row != 0:
-                sub_stack.append((row - 1, col))
-            if col != col_count - 1:
-                sub_stack.append((row, col + 1))
-            if col != 0:
-                sub_stack.append((row, col - 1))
-
-            # We only want this behavior to apply to other pipes in the closed loop
-            # if two have their backs to each other, mark them as None, as if there is no pipe there
-            # TODO: Mark pipes facing with their backs with the property is_squeeze_through
-            sub_stack = filter(
-                lambda other: grid[other[0]][other[1]].is_in_closed_loop
-                if grid[other[0]][other[1]]
-                else False,
-                sub_stack,
-            )
-
-            if not sub_stack:
-                continue  # No possible pipes left
-
-            # Apply to any pipes surrounding the pipe that are NOT connected to it
-            sub_stack = filter(
-                lambda other: not tmp.do_connect(grid[other[0]][other[1]]), sub_stack
-            )
-
-            if not sub_stack:
-                continue  # No possible pipes left
-
-            stack.extend(list(sub_stack))
-
 
 def count_falsies(grid) -> int:
     # Check if f is not None and if it is still considered not in a closed loop
@@ -306,6 +314,8 @@ def part2():
     global pipe_grid
 
     # Mark main loop.
+    mark_main_loop()
+    mark_squeeze_able_passthrough()
     main_loop_grid = pipe_grid[:]  # Do not destroy original
 
     flood(main_loop_grid)
