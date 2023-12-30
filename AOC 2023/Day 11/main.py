@@ -97,7 +97,7 @@ class universe:
 
         return results
 
-    def sum_pair_dists_optimized(self, value):
+    def expand_optimized(self, value):
         # An optimized solution that increases empty rows and cols by value.
         value = max(value - 1, 1)
 
