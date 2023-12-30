@@ -169,8 +169,10 @@ def figure_s_shape():
     if col != 0:
         checks.append((row, col - 1, "west"))
 
+    opposites = {"south": "north", "west": "east", "east": "west", "north": "south"}
+
     for row, col, dir in checks:
-        if not s_pipe.does_connect(pipe_grid[row][col]):
+        if pipe_grid[row][col].directions[opposites[dir]]:
             s_pipe.directions[dir] = False
 
 
@@ -242,6 +244,8 @@ def mark_main_loop():
 def mark_squeeze_able_passthrough():
     # Mark pipes in the original grid where an animal can squeeze through them
     global pipe_grid
+    figure_s_shape()
+
     copy_grid = [[p if p.is_in_closed_loop else None for p in row] for row in pipe_grid]
 
     row_len = len(copy_grid)
