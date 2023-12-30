@@ -374,6 +374,7 @@ def part2():
     JL =>   .m. m means missing pipe!
             J.L
     """
+    # problem 2: this will definitely increase the area
 
     flood(main_loop_grid)
 
