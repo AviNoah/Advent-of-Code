@@ -38,6 +38,12 @@ class universe:
         ...
 
     @staticmethod
+    def from_lines(lines: list):
+        # Return a universe object from lines
+        lines = [line.replace("\n", "") for line in lines]
+        return universe(lines)
+
+    @staticmethod
     def min_pair_dist(galaxy1: tuple[int, int], galaxy2: tuple[int, int]) -> int:
         # Without going diagonally (you can pass through galaxies).
         return abs(galaxy2[0] - galaxy1[0]) + abs(galaxy2[1] - galaxy1[1])
