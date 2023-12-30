@@ -103,7 +103,7 @@ class pipe:
 
             row, col, from_dir = travel_path
 
-            pipe_grid[row][col].is_in_closed_loop = True
+            tmp.is_in_closed_loop = True
             tmp = pipe_at(row, col)
 
     def reverse(self):
@@ -244,8 +244,6 @@ def mark_main_loop():
 def mark_squeeze_able_passthrough():
     # Mark pipes in the original grid where an animal can squeeze through them
     global pipe_grid
-    figure_s_shape()
-
     copy_grid = [[p if p.is_in_closed_loop else None for p in row] for row in pipe_grid]
 
     row_len = len(copy_grid)
@@ -332,6 +330,7 @@ def flood(grid):
                 stack.append((row - 1, col))
                 stack.append((row, col + 1))
                 stack.append((row, col - 1))
+                grid[row][col] = None  # Consider this an empty passable space
 
 
 def count_falsies(grid) -> int:
@@ -344,6 +343,7 @@ def part2():
     global pipe_grid
 
     # Mark main loop.
+    figure_s_shape()
     mark_main_loop()
     mark_squeeze_able_passthrough()
     main_loop_grid = pipe_grid[:]  # Do not destroy original
