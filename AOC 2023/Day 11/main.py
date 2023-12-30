@@ -81,7 +81,7 @@ class universe:
 
         return universe(result)
 
-    def pair_dist_optimized(self, value: int) -> int:
+    def pair_dist_optimized(self, value: int) -> list:
         # Assume we have N rows that are just spaces, this will add N*value vertical dist
         # Notice N does not effect the number of cols that are just spaces, M.
         # The horizontal dist will be added M*value to it
@@ -102,6 +102,7 @@ class universe:
         # An optimized solution that increases empty rows and cols by value.
         # Return the sum of the values instead of returning a new universe object.
         value = max(value - 1, 1)
+        pairs: list = self.pair_dist_optimized(value)
 
         raise NotImplementedError
 
