@@ -243,7 +243,7 @@ def flood(grid):
             tmp: pipe = grid[row][col]
             grid[row][col] = None  # Passed
 
-            if not grid[row][col].is_in_closed_loop:
+            if not tmp.is_in_closed_loop:
                 # Add neighbors to stack, if they had already been process, they will be skipped since they are None.
                 stack.append((row + 1, col))
                 stack.append((row - 1, col))
