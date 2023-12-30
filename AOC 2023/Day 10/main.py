@@ -316,7 +316,6 @@ def flood(grid):
                 continue
 
             tmp: pipe = grid[row][col]
-            grid[row][col] = None  # Passed
 
             if not tmp.is_in_closed_loop:
                 # Add neighbors to stack, if they had already been processed, they will be skipped since they are None.
@@ -324,6 +323,7 @@ def flood(grid):
                 stack.append((row - 1, col))
                 stack.append((row, col + 1))
                 stack.append((row, col - 1))
+                grid[row][col] = None  # Passed
 
             # Handle special case where animal can squeeze between pipes facing different directions
             if tmp.is_squeeze_through:
@@ -349,6 +349,8 @@ def part2():
     main_loop_grid = pipe_grid[:]  # Do not destroy original
 
     flood(main_loop_grid)
+    for row in main_loop_grid:
+        print(*row)
 
     # Count how many False cells are left in the grid.
     area = count_falsies(main_loop_grid)
