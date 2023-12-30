@@ -87,10 +87,13 @@ class universe:
         # The horizontal dist will be added M*value to it
 
         galaxies = self.get_galaxies()
+        galaxies_len = len(galaxies)
 
         results = list()
+        # To prevent double counting and executing way more than necessary
         for i, galaxy1 in enumerate(galaxies):
-            for j, galaxy2 in enumerate(galaxies):
+            for j in range(i, galaxies_len):
+                galaxy2 = galaxies[j]
                 if i == j:
                     continue  # Skip self
                 base_dist = universe.min_pair_dist(galaxy1, galaxy2)
@@ -107,8 +110,8 @@ class universe:
         # Times value means having value - 1 more copies of the object
         value = max(value - 1, 1)
         pairs: list = self.pair_dist_optimized(value)
-        # Since we are double counting, divide by 2
-        return sum(pairs) // 2
+
+        return sum(pairs)
 
     def count_empty_rows_and_cols(
         self, galaxy1: tuple[int, int], galaxy2: tuple[int, int]
