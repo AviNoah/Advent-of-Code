@@ -81,7 +81,7 @@ class universe:
 
         return universe(result)
 
-    def pair_dist_optimized(self, rows: int, cols: int, value: int) -> int:
+    def pair_dist_optimized(self, value: int) -> int:
         # Assume we have N rows that are just spaces, this will add N*value vertical dist
         # Notice N does not effect the number of cols that are just spaces, M.
         # The horizontal dist will be added M*value to it
@@ -92,6 +92,7 @@ class universe:
                 if i == j:
                     continue  # Skip self
                 base_dist = universe.min_pair_dist(galaxy1, galaxy2)
+                rows, cols = self.count_empty_rows_and_cols(galaxy1, galaxy2)
                 # Calculate new dist in expanded universe
                 results.append(base_dist + rows * value + cols + value)
 
