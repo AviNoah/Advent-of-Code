@@ -225,6 +225,8 @@ def flood(grid):
 
     # Initial seed
     stack: list = []
+    
+    # Add borders
     for row in range(row_count):
         stack.append((row, 0))
         stack.append((row, row_count - 1))
