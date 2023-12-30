@@ -282,7 +282,7 @@ def flood(grid):
             if not sub_stack:
                 continue  # No possible pipes left
 
-            stack.extend(sub_stack)
+            stack.extend(list(sub_stack))
 
 
 def count_falsies(grid) -> int:
