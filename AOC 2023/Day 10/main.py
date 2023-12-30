@@ -243,15 +243,19 @@ def flood(grid):
             if not grid[row][col]:
                 continue
 
+            grid[row][col] = None  # Passed
+
             if not grid[row][col].is_in_closed_loop:
                 # Add neighbors to stack, if they had already been process, they will be skipped since they are None.
                 stack.append((row + 1, col))
                 stack.append((row - 1, col))
                 stack.append((row, col + 1))
                 stack.append((row, col - 1))
-                
+
             # Handle special case where animal can squeeze between pipes facing different directions
-            raise NotImplementedError
+
+            # An easy way to check if two pipes are not facing each other is to check if they do face each other
+            ...
 
 
 def count_falsies(grid) -> int:
