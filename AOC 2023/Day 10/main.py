@@ -258,7 +258,7 @@ def flood(grid):
                 sub_stack.append((row + 1, col))
             if row != 0:
                 sub_stack.append((row - 1, col))
-            if col != row_count:
+            if col != col_count:
                 sub_stack.append((row, col + 1))
             if col != 0:
                 sub_stack.append((row, col - 1))
