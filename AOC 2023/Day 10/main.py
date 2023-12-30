@@ -31,7 +31,6 @@ pipe_types_reversed: dict = {
 
 cardinal_directions = ["south", "north", "east", "west"]
 pipe_grid = None
-marked_pipe_grid = None
 
 
 class pipe:
@@ -93,7 +92,6 @@ class pipe:
 
     def travel_and_mark(self, row, col, from_dir: str):
         # Mark the main loop in a grid
-        global marked_pipe_grid
         tmp = self
 
         while tmp.symbol != "S":
@@ -105,7 +103,6 @@ class pipe:
             row, col, from_dir = travel_path
 
             pipe_grid[row][col].is_in_closed_loop = True
-            marked_pipe_grid[row][col] = True
             tmp = pipe_at(row, col)
 
     def reverse(self):
@@ -190,14 +187,10 @@ def part1():
 
 
 def mark_main_loop():
-    global marked_pipe_grid, pipe_grid
-    marked_pipe_grid = [
-        [False for _ in range(len(pipe_grid[0]))] for __ in range(len(pipe_grid))
-    ]
+    global pipe_grid
     # Return the bounds of the pipe loop
     s_row, s_col = find_S_coordinates()
     pipe_grid[s_row][s_col].is_in_closed_loop = True
-    marked_pipe_grid[s_row][s_col] = True
 
     # Check from every direction of S
     travel_paths = list(
@@ -255,13 +248,12 @@ def flood(grid):
 
 def part2():
     global pipe_grid
-    global marked_pipe_grid
 
     # TODO: the animal can squeeze between two pipes facing different directions, maybe
     # reverse all pipes in the main loop and append travel paths to the stack
 
     # Mark main loop.
-    main_loop_grid = marked_pipe_grid[:]
+    main_loop_grid = pipe_grid[:]
 
     flood(main_loop_grid)
 
