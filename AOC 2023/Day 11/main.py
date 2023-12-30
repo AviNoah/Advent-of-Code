@@ -48,8 +48,8 @@ class universe:
         pairs: list = self.pairs_dist()
         return sum(pairs) // 2
 
-    def expand(self):
-        # Double any vertical or horizontal line that is completely devoid of galaxies.
+    def expand(self, value):
+        # Expand by value any vertical or horizontal line that is completely devoid of galaxies.
         # Return new resulting universe in a new object
         rows = len(self.universe)
         cols = len(self.universe[0])
@@ -59,9 +59,10 @@ class universe:
         row = 0
         while row < rows:
             if all([result[row][col] == "." for col in range(cols)]):
-                result.insert(row, result[row].copy())  # Double it
-                rows += 1  # Increase size
-                row += 1  # Skip double
+                for _ in range(value):
+                    result.insert(row, result[row].copy())  # Double it
+                rows += value  # Increase size
+                row += value  # Skip double
             row += 1
 
         rows = len(result)
@@ -71,9 +72,10 @@ class universe:
         row = 0
         while col < cols:
             if all([result[row][col] == "." for row in range(rows)]):
-                [result[row].insert(col, ".") for row in range(rows)]  # Double it
-                cols += 1  # Increase size
-                col += 1  # Skip double
+                for _ in range(value):
+                    [result[row].insert(col, ".") for row in range(rows)]  # Double it
+                cols += value  # Increase size
+                col += value  # Skip double
             col += 1
 
         return universe(result)
@@ -101,7 +103,7 @@ def part1():
     global lines
     uni: universe = universe.from_lines(lines)
     print(f"Before expanding sum is: {uni.sum_pair_dists()}")
-    uni = uni.expand()
+    uni = uni.expand(10)
     print(f"After expanding sum is: {uni.sum_pair_dists()}")
 
 
