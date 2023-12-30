@@ -358,6 +358,7 @@ def part2():
     mark_squeeze_able_passthrough()
     main_loop_grid = pipe_grid[:]  # Do not destroy original
 
+    # TODO: Must rethink strategy, this sets pipes that might be adjacent to one another but still close a loop
     flood(main_loop_grid)
 
     print_grid(main_loop_grid)
