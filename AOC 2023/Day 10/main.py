@@ -328,14 +328,13 @@ def flood(grid):
                 stack.append((row, col + 1))
                 stack.append((row, col - 1))
 
+            # Handle special case where animal can squeeze between pipes facing different directions
             if tmp.is_squeeze_through:
                 # Add neighbors to stack, if they had already been processed, they will be skipped since they are None.
                 stack.append((row + 1, col))
                 stack.append((row - 1, col))
                 stack.append((row, col + 1))
                 stack.append((row, col - 1))
-
-            # Handle special case where animal can squeeze between pipes facing different directions
 
 
 def count_falsies(grid) -> int:
