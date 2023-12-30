@@ -33,7 +33,7 @@ class universe:
     def pairs_dist(self) -> list:
         # Given a list of galaxies' positions, return the minimal path between each of them
         results = list()
-        for i, galaxy1 in enumerate(self.get_galaxies):
+        for i, galaxy1 in enumerate(self.get_galaxies()):
             for j, galaxy2 in enumerate(self.get_galaxies):
                 if i == j:
                     continue  # Skip self
@@ -98,8 +98,10 @@ def part1():
     global lines
     uni: universe = universe.from_lines(lines)
     print(uni)
+    print(f"Before expanding sum is: {uni.sum_pair_dists()}")
     uni = uni.expand()
     print(uni)
+    print(f"After expanding sum is: {uni.sum_pair_dists()}")
 
 
 def part2():
