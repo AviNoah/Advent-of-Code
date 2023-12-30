@@ -175,8 +175,8 @@ def part2():
 
 
 def main():
-    # part1()  # Ans was 9545480
-    part2()
+    part1()  # Ans was 9545480
+    part2()  # Ans was 406725732046
 
 
 if __name__ == "__main__":
