@@ -151,6 +151,29 @@ def find_S_coordinates() -> tuple[int, int]:
     return None
 
 
+def figure_s_shape():
+    global pipe_grid
+    row, col = find_S_coordinates()
+    s_pipe = pipe_grid[row][col]
+    row_len = len(pipe_grid)
+    col_len = len(pipe_grid[0])
+
+    checks = []
+
+    if row != row_len - 1:
+        checks.append((row + 1, col, "north"))
+    if row != 0:
+        checks.append((row - 1, col, "south"))
+    if col != col_len - 1:
+        checks.append((row, col + 1, "east"))
+    if col != 0:
+        checks.append((row, col - 1, "west"))
+
+    for row, col, dir in checks:
+        if not s_pipe.does_connect(pipe_grid[row][col]):
+            s_pipe.directions[dir] = False
+
+
 def count_steps() -> int:
     # Return farthest point in a loop from starting point
     s_row, s_col = find_S_coordinates()
@@ -219,8 +242,7 @@ def mark_main_loop():
 def mark_squeeze_able_passthrough():
     # Mark pipes in the original grid where an animal can squeeze through them
     global pipe_grid
-    copy_grid = pipe_grid[:]
-    copy_grid = [[p if p.is_in_closed_loop else None for p in row] for row in copy_grid]
+    copy_grid = [[p if p.is_in_closed_loop else None for p in row] for row in pipe_grid]
 
     row_len = len(copy_grid)
     col_len = len(copy_grid[0])
@@ -251,6 +273,7 @@ def mark_squeeze_able_passthrough():
                 continue  # Skip if None
 
             copy_grid[row][col].is_squeeze_through = check_squeeze_ability(row, col)
+            print(copy_grid[row][col])
 
 
 def flood(grid):
@@ -318,7 +341,6 @@ def part2():
 
     # Count how many False cells are left in the grid.
     area = count_falsies(main_loop_grid)
-    print(main_loop_grid)
     print(f"Area is: {area}")
 
     return
