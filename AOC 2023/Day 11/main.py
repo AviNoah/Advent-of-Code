@@ -74,6 +74,13 @@ class universe:
 
         return universe(result)
 
+    def __str__(self) -> str:
+        string = ""
+        for row in self.universe:
+            string += "".join(row)
+            string += "\n"
+        return string
+
     @staticmethod
     def from_lines(lines: list):
         # Return a universe object from lines
@@ -87,7 +94,9 @@ class universe:
 
 
 def part1():
-    pass
+    global lines
+    uni: universe = universe.from_lines(lines)
+    print(uni)
 
 
 def part2():
