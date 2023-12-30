@@ -202,9 +202,9 @@ def mark_main_loop():
     if row != 0:
         travel_paths.append((row - 1, col, "south"))
     if col != col_len - 1:
-        travel_paths.append((row, col + 1), "east")
+        travel_paths.append((row, col + 1, "east"))
     if col != 0:
-        travel_paths.append((row, col - 1), "west")
+        travel_paths.append((row, col - 1, "west"))
 
     for row, col, from_dir in travel_paths:
         p = pipe_at(row, col)
