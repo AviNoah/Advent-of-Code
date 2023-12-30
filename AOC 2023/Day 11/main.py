@@ -86,9 +86,11 @@ class universe:
         # Notice N does not effect the number of cols that are just spaces, M.
         # The horizontal dist will be added M*value to it
 
+        galaxies = self.get_galaxies()
+
         results = list()
-        for i, galaxy1 in enumerate(self.get_galaxies()):
-            for j, galaxy2 in enumerate(self.get_galaxies()):
+        for i, galaxy1 in enumerate(galaxies):
+            for j, galaxy2 in enumerate(galaxies):
                 if i == j:
                     continue  # Skip self
                 base_dist = universe.min_pair_dist(galaxy1, galaxy2)
@@ -167,14 +169,13 @@ def part2():
     uni: universe = universe.from_lines(lines)
     print(f"Before expanding sum is: {uni.sum_pair_dists()}")
     # This is obviously the slow way to do this
-    # uni = uni.expand(1_000_000)
-    uni_sum = uni.expand_optimized(1_000_000)
-    uni_sum = uni.expand_optimized(2)
+    # uni = uni.expand(1_000_000)  # Slow way
+    uni_sum = uni.expand_optimized(1_000_000)  # Optimized way
     print(f"After expanding sum is: {uni_sum}")
 
 
 def main():
-    part1()  # Ans was 9545480
+    # part1()  # Ans was 9545480
     part2()
 
 
