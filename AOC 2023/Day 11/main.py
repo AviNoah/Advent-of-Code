@@ -103,8 +103,8 @@ class universe:
         # Return the sum of the values instead of returning a new universe object.
         value = max(value - 1, 1)
         pairs: list = self.pair_dist_optimized(value)
-
-        raise NotImplementedError
+        # Since we are double counting, divide by 2
+        return sum(pairs) // 2
 
     def count_empty_rows_and_cols(
         self, galaxy1: tuple[int, int], galaxy2: tuple[int, int]
