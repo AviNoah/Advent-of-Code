@@ -190,19 +190,21 @@ def part1():
 def mark_main_loop():
     global pipe_grid
     # Return the bounds of the pipe loop
-    s_row, s_col = find_S_coordinates()
-    pipe_grid[s_row][s_col].is_in_closed_loop = True
+    row, col = find_S_coordinates()
+    pipe_grid[row][col].is_in_closed_loop = True
+    row_len = len(pipe_grid)
+    col_len = len(pipe_grid[0])
 
     # Check from every direction of S
-    travel_paths = list(
-        [
-            # TODO: make sure S is not on a border, if it is, do not allow out of index
-            (s_row - 1, s_col, "south"),
-            (s_row + 1, s_col, "north"),
-            (s_row, s_col - 1, "west"),
-            (s_row, s_col + 1, "east"),
-        ]
-    )
+    travel_paths = list()
+    if row != row_len - 1:
+        travel_paths.append((row + 1, col, "north"))
+    if row != 0:
+        travel_paths.append((row - 1, col, "south"))
+    if col != col_len - 1:
+        travel_paths.append((row, col + 1), "east")
+    if col != 0:
+        travel_paths.append((row, col - 1), "west")
 
     for row, col, from_dir in travel_paths:
         p = pipe_at(row, col)
@@ -234,7 +236,7 @@ def mark_squeeze_able_passthrough():
         if col != col_len - 1:
             checks.append((row, col + 1))
         if col != 0:
-            checks.append((row - 1, col))
+            checks.append((row, col - 1))
 
         checks = filter(lambda pipe: pipe, checks)  # Remove Nones
 
