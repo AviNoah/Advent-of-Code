@@ -81,6 +81,9 @@ class universe:
 
         return universe(result)
 
+    def pair_dist_optimized(self, rows, cols) -> int:
+        ...
+
     def expand_optimized(self, value):
         # An optimized solution that increases empty rows and cols by value.
         value = max(value - 1, 1)
@@ -94,6 +97,28 @@ class universe:
         # very easily
 
         raise NotImplementedError
+
+    def count_empty_rows_and_cols(
+        self, galaxy1: tuple[int, int], galaxy2: tuple[int, int]
+    ) -> tuple[int, int]:
+        # Return a tuple containing count of empty rows and count of empty cols between two galaxies
+        r_min, r_max = min(galaxy1[0], galaxy2[0]), max(galaxy1[0], galaxy2[0])
+        c_min, c_max = min(galaxy1[1], galaxy2[1]), max(galaxy1[1], galaxy2[1])
+
+        row_count = 0
+        col_count = 0
+
+        row_length = len(self.universe)
+
+        for row in self.universe[r_min : r_max + 1]:
+            if "#" not in row:
+                row_count += 1
+
+        for col in range(c_min, c_max + 1):
+            if all([self.universe[row][col] != "#" for row in range(row_length)]):
+                col_count += 1
+
+        return row_count, col_count
 
     def __str__(self) -> str:
         string = ""
