@@ -241,7 +241,25 @@ def flood(grid, row, col):
     if grid[row][col] != False:
         return  # Either flooded or a part of main loop, skip.
 
-    ...
+    row_count = len(grid)
+    col_count = len(grid[0])
+
+    # Initial seed
+    stack: list = [(row, col)]
+
+    while stack:
+        _row, _col = stack.pop()
+
+        if (0 <= _row < row_count and 0 <= _col < col_count) and grid[_row][
+            _col
+        ] == False:
+            grid[_row][_col] = None
+
+            # Add neighbors to stack, if they had already been process, they will be skipped since they are None.
+            stack.append(_row + 1, _col)
+            stack.append(_row - 1, _col)
+            stack.append(_row, _col + 1)
+            stack.append(_row, _col - 1)
 
 
 def part2():
