@@ -34,6 +34,10 @@ class universe:
         # Given a list of galaxies' positions, return the minimal path between each of them
         ...
 
+    def sum_pair_dists(self) -> int:
+        # Return the sum of the minimal distances between galaxies:
+        return sum(self.pairs_dist())
+
     def expand(self):
         ...
 
