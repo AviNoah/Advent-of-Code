@@ -110,7 +110,7 @@ def part2():
 
 
 def main():
-    part1()
+    part1()  # Ans was 9545480
     part2()
 
 
