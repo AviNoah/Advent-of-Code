@@ -106,10 +106,17 @@ class pipe:
             tmp = pipe_at(row, col)
 
     def reverse(self):
-        # Reverse type of pipe
+        # Reverse type of pipe, return new
         global pipe_types_reversed
         symbol: str = pipe_types_reversed.get(self.symbol)
         return pipe(symbol)
+
+    def do_connect(self, other) -> bool:
+        # Return whether self and other can connected to each other (position is irrelevant)
+        valid_self_dirs = [key for key, value in self.directions.items() if value]
+        # The reversed pipe of other shows what directions it accepts inputs from.
+        valid_other_dirs = [key for key, value in other.directions.items() if not value]
+        return any([o in valid_self_dirs for o in valid_other_dirs])
 
 
 def pipe_at(row, col) -> pipe | None:
