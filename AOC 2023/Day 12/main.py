@@ -244,7 +244,7 @@ class spring_row:
 
 def part1():
     spring_rows: list[spring_row] = spring_row.from_lines()
-    arrangements = [sp.count_variations() for sp in spring_rows]
+    arrangements = [sp.count() for sp in spring_rows]
     total = sum(arrangements)
     print(f"{total=}")
 
