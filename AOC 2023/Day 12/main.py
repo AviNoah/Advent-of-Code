@@ -29,20 +29,28 @@ class spring_row:
         broken_matches: list[re.match] = broken_pattern.finditer(self.operational)
         missing_matches: list[re.match] = missing_pattern.finditer(self.operational)
 
+        # Extract start index and len from each
+        broken_matches: list[int, int] = [
+            (match.start(), len(match)) for match in broken_matches
+        ]
+        missing_matches: list[int, int] = [
+            (match.start(), len(match)) for match in missing_matches
+        ]
+
         tmp_contiguous = self.contiguous.copy()
 
         count = 0
 
         # While there are broken matches or more broken potential parts and missing matches
         while broken_matches or (tmp_contiguous and missing_matches):
-            if broken_matches[0].start < missing_matches[0].start:
+            if broken_matches[0][0] < missing_matches[0][0]:
                 # Simplest case, feed broken into contiguous
-                tmp_contiguous[0] -= len(broken_matches.pop(0))
+                tmp_contiguous[0] -= broken_matches.pop(0)[1]
             else:
                 # Complex case, varying cases, start counting here
-                tmp: re.match = missing_matches.pop(0)
+                index, length = missing_matches.pop(0)
                 # If tmp is less than contiguous[0], set to zero and readd to missing.
-                diff = len(tmp) - tmp_contiguous[0]
+                diff = length - tmp_contiguous[0]
 
                 if diff == 0:
                     # Simple case, all question marks went into tmp_contiguous
@@ -51,16 +59,17 @@ class spring_row:
 
                 if diff < 0:
                     # Not enough to fill with missing match, give it all.
-                    # Add to count the amount of ways to choose len(tmp) in tmp_contiguous[0]
-                    count += comb(tmp_contiguous[0], len(tmp))
-                    tmp_contiguous[0] -= len(tmp)
+                    # Add to count the amount of ways to choose length in tmp_contiguous[0]
+                    count += comb(tmp_contiguous[0], length)
+                    tmp_contiguous[0] -= length
 
                 if diff > 0:
                     # Too many, remove first element of contiguous and readd missing element to start.
                     # delegate to next loop.
                     # Do not add to count, only one way
-                    tmp.start += tmp_contiguous[0]  # move ahead tmp_contiguous[0] steps
-                    missing_matches.insert(0, tmp)
+                    index += tmp_contiguous[0]  # move ahead tmp_contiguous[0] steps
+                    length -= tmp_contiguous[0]  # Subtract tmp_contiguous[0] steps
+                    missing_matches.insert(0, (index, length))
                     tmp_contiguous[0] = 0
 
             if tmp_contiguous[0] == 0:
