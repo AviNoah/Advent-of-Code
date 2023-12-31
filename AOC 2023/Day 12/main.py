@@ -100,7 +100,7 @@ class spring_row:
         def recursive_helper(index: int, contiguous: list, is_contiguous: bool) -> int:
             # Go through line one step at a time, create multiple routes when
             # options are available.
-            if index > len(self.operational):
+            if index >= len(self.operational):
                 return 0  # Invalid arrangement
 
             if contiguous and contiguous[0] == 0:
