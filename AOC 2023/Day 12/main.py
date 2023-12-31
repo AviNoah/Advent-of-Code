@@ -95,11 +95,10 @@ class spring_row:
         return max(count, 1)  # If no variations found, return 1 at minimum.
 
     def count(self) -> int:
-        tmp_contiguous = self.contiguous.copy()
-
         def recursive_helper(index: int, contiguous: list, is_contiguous: bool) -> int:
             # Go through line one step at a time, create multiple routes when
             # options are available.
+            contiguous = contiguous.copy()
             if index >= len(self.operational):
                 return 0  # Invalid arrangement
 
@@ -145,7 +144,7 @@ class spring_row:
             contiguous[0] -= 1
             return result + recursive_helper(index + 1, contiguous, True)
 
-        return recursive_helper(0, tmp_contiguous, False)
+        return recursive_helper(0, self.contiguous, False)
 
     def count2(self) -> int:
         global broken_pattern, missing_pattern
