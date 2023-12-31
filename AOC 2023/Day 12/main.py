@@ -126,7 +126,7 @@ class spring_row:
 
             if symbol == "#":
                 # Forced to use
-                for i in range(index, contiguous[0]):
+                for i in range(index, index + contiguous[0]):
                     # Consume ? as well
                     if i >= len(self.operational) and self.operational[i] == ".":
                         # Invalid arrangement
