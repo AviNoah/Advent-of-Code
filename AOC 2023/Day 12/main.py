@@ -6,14 +6,27 @@
 
 # Sum counts of all possible arrangements for every row
 
+import re
+
+broken_pattern = r"#+"
+broken_pattern: re.Pattern = re.compile(broken_pattern)
+
+missing_pattern = r"\?*"
+missing_pattern: re.Pattern = re.compile(missing_pattern)
+
 with open("input.txt", "r") as f:
     lines: list = f.readlines()
 
 
 class spring_row:
-    def __init__(self, operational_data: list, contiguous_data: list) -> None:
-        self.operational: list = operational_data
+    def __init__(self, operational_data: str, contiguous_data: list) -> None:
+        self.operational: str = operational_data
         self.contiguous: list = contiguous_data
+
+    def count_variations(self) -> int:
+        global broken_pattern, missing_pattern
+        broken_matches = broken_pattern.finditer(self.operational)
+        missing_matches = missing_pattern.finditer(self.operational)
 
     @staticmethod
     def from_lines() -> list:
@@ -29,7 +42,7 @@ class spring_row:
 
             # length of line is 2
             op_data, cont_data = line
-            op_data = list(op_data)  # Make into a list.
+            # Keep op_data as string.
             cont_data = cont_data.split(",")
 
             return spring_row(op_data, cont_data)
