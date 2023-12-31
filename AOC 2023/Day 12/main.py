@@ -67,11 +67,19 @@ class spring_row:
                     tmp_contiguous[0] -= length
 
                 if diff > 0:
-                    # Too many, remove first element of contiguous and readd missing element to start.
-                    # delegate to next loop.
+                    # Too many, remove first element of contiguous and
+                    # readd missing element to start and delegate to next loop.
+                    # NOTE: this means the contiguous sequence was broken and at least 1 .
+                    # must appear immediately at the end of the tmp_contiguous[0] steps.
+                    # therefore another 1 is deducted from length
+
                     # Do not add to count, only one way
-                    index += tmp_contiguous[0]  # move ahead tmp_contiguous[0] steps
-                    length -= tmp_contiguous[0]  # Subtract tmp_contiguous[0] steps
+                    index += (
+                        tmp_contiguous[0] + 1
+                    )  # move ahead tmp_contiguous[0] steps + 1 functional spring
+                    length -= (
+                        tmp_contiguous[0] + 1
+                    )  # Subtract tmp_contiguous[0] steps  + 1 functional spring
                     missing_matches.insert(0, (index, length))
                     tmp_contiguous[0] = 0
 
