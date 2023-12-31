@@ -12,7 +12,7 @@ from math import comb
 broken_pattern = r"#+"
 broken_pattern: re.Pattern = re.compile(broken_pattern)
 
-missing_pattern = r"\?*"
+missing_pattern = r"\?+"
 missing_pattern: re.Pattern = re.compile(missing_pattern)
 
 with open("input.txt", "r") as f:
