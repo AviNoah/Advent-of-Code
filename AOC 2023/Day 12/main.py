@@ -132,7 +132,7 @@ class spring_row:
                 return recursive_helper(index + 2, contiguous, False)
 
             # Symbol is ?
-            if contiguous:
+            if is_contiguous:
                 # Must continue
                 contiguous[0] -= 1
                 return recursive_helper(index + 1, contiguous, True)
