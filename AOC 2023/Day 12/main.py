@@ -107,7 +107,7 @@ class spring_row:
 
             if not contiguous:
                 if "#" in self.operational[index:]:
-                    # Invalid, arrangement
+                    # Invalid, arrangement, there are still # left
                     return 0
                 return 1  # Valid arrangement
 
