@@ -10,6 +10,16 @@ with open("input.txt", "r") as f:
     lines: list = f.readlines()
 
 
+class spring_row:
+    def __init__(self, operational_data, contiguous_data) -> None:
+        pass
+
+    @staticmethod
+    def from_lines() -> list:
+        # Return list of spring_row objects from lines
+        global lines
+
+
 def part1():
     pass
 
