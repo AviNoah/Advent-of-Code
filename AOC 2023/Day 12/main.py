@@ -116,7 +116,7 @@ class spring_row:
             # if not, it may start anywhere.
             if not m_matches:
                 # If it is empty, no need to continue
-                return 1
+                return 1  # TODO: we may have to actually check if valid
 
             if b_matches and b_matches[0] < m_matches[0]:
                 # Forced to subtract from contiguous
@@ -126,11 +126,15 @@ class spring_row:
                     contiguous.pop(0)
                     return recursive_helper(contiguous, b_matches, m_matches, False)
 
-                # Length can only be smaller than contiguous
-                # Is contiguous
-                contiguous[0] -= length
-                return recursive_helper(contiguous, b_matches, m_matches, True)
+                if length < contiguous[0]:
+                    # Is contiguous
+                    contiguous[0] -= length
+                    return recursive_helper(contiguous, b_matches, m_matches, True)
 
+                # Invalid route
+                return 0
+
+            # Have a choice to use or not use missing match.
             ...
 
     def count2(self) -> int:
