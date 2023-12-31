@@ -95,7 +95,9 @@ class spring_row:
         return max(count, 1)  # If no variations found, return 1 at minimum.
 
     def count(self) -> int:
-        def recursive_helper(index: int, contiguous: list, is_contiguous: bool) -> int:
+        def recursive_helper(
+            index: int, contiguous: list, is_contiguous: bool, was_used: bool = False
+        ) -> int:
             # Go through line one step at a time, create multiple routes when
             # options are available.
             contiguous = contiguous.copy()
@@ -103,6 +105,7 @@ class spring_row:
                 return 0  # Invalid arrangement
 
             if contiguous and contiguous[0] == 0:
+                was_used = False
                 contiguous.pop(0)
 
             if not contiguous:
@@ -116,6 +119,9 @@ class spring_row:
             if symbol == ".":
                 # Not contiguous
                 # Try next one
+                if was_used:
+                    return 0  # Invalid path, cut off before we could finished sequence
+
                 return recursive_helper(index + 1, contiguous, False)
 
             if symbol == "#":
@@ -134,7 +140,7 @@ class spring_row:
             if is_contiguous:
                 # Must continue
                 contiguous[0] -= 1
-                return recursive_helper(index + 1, contiguous, True)
+                return recursive_helper(index + 1, contiguous, True, True)
 
             # Not contiguous, we can choose to use or not to use.
             # Not using it
