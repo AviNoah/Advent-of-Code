@@ -92,6 +92,9 @@ class spring_row:
 
         return max(count, 1)  # If no variations found, return 1 at minimum.
 
+    def __str__(self) -> str:
+        return self.operational + " " + ",".join(self.contiguous)
+
     @staticmethod
     def from_lines() -> list:
         # Return list of spring_row objects from lines
@@ -118,8 +121,12 @@ class spring_row:
 
 def part1():
     spring_rows: list[spring_row] = spring_row.from_lines()
-    total = sum([sp.count_variations() for sp in spring_rows])
+    arrangements = [sp.count_variations() for sp in spring_rows]
+    total = sum(arrangements)
     print(f"{total=}")
+
+    for spring, arrangement in zip(spring_row, arrangements):
+        print(f"{spring} - {arrangement=}")
 
 
 def part2():
