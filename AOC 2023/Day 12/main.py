@@ -144,7 +144,8 @@ class spring_row:
             contiguous[0] -= 1
             return result + recursive_helper(index + 1, contiguous, True)
 
-        return recursive_helper(0, self.contiguous, False)
+        # At minimum there are 1 arrangements
+        return max(1, recursive_helper(0, self.contiguous, False))
 
     def count2(self) -> int:
         global broken_pattern, missing_pattern
