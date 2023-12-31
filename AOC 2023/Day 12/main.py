@@ -104,6 +104,8 @@ class spring_row:
             if index >= len(self.operational):
                 return 0  # Invalid arrangement
 
+            symbol = self.operational[index]
+
             if contiguous and contiguous[0] == 0:
                 was_used = False
                 contiguous.pop(0)
@@ -113,8 +115,6 @@ class spring_row:
                     # Invalid, arrangement, there are still # left
                     return 0
                 return 1  # Valid arrangement
-
-            symbol = self.operational[index]
 
             if symbol == ".":
                 # Not contiguous
