@@ -93,7 +93,11 @@ class spring_row:
         return max(count, 1)  # If no variations found, return 1 at minimum.
 
     def __str__(self) -> str:
-        return self.operational + " " + ",".join(self.contiguous)
+        return (
+            self.operational
+            + " "
+            + ",".join(list(map(lambda integer: str(integer), self.contiguous)))
+        )
 
     @staticmethod
     def from_lines() -> list:
