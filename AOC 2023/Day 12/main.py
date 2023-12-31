@@ -108,6 +108,9 @@ class spring_row:
 
             if contiguous and contiguous[0] == 0:
                 was_used = False
+                if symbol == "?":
+                    # Force this one to become .
+                    return recursive_helper(index + 1, contiguous, False)
                 contiguous.pop(0)
 
             if not contiguous:
