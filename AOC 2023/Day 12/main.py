@@ -11,13 +11,30 @@ with open("input.txt", "r") as f:
 
 
 class spring_row:
-    def __init__(self, operational_data, contiguous_data) -> None:
-        pass
+    def __init__(self, operational_data: list, contiguous_data: list) -> None:
+        self.operational: list = operational_data
+        self.contiguous: list = contiguous_data
 
     @staticmethod
     def from_lines() -> list:
         # Return list of spring_row objects from lines
         global lines
+
+        def extract(line: str) -> spring_row:
+            line = line.replace("\n", "")
+            line: list = line.split(" ", maxsplit=1)
+            if len(line) == 1:
+                # in case all springs are operational - no contiguous data
+                line.append(list())
+
+            # length of line is 2
+            op_data, cont_data = line
+            op_data = list(op_data)  # Make into a list.
+            cont_data = cont_data.split(",")
+
+            return spring_row(op_data, cont_data)
+
+        return [extract(line) for line in lines]
 
 
 def part1():
