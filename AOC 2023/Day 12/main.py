@@ -94,6 +94,45 @@ class spring_row:
 
         return max(count, 1)  # If no variations found, return 1 at minimum.
 
+    def count(self) -> int:
+        global broken_pattern, missing_pattern
+        broken_matches: list[re.match] = broken_pattern.finditer(self.operational)
+        missing_matches: list[re.match] = missing_pattern.finditer(self.operational)
+
+        # Extract start index and len from each
+        broken_matches: list[int, int] = [
+            (match.start(), match.end() - match.start()) for match in broken_matches
+        ]
+        missing_matches: list[int, int] = [
+            (match.start(), match.end() - match.start()) for match in missing_matches
+        ]
+
+        tmp_contiguous = self.contiguous.copy()
+
+        def recursive_helper(
+            contiguous: list, b_matches: list, m_matches: list, is_contiguous: bool
+        ) -> int:
+            # if is_contiguous, feed must start at start of missing match
+            # if not, it may start anywhere.
+            if not m_matches:
+                # If it is empty, no need to continue
+                return 1
+
+            if b_matches and b_matches[0] < m_matches[0]:
+                # Forced to subtract from contiguous
+                _, length = b_matches.pop()
+                if length == contiguous[0]:
+                    # Not contiguous
+                    contiguous.pop(0)
+                    return recursive_helper(contiguous, b_matches, m_matches, False)
+
+                # Length can only be smaller than contiguous
+                # Is contiguous
+                contiguous[0] -= length
+                return recursive_helper(contiguous, b_matches, m_matches, True)
+
+            ...
+
     def count2(self) -> int:
         global broken_pattern, missing_pattern
         broken_matches: list[re.match] = broken_pattern.finditer(self.operational)
