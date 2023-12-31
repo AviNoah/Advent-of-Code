@@ -86,7 +86,9 @@ class spring_row:
 
 
 def part1():
-    pass
+    spring_rows: list[spring_row] = spring_row.from_lines()
+    total = sum([sp.count_variations() for sp in spring_rows])
+    print(f"{total=}")
 
 
 def part2():
