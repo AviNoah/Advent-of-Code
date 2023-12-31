@@ -125,7 +125,7 @@ def part1():
     total = sum(arrangements)
     print(f"{total=}")
 
-    for spring, arrangement in zip(spring_row, arrangements):
+    for spring, arrangement in zip(spring_rows, arrangements):
         print(f"{spring} - {arrangement=}")
 
 
