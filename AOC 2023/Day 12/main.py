@@ -31,10 +31,10 @@ class spring_row:
 
         # Extract start index and len from each
         broken_matches: list[int, int] = [
-            (match.start(), len(match)) for match in broken_matches
+            (match.start(), match.end() - match.start()) for match in broken_matches
         ]
         missing_matches: list[int, int] = [
-            (match.start(), len(match)) for match in missing_matches
+            (match.start(), match.end() - match.start()) for match in missing_matches
         ]
 
         tmp_contiguous = self.contiguous.copy()
@@ -42,7 +42,7 @@ class spring_row:
         count = 0
 
         # While there are broken matches or more broken potential parts and missing matches
-        while broken_matches or (tmp_contiguous and missing_matches):
+        while broken_matches and tmp_contiguous and missing_matches:
             if broken_matches[0][0] < missing_matches[0][0]:
                 # Simplest case, feed broken into contiguous
                 tmp_contiguous[0] -= broken_matches.pop(0)[1]
@@ -93,6 +93,8 @@ class spring_row:
             op_data, cont_data = line
             # Keep op_data as string.
             cont_data = cont_data.split(",")
+            # Turn to int
+            cont_data = list(map(lambda num: int(num), cont_data))
 
             return spring_row(op_data, cont_data)
 
