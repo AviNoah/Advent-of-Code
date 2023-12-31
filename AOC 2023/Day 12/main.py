@@ -39,14 +39,17 @@ class spring_row:
 
         tmp_contiguous = self.contiguous.copy()
 
+        # TODO: check if maybe you need to multiply the combinatorics
         count = 0
 
         # While there are broken matches or more broken potential parts and missing matches
-        while broken_matches and tmp_contiguous and missing_matches:
-            if broken_matches[0][0] < missing_matches[0][0]:
-                # Simplest case, feed broken into contiguous
-                tmp_contiguous[0] -= broken_matches.pop(0)[1]
-            else:
+        while tmp_contiguous:
+            if not missing_matches:
+                # Rest must be from broken_matches, break.
+                break
+
+            # Check if broken matches is empty or if missing match comes before it
+            if not broken_matches or missing_matches[0][0] < broken_matches[0][0]:
                 # Complex case, varying cases, start counting here
                 index, length = missing_matches.pop(0)
                 # If tmp is less than contiguous[0], set to zero and readd to missing.
@@ -71,6 +74,10 @@ class spring_row:
                     length -= tmp_contiguous[0]  # Subtract tmp_contiguous[0] steps
                     missing_matches.insert(0, (index, length))
                     tmp_contiguous[0] = 0
+
+            else:
+                # Simplest case, feed broken into contiguous
+                tmp_contiguous[0] -= broken_matches.pop(0)[1]
 
             if tmp_contiguous[0] == 0:
                 tmp_contiguous.pop(0)
