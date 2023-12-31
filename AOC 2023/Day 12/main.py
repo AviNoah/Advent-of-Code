@@ -39,7 +39,24 @@ class spring_row:
                 tmp_contiguous[0] -= len(broken_matches.pop(0))
             else:
                 # Complex case, varying cases, start counting here
-                missing_matches.pop(0)
+                tmp = missing_matches.pop(0)
+                # If tmp is less than contiguous[0], set to zero and readd to missing.
+                diff = len(tmp) - tmp_contiguous[0]
+
+                if diff == 0:
+                    # Simple case, all question marks went into tmp_contiguous
+                    tmp_contiguous[0] = 0
+
+                if diff < 0:
+                    # Not enough to fill with missing match, give it all.
+                    tmp_contiguous[0] -= len(tmp)
+
+                if diff > 0:
+                    # Too many, remove first element of contiguous and readd missing element to start.
+                    # delegate to next loop.
+                    tmp.start += tmp_contiguous[0]  # move ahead tmp_contiguous[0] steps
+                    missing_matches.insert(0, tmp)
+                    tmp_contiguous[0] = 0
 
             if tmp_contiguous[0] == 0:
                 tmp_contiguous.pop(0)
