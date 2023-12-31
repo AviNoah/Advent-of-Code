@@ -123,7 +123,7 @@ class spring_row:
                 # Forced to use
                 for i in range(index, contiguous[0]):
                     # Consume ? as well
-                    if self.operational[i] == ".":
+                    if i >= len(self.operational) and self.operational[i] == ".":
                         # Invalid arrangement
                         return 0
 
