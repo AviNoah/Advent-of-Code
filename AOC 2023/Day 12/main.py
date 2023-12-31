@@ -25,8 +25,26 @@ class spring_row:
 
     def count_variations(self) -> int:
         global broken_pattern, missing_pattern
-        broken_matches = broken_pattern.finditer(self.operational)
-        missing_matches = missing_pattern.finditer(self.operational)
+        broken_matches: list[re.match] = broken_pattern.finditer(self.operational)
+        missing_matches: list[re.match] = missing_pattern.finditer(self.operational)
+
+        tmp_contiguous = self.contiguous.copy()
+
+        count = 0
+
+        # While there are broken matches or more broken potential parts and missing matches
+        while broken_matches or (tmp_contiguous and missing_matches):
+            if broken_matches[0].start < missing_matches[0].start:
+                # Simplest case, feed broken into contiguous
+                tmp_contiguous[0] -= len(broken_matches.pop(0))
+            else:
+                # Complex case, varying cases, start counting here
+                missing_matches.pop(0)
+
+            if tmp_contiguous[0] == 0:
+                tmp_contiguous.pop(0)
+
+        return max(count, 1)  # If no variations found, return 1 at minimum.
 
     @staticmethod
     def from_lines() -> list:
