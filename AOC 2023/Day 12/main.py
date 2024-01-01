@@ -107,7 +107,7 @@ class spring_row:
             symbol = self.operational[index]
 
             if contiguous and contiguous[0] == 0:
-                was_used = False
+                was_used = False  # Succeeded in finishing sequence
                 contiguous.pop(0)
                 if symbol == "?":
                     # Force this one to become .
@@ -129,15 +129,19 @@ class spring_row:
 
             if symbol == "#":
                 # Forced to use
-                for i in range(index, index + contiguous[0]):
+
+                if contiguous[0] == 1:
+                    contiguous.pop(0)
+                    return recursive_helper(index + 1, contiguous, False)
+
+                for i in range(index, index + contiguous[0] - 1):
                     # Consume ? as well
                     if i >= len(self.operational) or self.operational[i] == ".":
                         # Invalid arrangement
                         return 0
 
-                contiguous[0] = 0  # Must be exactly it
-                # Skip period after end of sequence
-                return recursive_helper(index + 2, contiguous, False)
+                contiguous[0] = 1  # Must have left just 1
+                return recursive_helper(index + contiguous[0], contiguous, True)
 
             # Symbol is ?
             if is_contiguous:
@@ -151,7 +155,8 @@ class spring_row:
 
             # Using it
             contiguous[0] -= 1
-            return result + recursive_helper(index + 1, contiguous, True)
+            result += recursive_helper(index + 1, contiguous, True)
+            return result
 
         # At minimum there are 1 arrangements
         return max(1, recursive_helper(0, self.contiguous, False))
