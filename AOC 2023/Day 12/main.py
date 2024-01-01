@@ -141,7 +141,8 @@ class spring_row:
                         return 0
 
                 contiguous[0] = 1  # Must have left just 1
-                return recursive_helper(index + contiguous[0], contiguous, True)
+                # Consider this as was_used
+                return recursive_helper(index + contiguous[0], contiguous, True, True)
 
             # Symbol is ?
             if is_contiguous:
@@ -155,11 +156,12 @@ class spring_row:
 
             # Using it
             contiguous[0] -= 1
-            result += recursive_helper(index + 1, contiguous, True)
+            result += recursive_helper(index + 1, contiguous, True, True)
             return result
 
         # At minimum there are 1 arrangements
-        return max(1, recursive_helper(0, self.contiguous, False))
+        result = recursive_helper(0, self.contiguous, False)
+        return max(1, result)
 
     def count2(self) -> int:
         global broken_pattern, missing_pattern
