@@ -17,6 +17,11 @@ class spring_row:
         while stack:
             head, data = stack.pop()
             for i in range(head, len(self.operational)):
+                # Deciding counter - this will do the counting
+                if not data:
+                    # Check if there are any # left
+                    c += 1 if "#" not in self.operational[i:] else 0
+
                 symbol: str = self.operational[i]
                 if symbol == ".":
                     if not is_still_open:
@@ -31,7 +36,11 @@ class spring_row:
                     continue
 
                 if symbol == "#":
-                    ...
+                    is_contiguous = True
+                    is_still_open = True
+
+                    data[0] -= 1
+                    continue
 
                 # Use the stack to open new starting points
                 if symbol == "?":
