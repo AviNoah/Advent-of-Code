@@ -142,7 +142,7 @@ def part2():
 
 def main():
     part1()  # Ans was 7163
-    part2()
+    part2()  # Needs optimizing
 
 
 if __name__ == "__main__":
