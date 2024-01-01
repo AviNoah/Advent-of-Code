@@ -76,6 +76,10 @@ class spring_row:
 
         return max(1, c)
 
+    def unfold(self, value):
+        # Return a new spring_row object that multiplies self.operational_data by value
+        return spring_row(self.operational * value, self.contiguous)
+
     def __str__(self) -> str:
         return (
             self.operational
@@ -119,6 +123,8 @@ def part1():
 
 
 def part2():
+    # They were all folded, to unfold add 4 copies to each operational data to itself
+
     pass
 
 
