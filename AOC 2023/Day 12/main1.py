@@ -25,42 +25,43 @@ class spring_row:
                     c += 1 if "#" not in self.operational[i:] else 0
 
                 symbol: str = self.operational[i]
+
+                # Check if contiguous sequence finished
+                if data[0] == 0:
+                    # Three scenarios: ., ? or #;   # = Invalid, ? as a # is invalid, so make it .
+                    if symbol == "#":
+                        break  # Invalid arrangement
+
+                    # Assume the ? is a .
+                    data.pop(0)
+                    is_still_open = False
+                    continue  # Skip it
+
+                # Working spring
                 if symbol == ".":
                     if not is_still_open:
                         continue  # Skip.
 
-                    # Check to see if we actually finished the sequence, if not then invalid arrangement
-                    if data[0] != 0:
-                        break
-
-                    # Valid, continue
-                    data.pop(0)
-                    is_still_open = False  # Close.
-                    continue
+                    break  # Since we know data[0] is not zero, we have not finished the contiguous sequence
 
                 # Check to see if we actually already finished the sequence, if yes then invalid arrangement
 
+                # Broken spring
                 if symbol == "#":
                     is_still_open = True
                     data[0] -= 1
                     continue
 
                 # Use the stack to open new starting points
+                # Either broken or working spring two choices
                 if symbol == "?":
                     if not is_still_open:
-                        # We can choose to not add this as a broken spring
+                        # Add as working spring, we may chose so because it is not still open
                         stack.append((i + 1, data.copy(), False))  # Don't add
 
+                    # Continue as broken_spring
                     is_still_open = True
-                    # If we already finished the sequence
-                    if data[0] == 0:
-                        data.pop(0)
-                        is_still_open = False
-                        continue  # Skip to next one
-
-                    # Append as broken_spring
                     data[0] -= 1
-                    stack.append((i + 1, data.copy(), True))
 
         return max(1, c)
 
