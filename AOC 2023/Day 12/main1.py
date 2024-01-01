@@ -19,12 +19,23 @@ class spring_row:
             for i in range(head, len(self.operational)):
                 symbol: str = self.operational[i]
                 if symbol == ".":
-                        
-                    
-                    continue  # Skip
-                
+                    if not is_still_open:
+                        continue  # Skip.
+
+                    # Check to see if we actually finished the sequence, if not then invalid arrangement
+                    if data[0] != 0:
+                        break
+
+                    # Valid, continue
+                    is_still_open = False  # Close.
+                    continue
+
                 if symbol == "#":
-                    
+                    ...
+
+                # Use the stack to open new starting points
+                if symbol == "?":
+                    ...
 
     def __str__(self) -> str:
         return (
