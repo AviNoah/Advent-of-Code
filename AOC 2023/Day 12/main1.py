@@ -11,10 +11,9 @@ class spring_row:
         stack = [(0, self.contiguous.copy())]  # Return to index in stack
         c = 0
 
-        is_contiguous: bool = False
-        is_still_open: bool = False
-
         while stack:
+            is_contiguous: bool = False
+            is_still_open: bool = False
             head, data = stack.pop()
             for i in range(head, len(self.operational)):
                 # Deciding counter - this will do the counting
@@ -44,7 +43,7 @@ class spring_row:
 
                 # Use the stack to open new starting points
                 if symbol == "?":
-                    ...
+                    
 
     def __str__(self) -> str:
         return (
