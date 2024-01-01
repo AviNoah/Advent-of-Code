@@ -70,7 +70,7 @@ class spring_row:
 
             else:
                 # Executes only if not stopped by a break
-                if not data or data[0] == 0:
+                if not data or (len(data) == 1 and data[0] == 0):
                     # Since we went through the entirety of string, this counts
                     c += 1
 
