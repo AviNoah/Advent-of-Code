@@ -124,8 +124,16 @@ def part1():
 
 def part2():
     # They were all folded, to unfold add 4 copies to each operational data to itself
+    spring_rows: list[spring_row] = spring_row.from_lines()
+    spring_rows: list[spring_rows] = [row.unfold(5) for row in spring_rows]
 
-    pass
+    arrangements = [sp.count() for sp in spring_rows]
+    total = sum(arrangements)
+
+    for spring, arrangement in zip(spring_rows, arrangements):
+        print(f"{spring} - {arrangement=}")
+
+    print(f"{total=}")
 
 
 def main():
