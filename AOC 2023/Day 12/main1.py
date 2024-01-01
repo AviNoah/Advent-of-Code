@@ -58,6 +58,8 @@ class spring_row:
                     data[0] -= 1
                     stack.append((i + 1, data.copy()))
 
+        return max(1, c)
+
     def __str__(self) -> str:
         return (
             self.operational
