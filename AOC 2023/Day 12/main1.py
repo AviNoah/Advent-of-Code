@@ -2,6 +2,10 @@ import re
 from math import comb
 
 
+with open("input.txt", "r") as f:
+    lines: list = f.readlines()
+
+
 class spring_row:
     def __init__(self, operational_data: str, contiguous_data: list) -> None:
         self.operational: str = operational_data
@@ -34,6 +38,10 @@ class spring_row:
                     is_still_open = False  # Close.
                     continue
 
+                # Check to see if we actually already finished the sequence, if yes then invalid arrangement
+                if data[0] == 0:
+                    break
+
                 if symbol == "#":
                     is_still_open = True
                     data[0] -= 1
@@ -47,7 +55,8 @@ class spring_row:
 
                     is_still_open = True
                     # Append as broken_spring
-                    ...
+                    data[0] -= 1
+                    stack.append((i + 1, data.copy()))
 
     def __str__(self) -> str:
         return (
