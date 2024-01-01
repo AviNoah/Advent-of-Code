@@ -13,12 +13,11 @@ class spring_row:
 
     def count(self) -> int:
         # Return to index in stack, stack contains index and copy of contiguous
-        stack = [(0, self.contiguous.copy())]
+        stack = [(0, self.contiguous.copy(), False)]
         c = 0
 
         while stack:
-            is_still_open: bool = False
-            head, data = stack.pop()
+            head, data, is_still_open = stack.pop()
             for i in range(head, len(self.operational)):
                 # Deciding counter - this will do the counting
                 if not data:
@@ -50,7 +49,7 @@ class spring_row:
                 if symbol == "?":
                     if not is_still_open:
                         # We can choose to not add this as a broken spring
-                        stack.append((i + 1, data.copy()))  # Don't add
+                        stack.append((i + 1, data.copy(), False))  # Don't add
 
                     is_still_open = True
                     # If we already finished the sequence
@@ -61,7 +60,7 @@ class spring_row:
 
                     # Append as broken_spring
                     data[0] -= 1
-                    stack.append((i + 1, data.copy()))
+                    stack.append((i + 1, data.copy(), True))
 
         return max(1, c)
 
