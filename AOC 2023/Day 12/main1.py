@@ -23,6 +23,7 @@ class spring_row:
                 if not data:
                     # Check if there are any # left
                     c += 1 if "#" not in self.operational[i:] else 0
+                    break  # End for loop
 
                 symbol: str = self.operational[i]
 
