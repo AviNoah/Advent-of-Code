@@ -78,7 +78,9 @@ class spring_row:
 
     def unfold(self, value):
         # Return a new spring_row object that multiplies self.operational_data by value
-        return spring_row(self.operational * value, self.contiguous)
+        op_data: list = [self.operational] * value
+        op_data: str = "?".join(op_data)
+        return spring_row(op_data, self.contiguous)
 
     def __str__(self) -> str:
         return (
@@ -123,7 +125,8 @@ def part1():
 
 
 def part2():
-    # They were all folded, to unfold add 4 copies to each operational data to itself
+    # They were all folded, to unfold add 4 copies to each operational data to itself,
+    # separated by ?
     spring_rows: list[spring_row] = spring_row.from_lines()
     spring_rows: list[spring_rows] = [row.unfold(5) for row in spring_rows]
 
