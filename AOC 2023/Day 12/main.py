@@ -142,7 +142,7 @@ def part2():
 
 def main():
     part1()  # Ans was 7163
-    part2()  # Needs optimizing
+    part2()  # Needs optimizing  # maybe it is as simple as multiplying them?
 
 
 if __name__ == "__main__":
