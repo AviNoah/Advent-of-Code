@@ -111,10 +111,11 @@ def part1():
     spring_rows: list[spring_row] = spring_row.from_lines()
     arrangements = [sp.count() for sp in spring_rows]
     total = sum(arrangements)
-    print(f"{total=}")
 
     for spring, arrangement in zip(spring_rows, arrangements):
         print(f"{spring} - {arrangement=}")
+
+    print(f"{total=}")
 
 
 def part2():
@@ -122,7 +123,7 @@ def part2():
 
 
 def main():
-    part1()
+    part1()  # Ans was 7163
     part2()
 
 
