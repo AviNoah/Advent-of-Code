@@ -8,7 +8,8 @@ class spring_row:
         self.contiguous: list = contiguous_data
 
     def count(self) -> int:
-        stack = [(0, self.contiguous.copy())]  # Return to index in stack
+        # Return to index in stack, stack contains index and copy of contiguous
+        stack = [(0, self.contiguous.copy())]
         c = 0
 
         while stack:
@@ -40,6 +41,12 @@ class spring_row:
 
                 # Use the stack to open new starting points
                 if symbol == "?":
+                    if not is_still_open:
+                        # We can choose to not add this as a broken spring
+                        stack.append((i + 1, data.copy()))  # Don't add
+
+                    is_still_open = True
+                    # Append as broken_spring
                     ...
 
     def __str__(self) -> str:
