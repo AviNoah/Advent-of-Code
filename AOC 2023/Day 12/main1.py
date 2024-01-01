@@ -35,12 +35,11 @@ class spring_row:
                         break
 
                     # Valid, continue
+                    data.pop(0)
                     is_still_open = False  # Close.
                     continue
 
                 # Check to see if we actually already finished the sequence, if yes then invalid arrangement
-                if data[0] == 0:
-                    break
 
                 if symbol == "#":
                     is_still_open = True
@@ -54,6 +53,12 @@ class spring_row:
                         stack.append((i + 1, data.copy()))  # Don't add
 
                     is_still_open = True
+                    # If we already finished the sequence
+                    if data[0] == 0:
+                        data.pop(0)
+                        is_still_open = False
+                        continue  # Skip to next one
+
                     # Append as broken_spring
                     data[0] -= 1
                     stack.append((i + 1, data.copy()))
