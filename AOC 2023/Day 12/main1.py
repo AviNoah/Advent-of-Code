@@ -1,0 +1,80 @@
+import re
+from math import comb
+
+
+class spring_row:
+    def __init__(self, operational_data: str, contiguous_data: list) -> None:
+        self.operational: str = operational_data
+        self.contiguous: list = contiguous_data
+
+    def count(self) -> int:
+        stack = [(0, self.contiguous.copy())]  # Return to index in stack
+        c = 0
+
+        is_contiguous: bool = False
+        is_still_open: bool = False
+
+        while stack:
+            head, data = stack.pop()
+            for i in range(head, len(self.operational)):
+                symbol: str = self.operational[i]
+                if symbol == ".":
+                        
+                    
+                    continue  # Skip
+                
+                if symbol == "#":
+                    
+
+    def __str__(self) -> str:
+        return (
+            self.operational
+            + " "
+            + ",".join(list(map(lambda integer: str(integer), self.contiguous)))
+        )
+
+    @staticmethod
+    def from_lines() -> list:
+        # Return list of spring_row objects from lines
+        global lines
+
+        def extract(line: str) -> spring_row:
+            line = line.replace("\n", "")
+            line: list = line.split(" ", maxsplit=1)
+            if len(line) == 1:
+                # in case all springs are operational - no contiguous data
+                line.append(list())
+
+            # length of line is 2
+            op_data, cont_data = line
+            # Keep op_data as string.
+            cont_data = cont_data.split(",")
+            # Turn to int
+            cont_data = list(map(lambda num: int(num), cont_data))
+
+            return spring_row(op_data, cont_data)
+
+        return [extract(line) for line in lines]
+
+
+def part1():
+    spring_rows: list[spring_row] = spring_row.from_lines()
+    arrangements = [sp.count() for sp in spring_rows]
+    total = sum(arrangements)
+    print(f"{total=}")
+
+    for spring, arrangement in zip(spring_rows, arrangements):
+        print(f"{spring} - {arrangement=}")
+
+
+def part2():
+    pass
+
+
+def main():
+    part1()
+    part2()
+
+
+if __name__ == "__main__":
+    main()
