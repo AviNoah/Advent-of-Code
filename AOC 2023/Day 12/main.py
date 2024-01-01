@@ -68,6 +68,12 @@ class spring_row:
                     is_still_open = True
                     data[0] -= 1
 
+            else:
+                # Executes only if not stopped by a break
+                if not data:
+                    # Since we went through the entirety of string, this counts
+                    c += 1
+
         return max(1, c)
 
     def __str__(self) -> str:
