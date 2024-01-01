@@ -12,7 +12,6 @@ class spring_row:
         c = 0
 
         while stack:
-            is_contiguous: bool = False
             is_still_open: bool = False
             head, data = stack.pop()
             for i in range(head, len(self.operational)):
@@ -35,15 +34,13 @@ class spring_row:
                     continue
 
                 if symbol == "#":
-                    is_contiguous = True
                     is_still_open = True
-
                     data[0] -= 1
                     continue
 
                 # Use the stack to open new starting points
                 if symbol == "?":
-                    
+                    ...
 
     def __str__(self) -> str:
         return (
