@@ -72,7 +72,10 @@ class land_data:
 
 def part1():
     lands: list[land_data] = land_data.get_lands()
-    pass
+    mirrors: list[tuple] = [land.get_mirror() for land in lands]
+
+    total = sum(mirrors, key=lambda mirror: mirror[0])
+    print(f"{total=}")
 
 
 def part2():
