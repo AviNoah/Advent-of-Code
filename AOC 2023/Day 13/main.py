@@ -55,7 +55,7 @@ class land_data:
     def get_mirrors(self) -> tuple[int, int]:
         # Return the count of columns left to the vertical mirror and the count of
         # rows above the horizontal mirror
-        return self.get_vertical_mirror(), self.get_horizontal_mirror
+        return self.get_vertical_mirror(), self.get_horizontal_mirror()
 
     def __str__(self) -> str:
         return "\n".join(self.data)
@@ -91,7 +91,7 @@ def part1():
     lands: list[land_data] = land_data.get_lands()
     mirrors: list[tuple] = [land.get_mirrors() for land in lands]
 
-    total = sum(mirror[0] + mirror[1] * 100 for mirror in mirrors)
+    total = sum(mirror[0] + (mirror[1] * 100) for mirror in mirrors)
     print(f"{total=}")
 
 
