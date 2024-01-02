@@ -29,13 +29,21 @@ class land_data:
         # Return the two columns or two rows representing mirror location
         # left is lower, right is upper
 
+        def test_range(lower, upper, grid) -> bool:
+            # Test if all rows from lower and above to upper and below are equal to one another
+            rng = range(min((len(grid) - upper), lower))
+
+            return all([grid[lower - i] == grid[upper + i] for i in rng])
+
         for i, row in enumerate(self.data):
             for j, other in enumerate(self.data):
                 if i == j:
                     continue
                 if row == other:
                     lower = (i + j) // 2
-                    return lower, lower + 1
+                    # Verify they all equal one another
+                    if test_range(lower, lower + 1, self.data):
+                        return lower, lower + 1
 
         for i, col in enumerate(self.data_inverted):
             for j, other in enumerate(self.data_inverted):
@@ -43,7 +51,10 @@ class land_data:
                     continue
                 if col == other:
                     lower = (i + j) // 2
-                    return lower, lower + 1
+                    # Verify they all equal one another
+                    if test_range(lower, lower + 1, self.data_inverted):
+                        lower *= 100
+                        return lower, lower + 1
 
         raise Exception("No mirror found!")
 
