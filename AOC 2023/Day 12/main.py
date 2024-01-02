@@ -9,8 +9,6 @@
 with open("input.txt", "r") as f:
     lines: list = f.readlines()
 
-import re
-
 
 class spring_row:
     def __init__(self, operational_data: str, contiguous_data: list) -> None:
@@ -86,12 +84,6 @@ class spring_row:
         # Try end
 
         ...
-
-    def get_symbols(self, symbol: str) -> list[tuple]:
-        # Return a list of tuples of index and length of contiguous appearances of string
-        pattern = "\\" + symbol + "+"
-        matches = re.finditer(pattern, self.operational)
-        return [(match.start(), match.end() - match.start()) for match in matches]
 
     def unfold(self, value):
         # Return a new spring_row object that multiplies self.operational and self.contiguous by value
