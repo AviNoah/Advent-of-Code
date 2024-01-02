@@ -46,9 +46,6 @@ class land_data:
 
 def part1():
     lands: list[land_data] = land_data.get_lands()
-    for land in lands:
-        print(land)
-        print()
     pass
 
 
