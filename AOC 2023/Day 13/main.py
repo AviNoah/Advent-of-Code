@@ -79,6 +79,7 @@ class land_data:
             if line == "":
                 lands.append(land)
                 land = []
+                continue
 
             land.append(line)
         else:
