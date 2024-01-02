@@ -81,10 +81,10 @@ class spring_row:
         ...
 
     def get_remaining_unknowns_at(self, i: int) -> int:
-        self.operational[i:].count("?")
+        return self.operational[i:].count("?")
 
     def get_remaining_brokens_at(self, i: int) -> int:
-        self.operational[i:].count("#")
+        return self.operational[i:].count("#")
 
     def unfold(self, value):
         # Return a new spring_row object that multiplies self.operational and self.contiguous by value
