@@ -80,8 +80,8 @@ class spring_row:
         # We iterate through contiguous data, select the first A0 - B available
         # unknown springs, if A0 - B is negative, use the first A0 broken springs
         data = self.contiguous.copy()
-        rem_unknowns: list = self.get_remaining_symbol("?")
-        rem_broken: list = self.get_remaining_symbol("#")
+        rem_unknowns: list[tuple] = self.get_remaining_symbol("?")
+        rem_broken: list[tuple] = self.get_remaining_symbol("#")
 
         i: int = 0
         # Implement stack later, try to get one instance working
@@ -103,7 +103,7 @@ class spring_row:
             count += 1
             return count
 
-        return [(i: inc()) for i, char in enumerate(self.operational) if char == symbol]
+        return [(i, inc()) for i, char in enumerate(self.operational) if char == symbol]
 
     def unfold(self, value):
         # Return a new spring_row object that multiplies self.operational and self.contiguous by value
