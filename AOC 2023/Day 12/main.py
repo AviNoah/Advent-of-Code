@@ -76,6 +76,15 @@ class spring_row:
 
         return max(1, c)
 
+    def count_optimized(self) -> int:
+        # We must define a few functions - get_remaining_unknowns_at and get_remaining_brokens_at.
+
+        def get_remaining_unknowns_at(i: int) -> int:
+            self.operational[i:].count("?")
+
+        def get_remaining_brokens_at(i: int) -> int:
+            self.operational[i:].count("#")
+
     def unfold(self, value):
         # Return a new spring_row object that multiplies self.operational and self.contiguous by value
         op_data: list = [self.operational] * value
@@ -138,15 +147,15 @@ def part2():
         print(f"{spring} - {arrangement=}")
 
     print(f"{total=}")
-    
-    # Optimization strategy - 
+
+    # Optimization strategy -
     # the amount of possible arrangements should be the multiplication of all the ways to choose
-    # the an element An from the contiguous array from the remaining unknown springs such that the 
+    # the an element An from the contiguous array from the remaining unknown springs such that the
     # array gets exhausted and no more broken springs are left ahead.
-    
+
     # Assume string s has N unknown springs and B broken springs, to the possible ways to select the first
     # A0 element from it is (N) choose (A0 - B).
-    # The possible ways to select the next element, A1 should be the product of the remaining useable 
+    # The possible ways to select the next element, A1 should be the product of the remaining useable
     # unknown springs choose (A1 - (the remaining broken springs))
 
 
