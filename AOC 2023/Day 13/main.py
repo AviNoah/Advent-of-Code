@@ -1,5 +1,5 @@
-# Given patterns of rocks . and ash #, figure out where the mirrors are.
-# Each land data has two mirrors in it.
+# Given patterns of rocks . and ash #, figure out where the mirror is.
+# Each land data has one mirror in it.
 # A mirror is vertical or horizontal, it will reflect the data along it perfectly,
 # it can be placed not in the middle too, meaning one side will have more information than the other,
 # but the side with less information will match the other exactly up until that point.
@@ -38,7 +38,7 @@ class land_data:
                     if self.test_range(lower, lower + 1, self.data):
                         return lower
 
-        raise Exception("No mirror found!")
+        return None
 
     def get_vertical_mirror(self) -> int:
         # Find vertical mirror
@@ -52,12 +52,15 @@ class land_data:
                     if self.test_range(lower, lower + 1, self.data_inverted):
                         return lower
 
-        raise Exception("No mirror found!")
+        return None
 
     def get_mirrors(self) -> tuple[int, int]:
         # Return the count of columns left to the vertical mirror and the count of
         # rows above the horizontal mirror
-        return self.get_vertical_mirror(), self.get_horizontal_mirror()
+        vertical = self.get_vertical_mirror()
+        horizontal = self.get_horizontal_mirror()
+
+        return vertical, horizontal
 
     def __str__(self) -> str:
         return "\n".join(self.data)
