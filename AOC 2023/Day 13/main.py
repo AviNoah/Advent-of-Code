@@ -89,9 +89,9 @@ class land_data:
 
 def part1():
     lands: list[land_data] = land_data.get_lands()
-    mirrors: list[tuple] = [land.get_mirrors()[0] for land in lands]
+    mirrors: list[tuple] = [land.get_mirrors() for land in lands]
 
-    total = sum(mirrors)
+    total = sum(mirror[0] + mirror[1] * 100 for mirror in mirrors)
     print(f"{total=}")
 
 
