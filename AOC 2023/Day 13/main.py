@@ -20,7 +20,7 @@ class land_data:
     def invert_rows_and_cols(self) -> list[str]:
         # Invert rows and columns between each other.
         new_data: list[str] = []
-        for i in len(self.data[0]):
+        for i in range(len(self.data[0])):
             new_data.append("".join([row[i] for row in self.data]))
 
         return new_data
