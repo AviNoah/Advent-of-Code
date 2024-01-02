@@ -77,14 +77,33 @@ class spring_row:
         return max(1, c)
 
     def count_optimized(self) -> int:
-        # We must define a few functions - get_remaining_unknowns_at and get_remaining_brokens_at.
+        # We iterate through contiguous data, select the first A0 - B available
+        # unknown springs, if A0 - B is negative, use the first A0 broken springs
+        data = self.contiguous.copy()
+        rem_unknowns: list = self.get_remaining_symbol("?")
+        rem_broken: list = self.get_remaining_symbol("#")
+
+        i: int = 0
+        # Implement stack later, try to get one instance working
+        for feed in data:
+            if not rem_unknowns:
+                ...
+
+            if rem_broken > feed:
+                ...
+
         ...
 
-    def get_remaining_unknowns_at(self, i: int) -> int:
-        return self.operational[i:].count("?")
+    def get_remaining_symbol(self, symbol: str) -> list:
+        # Return a list of dictionaries of where the first N appearances of ? start
+        count = 0
 
-    def get_remaining_brokens_at(self, i: int) -> int:
-        return self.operational[i:].count("#")
+        def inc() -> int:
+            nonlocal count
+            count += 1
+            return count
+
+        return [{i: inc()} for i, char in enumerate(self.operational) if char == symbol]
 
     def unfold(self, value):
         # Return a new spring_row object that multiplies self.operational and self.contiguous by value
@@ -158,6 +177,7 @@ def part2():
     # A0 element from it is (N) choose (A0 - B).
     # The possible ways to select the next element, A1 should be the product of the remaining useable
     # unknown springs choose (A1 - (the remaining broken springs))
+    # NOTE we start counting the remaining an index after the index where our A0 data ends since there must be a .
 
 
 def main():
