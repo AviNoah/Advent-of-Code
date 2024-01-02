@@ -36,12 +36,19 @@ class land_data:
                 land = []
 
             land.append(line)
+        else:
+            lands.append(land)
+            land = []
 
         lands: list[land_data] = [land_data(land) for land in lands]
         return lands
 
 
 def part1():
+    lands: list[land_data] = land_data.get_lands()
+    for land in lands:
+        print(land)
+        print()
     pass
 
 
