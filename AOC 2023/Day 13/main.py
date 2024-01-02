@@ -13,8 +13,17 @@ with open("input.txt", "r") as f:
 
 
 class land_data:
-    def __init__(self, data: list) -> None:
-        self.data = data
+    def __init__(self, data: list[str]) -> None:
+        self.data: list[str] = data
+        self.data_inverted: list[str] = self.invert_rows_and_cols()
+
+    def invert_rows_and_cols(self) -> list[str]:
+        # Invert rows and columns between each other.
+        new_data: list[str] = []
+        for i in len(self.data[0]):
+            new_data.append("".join([row[i] for row in self.data]))
+
+        return new_data
 
     def get_mirror(self) -> tuple[int, int]:
         # Return the two columns or two rows representing mirror location
@@ -25,6 +34,14 @@ class land_data:
                 if i == j:
                     continue
                 if row == other:
+                    lower = (i + j) // 2
+                    return lower, lower + 1
+
+        for i, col in enumerate(self.data_inverted):
+            for j, other in enumerate(self.data_inverted):
+                if i == j:
+                    continue
+                if col == other:
                     lower = (i + j) // 2
                     return lower, lower + 1
 
