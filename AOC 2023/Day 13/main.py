@@ -21,6 +21,22 @@ class land_data:
         # left is lower, right is upper
         ...
 
+    @staticmethod
+    def get_lands() -> list:
+        global lines
+        lands = []
+        land = []
+        for line in lines:
+            line = line.replace("\n", "")
+            if line == "":
+                lands.append(land)
+                land = []
+
+            land.append(line)
+
+        lands: list[land_data] = [land_data(land) for land in lands]
+        return lands
+
 
 def part1():
     pass
