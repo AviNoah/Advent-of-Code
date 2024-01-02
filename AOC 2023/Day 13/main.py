@@ -19,6 +19,13 @@ class land_data:
     def get_mirror(self) -> tuple[int, int]:
         # Return the two columns or two rows representing mirror location
         # left is lower, right is upper
+        
+        # Check if col 0 matches any other col perfectly, if not, check if the last col
+        # matches any other col perfectly, if any of them were found, return midpoint tuple
+        # If no col matches other perfectly, check if row 0 matches any other row perfectly,
+        # if not check if last row matches any perfectly
+        
+        
         ...
 
     def __str__(self) -> str:
