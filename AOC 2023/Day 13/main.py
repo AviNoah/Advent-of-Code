@@ -60,6 +60,9 @@ class land_data:
         vertical = self.get_vertical_mirror()
         horizontal = self.get_horizontal_mirror()
 
+        vertical = vertical if vertical else 0
+        horizontal = horizontal if horizontal else 0
+
         return vertical, horizontal
 
     def __str__(self) -> str:
