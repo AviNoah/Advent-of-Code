@@ -21,6 +21,9 @@ class land_data:
         # left is lower, right is upper
         ...
 
+    def __str__(self) -> str:
+        return "\n".join(self.data)
+
     @staticmethod
     def get_lands() -> list:
         global lines
