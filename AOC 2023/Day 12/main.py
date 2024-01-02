@@ -79,38 +79,11 @@ class spring_row:
         return max(1, c)
 
     def count_optimized(self) -> int:
-        # We iterate through contiguous data, select the first A0 - B available
-        # unknown springs, if A0 - B is negative, use the first A0 broken springs
-        data = self.contiguous.copy()
-        rem_unknowns: list[tuple] = self.get_symbols("?")
-        rem_broken: list[tuple] = self.get_symbols("#")
+        # Try start
 
-        i: int = 0
-        # Implement stack later, try to get one instance working
-        # Maybe make it recursive first, then implement stack
-        for feed in data:
-            if not rem_unknowns or not rem_broken:
-                # Invalid, there is still feed and no more broken springs left.
-                return 0
+        # Try middle
 
-                if not rem_unknowns:
-                    # Check if rest of broken springs can create feed
-                    rem_broken = list(filter(lambda a: a[0] > i, rem_broken))
-                    start, length = rem_broken[0]
-                    if length == feed:
-                        i += 1 + start + length
-                        continue
-
-                    # Invalid
-                    return 0
-
-                # rem_broken is empty
-                # Check to see if rem_unknown can populate it
-
-            unk_i, unk_c = rem_unknowns[0]
-
-            if rem_broken > feed:
-                ...
+        # Try end
 
         ...
 
@@ -173,7 +146,7 @@ def part2():
     # They were all folded, to unfold add 4 copies to each operational data to itself,
     # separated by ?; do this to contiguous data too
     spring_rows: list[spring_row] = spring_row.from_lines()
-    spring_rows: list[spring_rows] = [row.unfold(2) for row in spring_rows]
+    spring_rows: list[spring_rows] = [row.unfold(5) for row in spring_rows]
 
     arrangements = [sp.count() for sp in spring_rows]
     total = sum(arrangements)
@@ -184,15 +157,11 @@ def part2():
     print(f"{total=}")
 
     # Optimization strategy -
-    # the amount of possible arrangements should be the multiplication of all the ways to choose
-    # the an element An from the contiguous array from the remaining unknown springs such that the
-    # array gets exhausted and no more broken springs are left ahead.
-
-    # Assume string s has N unknown springs and B broken springs, to the possible ways to select the first
-    # A0 element from it is (N) choose (A0 - B).
-    # The possible ways to select the next element, A1 should be the product of the remaining useable
-    # unknown springs choose (A1 - (the remaining broken springs))
-    # NOTE we start counting the remaining an index after the index where our A0 data ends since there must be a .
+    # The amount of ways to count A0 elements from feed is the amount of occurrences of
+    # [.,?] + A0 broken springs + [.,?] or ^(start)A0 broken springs + [.,?] or
+    # or [.,?] + A0 broken springs^(end)
+    # Each time we select one of these options, we cut the string at the end of the occurrence
+    # and run for the next feed.
 
 
 def main():
