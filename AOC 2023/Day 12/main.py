@@ -131,7 +131,7 @@ def part2():
     spring_rows: list[spring_row] = spring_row.from_lines()
     spring_rows: list[spring_rows] = [row.unfold(5) for row in spring_rows]
 
-    arrangements = [sp.count2() for sp in spring_rows]
+    arrangements = [sp.count() for sp in spring_rows]
     total = sum(arrangements)
 
     for spring, arrangement in zip(spring_rows, arrangements):
