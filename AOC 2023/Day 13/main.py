@@ -65,9 +65,9 @@ class land_data:
     @staticmethod
     def test_range(lower, upper, grid) -> bool:
         # Test if all rows from lower and above to upper and below are equal to one another
-        rng = range(min((len(grid) - upper), lower))
+        rng = range(min((len(grid) - upper - 1), lower))
 
-        return all([grid[lower - i + 1] == grid[upper + i + 1] for i in rng])
+        return all([grid[lower - i - 1] == grid[upper + i + 1] for i in rng])
 
     @staticmethod
     def get_lands() -> list:
