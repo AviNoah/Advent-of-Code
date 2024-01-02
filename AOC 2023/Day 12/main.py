@@ -94,8 +94,8 @@ class spring_row:
 
         ...
 
-    def get_remaining_symbol(self, symbol: str) -> list:
-        # Return a list of dictionaries of where the first N appearances of ? start
+    def get_remaining_symbol(self, symbol: str) -> list[tuple]:
+        # Return a list of tuples of where the first N appearances of ? start
         count = 0
 
         def inc() -> int:
@@ -103,7 +103,7 @@ class spring_row:
             count += 1
             return count
 
-        return [{i: inc()} for i, char in enumerate(self.operational) if char == symbol]
+        return [(i: inc()) for i, char in enumerate(self.operational) if char == symbol]
 
     def unfold(self, value):
         # Return a new spring_row object that multiplies self.operational and self.contiguous by value
