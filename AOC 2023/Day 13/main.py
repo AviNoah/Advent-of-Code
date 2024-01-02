@@ -101,7 +101,7 @@ def part1():
     mirrors: list[tuple] = [land.get_mirrors() for land in lands]
 
     total = sum(mirror[0] + (mirror[1] * 100) for mirror in mirrors)
-    print(f"{total=}")
+    print(f"Sum is: {total}")
 
 
 def part2():
