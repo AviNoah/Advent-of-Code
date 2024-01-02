@@ -76,62 +76,6 @@ class spring_row:
 
         return max(1, c)
 
-    def count2(self) -> int:
-        from math import comb
-        import re
-
-        def get_symbols(symbol: str) -> list[tuple]:
-            # Return a list of tuples of index and length of contiguous appearances of string
-            pattern = "\\" + symbol + "+"
-            matches = re.finditer(pattern, self.operational)
-            return [(match.start(), match.end() - match.start()) for match in matches]
-
-        tmp_str = self.operational
-        unk_matches = get_symbols("?")
-        bro_matches = get_symbols("#")
-
-        total = 0  # Sum products
-        stack = [(0, 1)]  # Store indices and their product
-        while stack:
-            index, product = stack.pop()
-            remaining_u_matches = list(
-                filter(lambda item: item[0] >= index, unk_matches)
-            )
-            remaining_b_matches = list(
-                filter(lambda item: item[0] >= index, bro_matches)
-            )
-            for feed in self.contiguous:
-                if not remaining_u_matches or not remaining_b_matches:
-                    # No matches left, since feed is still in loop it is an invalid arrangement
-                    break
-
-                if not remaining_u_matches:
-                    # Only known matches left, check if they exactly equal feed
-                    ind, length = remaining_b_matches.pop(0)
-                    if length == feed:
-                        index = ind + length
-                        continue  # Continue from here
-
-                    # Invalid arrangement
-                    break
-
-                # first check who comes first
-                if remaining_u_matches[0][0] > remaining_b_matches[0][0]:
-                    # We will add using the unknown match and continuing down the road with not using it too.
-                    # NOTE we can cut the remaining_u_match's length if it is greater than feed by feed + 1.
-                    ...
-
-        ...
-
-    def count_optimized(self) -> int:
-        # Try start
-
-        # Try middle
-
-        # Try end
-
-        ...
-
     def unfold(self, value):
         # Return a new spring_row object that multiplies self.operational and self.contiguous by value
         op_data: list = [self.operational] * value
@@ -187,7 +131,7 @@ def part2():
     spring_rows: list[spring_row] = spring_row.from_lines()
     spring_rows: list[spring_rows] = [row.unfold(5) for row in spring_rows]
 
-    arrangements = [sp.count() for sp in spring_rows]
+    arrangements = [sp.count2() for sp in spring_rows]
     total = sum(arrangements)
 
     for spring, arrangement in zip(spring_rows, arrangements):
