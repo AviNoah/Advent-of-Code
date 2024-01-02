@@ -129,7 +129,7 @@ def part2():
     # They were all folded, to unfold add 4 copies to each operational data to itself,
     # separated by ?; do this to contiguous data too
     spring_rows: list[spring_row] = spring_row.from_lines()
-    spring_rows: list[spring_rows] = [row.unfold(5) for row in spring_rows]
+    spring_rows: list[spring_rows] = [row.unfold(2) for row in spring_rows]
 
     arrangements = [sp.count() for sp in spring_rows]
     total = sum(arrangements)
@@ -138,6 +138,16 @@ def part2():
         print(f"{spring} - {arrangement=}")
 
     print(f"{total=}")
+    
+    # Optimization strategy - 
+    # the amount of possible arrangements should be the multiplication of all the ways to choose
+    # the an element An from the contiguous array from the remaining unknown springs such that the 
+    # array gets exhausted and no more broken springs are left ahead.
+    
+    # Assume string s has N unknown springs and B broken springs, to the possible ways to select the first
+    # A0 element from it is (N) choose (A0 - B).
+    # The possible ways to select the next element, A1 should be the product of the remaining useable 
+    # unknown springs choose (A1 - (the remaining broken springs))
 
 
 def main():
