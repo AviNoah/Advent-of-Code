@@ -9,6 +9,8 @@
 with open("input.txt", "r") as f:
     lines: list = f.readlines()
 
+import re
+
 
 class spring_row:
     def __init__(self, operational_data: str, contiguous_data: list) -> None:
@@ -80,30 +82,43 @@ class spring_row:
         # We iterate through contiguous data, select the first A0 - B available
         # unknown springs, if A0 - B is negative, use the first A0 broken springs
         data = self.contiguous.copy()
-        rem_unknowns: list[tuple] = self.get_remaining_symbol("?")
-        rem_broken: list[tuple] = self.get_remaining_symbol("#")
+        rem_unknowns: list[tuple] = self.get_symbols("?")
+        rem_broken: list[tuple] = self.get_symbols("#")
 
         i: int = 0
         # Implement stack later, try to get one instance working
+        # Maybe make it recursive first, then implement stack
         for feed in data:
-            if not rem_unknowns:
-                ...
+            if not rem_unknowns or not rem_broken:
+                # Invalid, there is still feed and no more broken springs left.
+                return 0
+
+                if not rem_unknowns:
+                    # Check if rest of broken springs can create feed
+                    rem_broken = list(filter(lambda a: a[0] > i, rem_broken))
+                    start, length = rem_broken[0]
+                    if length == feed:
+                        i += 1 + start + length
+                        continue
+
+                    # Invalid
+                    return 0
+
+                # rem_broken is empty
+                # Check to see if rem_unknown can populate it
+
+            unk_i, unk_c = rem_unknowns[0]
 
             if rem_broken > feed:
                 ...
 
         ...
 
-    def get_remaining_symbol(self, symbol: str) -> list[tuple]:
-        # Return a list of tuples of where the first N appearances of ? start
-        count = 0
-
-        def inc() -> int:
-            nonlocal count
-            count += 1
-            return count
-
-        return [(i, inc()) for i, char in enumerate(self.operational) if char == symbol]
+    def get_symbols(self, symbol: str) -> list[tuple]:
+        # Return a list of tuples of index and length of contiguous appearances of string
+        pattern = "\\" + symbol + "+"
+        matches = re.finditer(pattern, self.operational)
+        return [(match.start(), match.end() - match.start()) for match in matches]
 
     def unfold(self, value):
         # Return a new spring_row object that multiplies self.operational and self.contiguous by value
