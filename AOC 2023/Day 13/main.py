@@ -36,7 +36,7 @@ class land_data:
                     lower = (i + j) // 2
                     # Verify they all equal one another
                     if self.test_range(lower, lower + 1, self.data):
-                        return lower
+                        return lower + 1
 
         return None
 
@@ -50,7 +50,7 @@ class land_data:
                     lower = (i + j) // 2
                     # Verify they all equal one another
                     if self.test_range(lower, lower + 1, self.data_inverted):
-                        return lower
+                        return lower + 1
 
         return None
 
