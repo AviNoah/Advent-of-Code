@@ -78,12 +78,13 @@ class spring_row:
 
     def count_optimized(self) -> int:
         # We must define a few functions - get_remaining_unknowns_at and get_remaining_brokens_at.
+        ...
 
-        def get_remaining_unknowns_at(i: int) -> int:
-            self.operational[i:].count("?")
+    def get_remaining_unknowns_at(self, i: int) -> int:
+        self.operational[i:].count("?")
 
-        def get_remaining_brokens_at(i: int) -> int:
-            self.operational[i:].count("#")
+    def get_remaining_brokens_at(self, i: int) -> int:
+        self.operational[i:].count("#")
 
     def unfold(self, value):
         # Return a new spring_row object that multiplies self.operational and self.contiguous by value
