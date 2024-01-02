@@ -52,6 +52,8 @@ class land_data:
                     if self.test_range(lower, lower + 1, self.data_inverted):
                         return lower
 
+        raise Exception("No mirror found!")
+
     def get_mirrors(self) -> tuple[int, int]:
         # Return the count of columns left to the vertical mirror and the count of
         # rows above the horizontal mirror
