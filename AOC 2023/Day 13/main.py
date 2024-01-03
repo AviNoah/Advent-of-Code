@@ -28,29 +28,23 @@ class land_data:
 
     def get_horizontal_mirror(self) -> int:
         # Find horizontal mirror
-        for i, row in enumerate(self.data):
-            for j, other in enumerate(self.data):
-                if i == j:
-                    continue
-                if row == other:
-                    lower = (i + j) // 2
-                    # Verify they all equal one another
-                    if self.test_range(lower, lower + 1, self.data):
-                        return lower + 1
+        
+        for i in range(len(self.data) - 1):
+            if self.data[i] == self.data[i + 1]:
+                # Verify they all equal one another
+                if self.test_range(i, i + 1, self.data):
+                    return i + 1
 
         return None
 
     def get_vertical_mirror(self) -> int:
         # Find vertical mirror
-        for i, col in enumerate(self.data_inverted):
-            for j, other in enumerate(self.data_inverted):
-                if i == j:
-                    continue
-                if col == other:
-                    lower = (i + j) // 2
-                    # Verify they all equal one another
-                    if self.test_range(lower, lower + 1, self.data_inverted):
-                        return lower + 1
+
+        for i in range(len(self.data_inverted) - 1):
+            if self.data_inverted[i] == self.data_inverted[i + 1]:
+                # Verify they all equal one another
+                if self.test_range(i, i + 1, self.data_inverted):
+                    return i + 1
 
         return None
 
