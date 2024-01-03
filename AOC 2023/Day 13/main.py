@@ -28,7 +28,7 @@ class land_data:
 
     def get_horizontal_mirror(self) -> int:
         # Find horizontal mirror
-        
+
         for i in range(len(self.data) - 1):
             if self.data[i] == self.data[i + 1]:
                 # Verify they all equal one another
@@ -103,7 +103,7 @@ def part2():
 
 
 def main():
-    part1()  # Prev ans was 37619
+    part1()  # Ans was 30705
     part2()
 
 
