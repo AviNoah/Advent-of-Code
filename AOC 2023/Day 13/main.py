@@ -65,17 +65,25 @@ class land_data:
 
     def fix_mirrors(self):
         # Remove smudges from mirror
+        # We must find a reflection that is one smudge away from being valid.
+
         ...
 
     def __str__(self) -> str:
         return "\n".join(self.data)
 
     @staticmethod
-    def test_range(lower, upper, grid) -> bool:
+    def test_range(lower, upper, grid, return_test_range) -> bool | list[bool]:
         # Test if all rows from lower and above to upper and below are equal to one another
         rng = range(min((len(grid) - upper - 1), lower))
 
-        boolean_check = [grid[lower - i - 1] == grid[upper + i + 1] for i in rng]
+        boolean_check: list[bool] = [
+            grid[lower - i - 1] == grid[upper + i + 1] for i in rng
+        ]
+
+        if return_test_range:
+            return boolean_check
+
         return all(boolean_check)
 
         # Check if there is only 1 false in boolean_check, at that i, we must check if the patterns differ
