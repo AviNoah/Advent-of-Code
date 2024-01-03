@@ -32,7 +32,7 @@ class land_data:
         for i in range(len(self.data) - 1):
             if self.data[i] == self.data[i + 1]:
                 # Verify they all equal one another
-                if self.test_range(i, i + 1, self.data):
+                if all(self.test_range(i, i + 1, self.data)):
                     return i + 1
 
         return None
@@ -43,7 +43,7 @@ class land_data:
         for i in range(len(self.data_inverted) - 1):
             if self.data_inverted[i] == self.data_inverted[i + 1]:
                 # Verify they all equal one another
-                if self.test_range(i, i + 1, self.data_inverted):
+                if all(self.test_range(i, i + 1, self.data_inverted)):
                     return i + 1
 
         return None
@@ -73,7 +73,7 @@ class land_data:
         return "\n".join(self.data)
 
     @staticmethod
-    def test_range(lower, upper, grid, return_test_range) -> bool | list[bool]:
+    def test_range(lower, upper, grid) -> bool | list[bool]:
         # Test if all rows from lower and above to upper and below are equal to one another
         rng = range(min((len(grid) - upper - 1), lower))
 
@@ -81,10 +81,7 @@ class land_data:
             grid[lower - i - 1] == grid[upper + i + 1] for i in rng
         ]
 
-        if return_test_range:
-            return boolean_check
-
-        return all(boolean_check)
+        return boolean_check
 
         # Check if there is only 1 false in boolean_check, at that i, we must check if the patterns differ
         # by one character.
