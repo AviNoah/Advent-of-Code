@@ -26,25 +26,33 @@ class land_data:
 
         return new_data
 
-    def get_horizontal_mirror(self, fix_smudges: bool = False) -> int:
+    def get_horizontal_mirror(self, fix_smudges: bool) -> int:
         # Find horizontal mirror
 
         for i in range(len(self.data) - 1):
             if self.data[i] == self.data[i + 1]:
                 # Verify they all equal one another
                 if self.test_range(i, i + 1, self.data, fix_smudges):
-                    return i + 1
+                    if not fix_smudges:
+                        return i + 1
+
+                    # We just fixed a smudge, try to get new vertical mirror
+                    return self.get_vertical_mirror(False)
 
         return None
 
-    def get_vertical_mirror(self, fix_smudges: bool = False) -> int:
+    def get_vertical_mirror(self, fix_smudges: bool) -> int:
         # Find vertical mirror
 
         for i in range(len(self.data_inverted) - 1):
             if self.data_inverted[i] == self.data_inverted[i + 1]:
                 # Verify they all equal one another
                 if self.test_range(i, i + 1, self.data_inverted, fix_smudges):
-                    return i + 1
+                    if not fix_smudges:
+                        return i + 1
+
+                    # We just fixed a smudge, try to get new vertical mirror
+                    return self.get_vertical_mirror(False)
 
         return None
 
@@ -93,7 +101,9 @@ class land_data:
         col = check_letters.index(False)
         underside[col] = "#" if underside[col] == "." else "."
         new_row = "".join(underside)
-        
+
+        grid[lower - steps] = new_row  # Update grid
+        return True  # Smudge found
 
     @staticmethod
     def get_lands() -> list:
