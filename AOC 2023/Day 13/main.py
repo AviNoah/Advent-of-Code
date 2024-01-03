@@ -26,33 +26,33 @@ class land_data:
 
         return new_data
 
-    def get_horizontal_mirror(self) -> int:
+    def get_horizontal_mirror(self, is_smudged: bool = False) -> int:
         # Find horizontal mirror
 
         for i in range(len(self.data) - 1):
             if self.data[i] == self.data[i + 1]:
                 # Verify they all equal one another
-                if self.test_range(i, i + 1, self.data):
+                if self.test_range(i, i + 1, self.data, is_smudged):
                     return i + 1
 
         return None
 
-    def get_vertical_mirror(self) -> int:
+    def get_vertical_mirror(self, is_smudged: bool = False) -> int:
         # Find vertical mirror
 
         for i in range(len(self.data_inverted) - 1):
             if self.data_inverted[i] == self.data_inverted[i + 1]:
                 # Verify they all equal one another
-                if self.test_range(i, i + 1, self.data_inverted):
+                if self.test_range(i, i + 1, self.data_inverted, is_smudged):
                     return i + 1
 
         return None
 
-    def get_mirrors(self) -> tuple[int, int]:
+    def get_mirrors(self, is_smudged) -> tuple[int, int]:
         # Return the count of columns left to the vertical mirror and the count of
         # rows above the horizontal mirror
-        vertical = self.get_vertical_mirror()
-        horizontal = self.get_horizontal_mirror()
+        vertical = self.get_vertical_mirror(is_smudged)
+        horizontal = self.get_horizontal_mirror(is_smudged)
 
         vertical = vertical if vertical else 0
         horizontal = horizontal if horizontal else 0
@@ -63,11 +63,14 @@ class land_data:
         return "\n".join(self.data)
 
     @staticmethod
-    def test_range(lower, upper, grid) -> bool:
+    def test_range(lower, upper, grid, is_smudged) -> bool:
         # Test if all rows from lower and above to upper and below are equal to one another
         rng = range(min((len(grid) - upper - 1), lower))
 
-        return all([grid[lower - i - 1] == grid[upper + i + 1] for i in rng])
+        if not is_smudged:
+            return all([grid[lower - i - 1] == grid[upper + i + 1] for i in rng])
+
+        raise NotImplementedError  # There should be only 1 smudge
 
     @staticmethod
     def get_lands() -> list:
@@ -90,16 +93,17 @@ class land_data:
         return lands
 
 
-def part1():
+def part1(is_smudged: bool = False):
     lands: list[land_data] = land_data.get_lands()
-    mirrors: list[tuple] = [land.get_mirrors() for land in lands]
+    mirrors: list[tuple] = [land.get_mirrors(is_smudged) for land in lands]
 
     total = sum(mirror[0] + (mirror[1] * 100) for mirror in mirrors)
     print(f"Sum is: {total}")
 
 
 def part2():
-    pass
+    # Fix the smudge, should be only 1 smudge i visible range.
+    part1(is_smudged=True)
 
 
 def main():
