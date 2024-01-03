@@ -64,30 +64,46 @@ class land_data:
         return vertical, horizontal
 
     def fix_horizontal_mirror(self):
-        ...
+        # Return whether a horizontal mirror was fixed or not.
+
+        for i in range(len(self.data) - 1):
+            if self.data[i] == self.data[i + 1]:
+                # Check if there is only 1 difference from a full reflection
+                if self.test_smudge(i, i + 1, self.data):
+                    return True
+
+        return False
 
     def fix_vertical_mirror(self):
-        ...
+        # Return whether a horizontal mirror was fixed or not.
+
+        for i in range(len(self.data_inverted) - 1):
+            if self.data_inverted[i] == self.data_inverted[i + 1]:
+                # Check if there is only 1 difference from a full reflection
+                if self.test_smudge(i, i + 1, self.data_inverted):
+                    return True
+
+        return False
 
     def fix_mirrors(self):
         # Remove smudges from mirror
         # We must find a reflection that is one smudge away from being valid.
+        # Only one mirror can have a smudge.
 
+        if self.fix_horizontal_mirror():
+            return
+
+        self.fix_vertical_mirror()
         ...
 
     def __str__(self) -> str:
         return "\n".join(self.data)
 
     @staticmethod
-    def test_range(lower, upper, grid) -> bool | list[bool]:
-        # Test if all rows from lower and above to upper and below are equal to one another
-        rng = range(min((len(grid) - upper - 1), lower))
+    def test_smudge(lower, upper, grid) -> bool:
+        # Find a smudge and fix it and return true if found, return false otherwise
 
-        boolean_check: list[bool] = [
-            grid[lower - i - 1] == grid[upper + i + 1] for i in rng
-        ]
-
-        return boolean_check
+        boolean_check: list[bool] = land_data.test_range(lower, upper, grid)
 
         # Check if there is only 1 false in boolean_check, at that i, we must check if the patterns differ
         # by one character.
@@ -114,6 +130,17 @@ class land_data:
 
         grid[lower - steps] = new_row  # Update grid
         return True  # Smudge found
+
+    @staticmethod
+    def test_range(lower, upper, grid) -> list[bool]:
+        # Test if all rows from lower and above to upper and below are equal to one another
+        rng = range(min((len(grid) - upper - 1), lower))
+
+        boolean_check: list[bool] = [
+            grid[lower - i - 1] == grid[upper + i + 1] for i in rng
+        ]
+
+        return boolean_check
 
     @staticmethod
     def get_lands() -> list:
