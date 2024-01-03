@@ -81,7 +81,6 @@ class land_data:
                     # Update inverted data
                     self.data_inverted = self.invert_rows_and_cols()
                     return True
-
         return False
 
     def fix_vertical_mirror(self):
@@ -146,11 +145,9 @@ class land_data:
     @staticmethod
     def test_range(lower, upper, grid) -> list[bool]:
         # Test if all rows from lower and above to upper and below are equal to one another
-        rng = range(min((len(grid) - upper - 1), lower))
+        rng = range(min((len(grid) - upper), lower))
 
-        boolean_check: list[bool] = [
-            grid[lower - i - 1] == grid[upper + i + 1] for i in rng
-        ]
+        boolean_check: list[bool] = [grid[lower - i] == grid[upper + i] for i in rng]
 
         return boolean_check
 
