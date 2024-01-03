@@ -26,6 +26,14 @@ class land_data:
 
         return new_data
 
+    def invert_rows_and_cols_of_inverted_data(self) -> list[str]:
+        # Invert rows and columns between each other.
+        new_data: list[str] = []
+        for i in range(len(self.data_inverted[0])):
+            new_data.append("".join([row[i] for row in self.data_inverted]))
+
+        return new_data
+
     def get_horizontal_mirror(self) -> int:
         # Find horizontal mirror
 
@@ -70,6 +78,8 @@ class land_data:
             if self.data[i] == self.data[i + 1]:
                 # Check if there is only 1 difference from a full reflection
                 if self.test_smudge(i, i + 1, self.data):
+                    # Update inverted data
+                    self.data_inverted = self.invert_rows_and_cols()
                     return True
 
         return False
@@ -81,6 +91,8 @@ class land_data:
             if self.data_inverted[i] == self.data_inverted[i + 1]:
                 # Check if there is only 1 difference from a full reflection
                 if self.test_smudge(i, i + 1, self.data_inverted):
+                    # Update data
+                    self.data = self.invert_rows_and_cols_of_inverted_data()
                     return True
 
         return False
