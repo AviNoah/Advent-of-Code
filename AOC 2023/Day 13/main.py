@@ -118,6 +118,7 @@ def part1(is_smudged: bool = False):
 
 def part2():
     # Fix the smudge, should be only 1 smudge i visible range.
+    # NOTE: We must fix the smudge and THEN check for reflection line
     part1(is_smudged=True)
 
 
