@@ -67,10 +67,25 @@ class land_data:
         # Test if all rows from lower and above to upper and below are equal to one another
         rng = range(min((len(grid) - upper - 1), lower))
 
+        boolean_check = [grid[lower - i - 1] == grid[upper + i + 1] for i in rng]
         if not is_smudged:
-            return all([grid[lower - i - 1] == grid[upper + i + 1] for i in rng])
+            return all(boolean_check)
 
-        raise NotImplementedError  # There should be only 1 smudge
+        # Check if there is only 1 false in boolean_check, at that i, we must check if the patterns differ
+        # by one character.
+        if boolean_check.count(False) != 1:
+            return False  # Invalid mirror
+
+        # This row is i steps away from lower side of mirror. (Including lower row)
+        steps = boolean_check.index(False)
+
+        row: list = list(grid[lower - steps])
+        other: list = list(grid[upper + steps])
+
+        # Check if they differ by one symbol
+        check_letters: list = [r == o for r, o in zip(row, other)]
+
+        return check_letters.count(False) == 1  # There should be only 1 smudge
 
     @staticmethod
     def get_lands() -> list:
