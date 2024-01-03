@@ -87,6 +87,7 @@ class land_data:
 
     def fix_mirrors(self):
         # Remove smudges from mirror
+        # We must fix the smudge and THEN check for reflection line
         # We must find a reflection that is one smudge away from being valid.
         # Only one mirror can have a smudge.
 
@@ -94,7 +95,6 @@ class land_data:
             return
 
         self.fix_vertical_mirror()
-        ...
 
     def __str__(self) -> str:
         return "\n".join(self.data)
@@ -172,9 +172,6 @@ def part1(fix_smudges: bool = False):
 
 
 def part2():
-    # Fix the smudge, should be only 1 smudge i visible range.
-    # NOTE: We must fix the smudge and THEN check for reflection line
-
     part1(fix_smudges=True)
 
 
