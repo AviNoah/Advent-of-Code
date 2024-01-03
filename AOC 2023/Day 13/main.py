@@ -141,7 +141,7 @@ class land_data:
     @staticmethod
     def test_range(lower, upper, grid) -> list[bool]:
         # Test if all rows from lower and above to upper and below are equal to one another
-        rng = range(min((len(grid) - upper), lower))
+        rng = range(min((len(grid) - upper), lower + 1))
 
         boolean_check: list[bool] = [grid[lower - i] == grid[upper + i] for i in rng]
 
@@ -181,7 +181,7 @@ def part2():
 
 
 def main():
-    # part1()  # Ans was 30705
+    part1()  # Ans was 30705
     part2()
 
 
