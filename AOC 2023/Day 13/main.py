@@ -38,10 +38,9 @@ class land_data:
         # Find horizontal mirror
 
         for i in range(len(self.data) - 1):
-            if self.data[i] == self.data[i + 1]:
-                # Verify they all equal one another
-                if all(self.test_range(i, i + 1, self.data)):
-                    return i + 1
+            # Verify they all equal one another
+            if all(self.test_range(i, i + 1, self.data)):
+                return i + 1
 
         return None
 
@@ -49,10 +48,9 @@ class land_data:
         # Find vertical mirror
 
         for i in range(len(self.data_inverted) - 1):
-            if self.data_inverted[i] == self.data_inverted[i + 1]:
-                # Verify they all equal one another
-                if all(self.test_range(i, i + 1, self.data_inverted)):
-                    return i + 1
+            # Verify they all equal one another
+            if all(self.test_range(i, i + 1, self.data_inverted)):
+                return i + 1
 
         return None
 
@@ -75,24 +73,22 @@ class land_data:
         # Return whether a horizontal mirror was fixed or not.
 
         for i in range(len(self.data) - 1):
-            if self.data[i] == self.data[i + 1]:
-                # Check if there is only 1 difference from a full reflection
-                if self.test_smudge(i, i + 1, self.data):
-                    # Update inverted data
-                    self.data_inverted = self.invert_rows_and_cols()
-                    return True
+            # Check if there is only 1 difference from a full reflection
+            if self.test_smudge(i, i + 1, self.data):
+                # Update inverted data
+                self.data_inverted = self.invert_rows_and_cols()
+                return True
         return False
 
     def fix_vertical_mirror(self):
         # Return whether a horizontal mirror was fixed or not.
 
         for i in range(len(self.data_inverted) - 1):
-            if self.data_inverted[i] == self.data_inverted[i + 1]:
-                # Check if there is only 1 difference from a full reflection
-                if self.test_smudge(i, i + 1, self.data_inverted):
-                    # Update data
-                    self.data = self.invert_rows_and_cols_of_inverted_data()
-                    return True
+            # Check if there is only 1 difference from a full reflection
+            if self.test_smudge(i, i + 1, self.data_inverted):
+                # Update data
+                self.data = self.invert_rows_and_cols_of_inverted_data()
+                return True
 
         return False
 
