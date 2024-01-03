@@ -58,13 +58,24 @@ class land_data:
         # Return the count of columns left to the vertical mirror and the count of
         # rows above the horizontal mirror
 
-        if fix_smudges:
-            self.fix_mirrors()
-
         vertical = self.get_vertical_mirror()
         horizontal = self.get_horizontal_mirror()
 
-        return vertical, horizontal
+        if not fix_smudges:
+            return vertical, horizontal
+
+        # Run again with fixed mirrors, ignore existing mirrors
+        self.fix_mirrors()
+
+        vertical_fixed = self.get_vertical_mirror()
+        horizontal_fixed = self.get_horizontal_mirror()
+
+        if vertical_fixed != 0 and horizontal_fixed != 0:
+            # Remove old one
+            vertical_fixed = vertical_fixed if vertical_fixed != vertical else 0
+            horizontal_fixed = horizontal_fixed if horizontal_fixed != horizontal else 0
+
+        return vertical_fixed, horizontal_fixed
 
     def fix_horizontal_mirror(self):
         # Return whether a horizontal mirror was fixed or not.
@@ -114,7 +125,7 @@ class land_data:
         if boolean_check.count(False) != 1:
             return False  # Invalid mirror
 
-        # This row is i steps away from lower side of mirror. (Including lower row)
+        # This row is i steps away from lower side of mirror. (Excluding lower side)
         steps = boolean_check.index(False)
 
         underside: list = list(grid[lower - steps])
@@ -178,7 +189,7 @@ def part2():
 
 
 def main():
-    part1()  # Ans was 30705
+    # part1()  # Ans was 30705
     part2()
 
 
