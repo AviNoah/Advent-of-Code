@@ -77,7 +77,7 @@ class land_data:
             return False  # Invalid mirror
 
         # This row is i steps away from lower side of mirror. (Including lower row)
-        steps = boolean_check.index(False)
+        steps = boolean_check.index(False) + 1  # Add 1 since we removed one in rng
 
         row: list = list(grid[lower - steps])
         other: list = list(grid[upper + steps])
