@@ -26,33 +26,36 @@ class land_data:
 
         return new_data
 
-    def get_horizontal_mirror(self, is_smudged: bool = False) -> int:
+    def get_horizontal_mirror(self) -> int:
         # Find horizontal mirror
 
         for i in range(len(self.data) - 1):
             if self.data[i] == self.data[i + 1]:
                 # Verify they all equal one another
-                if self.test_range(i, i + 1, self.data, is_smudged):
+                if self.test_range(i, i + 1, self.data):
                     return i + 1
 
         return None
 
-    def get_vertical_mirror(self, is_smudged: bool = False) -> int:
+    def get_vertical_mirror(self) -> int:
         # Find vertical mirror
 
         for i in range(len(self.data_inverted) - 1):
             if self.data_inverted[i] == self.data_inverted[i + 1]:
                 # Verify they all equal one another
-                if self.test_range(i, i + 1, self.data_inverted, is_smudged):
+                if self.test_range(i, i + 1, self.data_inverted):
                     return i + 1
 
         return None
 
-    def get_mirrors(self, is_smudged) -> tuple[int, int]:
+    def get_mirrors(self, fix_smudges) -> tuple[int, int]:
         # Return the count of columns left to the vertical mirror and the count of
         # rows above the horizontal mirror
-        vertical = self.get_vertical_mirror(is_smudged)
-        horizontal = self.get_horizontal_mirror(is_smudged)
+        if fix_smudges:
+            self.fix_mirrors()
+
+        vertical = self.get_vertical_mirror()
+        horizontal = self.get_horizontal_mirror()
 
         vertical = vertical if vertical else 0
         horizontal = horizontal if horizontal else 0
@@ -62,14 +65,23 @@ class land_data:
     def __str__(self) -> str:
         return "\n".join(self.data)
 
+    def fix_mirrors(self):
+        # Remove smudge from land data.
+        ...
+
     @staticmethod
-    def test_range(lower, upper, grid, is_smudged) -> bool:
+    def test_range(
+        lower, upper, grid, return_boolean_check: bool = False
+    ) -> bool | list[bool]:
         # Test if all rows from lower and above to upper and below are equal to one another
         rng = range(min((len(grid) - upper - 1), lower))
 
-        boolean_check = [grid[lower - i - 1] == grid[upper + i + 1] for i in rng]
-        if not is_smudged:
-            return all(boolean_check)
+        boolean_check: list = [grid[lower - i - 1] == grid[upper + i + 1] for i in rng]
+
+        if return_boolean_check:
+            return boolean_check
+
+        return all(boolean_check)
 
         # Check if there is only 1 false in boolean_check, at that i, we must check if the patterns differ
         # by one character.
@@ -79,13 +91,21 @@ class land_data:
         # This row is i steps away from lower side of mirror. (Including lower row)
         steps = boolean_check.index(False) + 1  # Add 1 since we removed one in rng
 
-        row: list = list(grid[lower - steps])
-        other: list = list(grid[upper + steps])
+        underside: list = list(grid[lower - steps])
+        upside: list = list(grid[upper + steps])
 
         # Check if they differ by one symbol
-        check_letters: list = [r == o for r, o in zip(row, other)]
+        check_letters: list = [r == o for r, o in zip(underside, upside)]
 
-        return check_letters.count(False) == 1  # There should be only 1 smudge
+        if check_letters.count(False) != 1:
+            # There should be only 1 smudge, invalid mirror smudge
+            return False
+
+        # Invert the data at the smudge point, return new reflection line
+        col = check_letters.index(False)
+        underside[col] = "#" if underside[col] == "." else "."
+        new_row = "".join(underside)
+        grid[lower - steps] = new_row
 
     @staticmethod
     def get_lands() -> list:
@@ -108,9 +128,9 @@ class land_data:
         return lands
 
 
-def part1(is_smudged: bool = False):
+def part1(fix_smudges: bool = False):
     lands: list[land_data] = land_data.get_lands()
-    mirrors: list[tuple] = [land.get_mirrors(is_smudged) for land in lands]
+    mirrors: list[tuple] = [land.get_mirrors(fix_smudges) for land in lands]
 
     total = sum(mirror[0] + (mirror[1] * 100) for mirror in mirrors)
     print(f"Sum is: {total}")
@@ -119,7 +139,8 @@ def part1(is_smudged: bool = False):
 def part2():
     # Fix the smudge, should be only 1 smudge i visible range.
     # NOTE: We must fix the smudge and THEN check for reflection line
-    part1(is_smudged=True)
+
+    part1(fix_smudges=True)
 
 
 def main():
