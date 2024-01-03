@@ -63,6 +63,12 @@ class land_data:
 
         return vertical, horizontal
 
+    def fix_horizontal_mirror(self):
+        ...
+
+    def fix_vertical_mirror(self):
+        ...
+
     def fix_mirrors(self):
         # Remove smudges from mirror
         # We must find a reflection that is one smudge away from being valid.
