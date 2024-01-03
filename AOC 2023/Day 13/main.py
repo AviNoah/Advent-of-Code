@@ -26,58 +26,57 @@ class land_data:
 
         return new_data
 
-    def get_horizontal_mirror(self, fix_smudges: bool) -> int:
+    def get_horizontal_mirror(self) -> int:
         # Find horizontal mirror
 
         for i in range(len(self.data) - 1):
             if self.data[i] == self.data[i + 1]:
                 # Verify they all equal one another
-                if self.test_range(i, i + 1, self.data, fix_smudges):
-                    if not fix_smudges:
-                        return i + 1
-
-                    # We just fixed a smudge, try to get new vertical mirror
-                    return self.get_vertical_mirror(False)
+                if self.test_range(i, i + 1, self.data):
+                    return i + 1
 
         return None
 
-    def get_vertical_mirror(self, fix_smudges: bool) -> int:
+    def get_vertical_mirror(self) -> int:
         # Find vertical mirror
 
         for i in range(len(self.data_inverted) - 1):
             if self.data_inverted[i] == self.data_inverted[i + 1]:
                 # Verify they all equal one another
-                if self.test_range(i, i + 1, self.data_inverted, fix_smudges):
-                    if not fix_smudges:
-                        return i + 1
-
-                    # We just fixed a smudge, try to get new vertical mirror
-                    return self.get_vertical_mirror(False)
+                if self.test_range(i, i + 1, self.data_inverted):
+                    return i + 1
 
         return None
 
     def get_mirrors(self, fix_smudges) -> tuple[int, int]:
         # Return the count of columns left to the vertical mirror and the count of
         # rows above the horizontal mirror
-        vertical = self.get_vertical_mirror(fix_smudges)
-        horizontal = self.get_horizontal_mirror(fix_smudges)
+
+        if fix_smudges:
+            self.fix_mirrors()
+
+        vertical = self.get_vertical_mirror()
+        horizontal = self.get_horizontal_mirror()
 
         vertical = vertical if vertical else 0
         horizontal = horizontal if horizontal else 0
 
         return vertical, horizontal
 
+    def fix_mirrors(self):
+        # Remove smudges from mirror
+        ...
+
     def __str__(self) -> str:
         return "\n".join(self.data)
 
     @staticmethod
-    def test_range(lower, upper, grid, fix_smudges) -> bool:
+    def test_range(lower, upper, grid) -> bool:
         # Test if all rows from lower and above to upper and below are equal to one another
         rng = range(min((len(grid) - upper - 1), lower))
 
         boolean_check = [grid[lower - i - 1] == grid[upper + i + 1] for i in rng]
-        if not fix_smudges:
-            return all(boolean_check)
+        return all(boolean_check)
 
         # Check if there is only 1 false in boolean_check, at that i, we must check if the patterns differ
         # by one character.
