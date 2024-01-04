@@ -28,8 +28,18 @@ class stone_grid:
     def __str__(self) -> str:
         return "\n".join(self.grid)
 
+    @staticmethod
+    def from_lines():
+        # Return stone_grid object from lines
+        global lines
+        grid: list[str] = [row.replace("\n", "") for row in lines]
+
+        return stone_grid(grid)
+
 
 def part1():
+    grid = stone_grid.from_lines()
+    print(grid)
     pass
 
 
