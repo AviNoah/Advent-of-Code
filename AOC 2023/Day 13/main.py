@@ -34,20 +34,26 @@ class land_data:
 
         return new_data
 
-    def get_horizontal_mirror(self) -> int:
+    def get_horizontal_mirror(self, ignore_row: int = -1) -> int:
         # Find horizontal mirror
 
         for i in range(len(self.data) - 1):
+            if ignore_row == i:
+                continue
+
             # Verify they all equal one another
             if all(self.test_range(i, i + 1, self.data)):
                 return i + 1
 
         return 0
 
-    def get_vertical_mirror(self) -> int:
+    def get_vertical_mirror(self, ignore_col: int = -1) -> int:
         # Find vertical mirror
 
         for i in range(len(self.data_inverted) - 1):
+            if ignore_col == i:
+                continue
+
             # Verify they all equal one another
             if all(self.test_range(i, i + 1, self.data_inverted)):
                 return i + 1
@@ -64,16 +70,19 @@ class land_data:
         if not fix_smudges:
             return vertical, horizontal
 
-        # Run again with fixed mirrors, ignore existing mirrors
+        # Run again with fixed mirrors, find a DIFFERENT reflection line
         self.fix_mirrors()
 
-        vertical_fixed = self.get_vertical_mirror()
-        horizontal_fixed = self.get_horizontal_mirror()
+        vertical_fixed = self.get_vertical_mirror(ignore_col=vertical - 1)
+        horizontal_fixed = self.get_horizontal_mirror(ignore_row=horizontal - 1)
 
-        if vertical_fixed != 0 and horizontal_fixed != 0:
+        if vertical_fixed != 0 or horizontal_fixed != 0:
             # Remove old one
             vertical_fixed = vertical_fixed if vertical_fixed != vertical else 0
             horizontal_fixed = horizontal_fixed if horizontal_fixed != horizontal else 0
+
+        else:
+            raise Exception("No new mirror found! there has to be a new mirror.")
 
         return vertical_fixed, horizontal_fixed
 
