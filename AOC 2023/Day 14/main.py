@@ -54,6 +54,19 @@ class stone_grid:
         else:
             raise Exception(f"{direction} has not been implemented")
 
+    def count_symbols_in_direction(self, direction, row, col) -> dict:
+        # Count the different type of symbols from row, col including it in the given direction
+        result: dict = {"O": 0, "#": 0, ".": 0}
+        if direction == "north":
+            new_row = row
+            while new_row >= 0:
+                result[self.grid[new_row][col]] += 1
+                new_row -= 1
+            
+            return result
+        else:
+            raise Exception(f"{direction} has not been implemented")
+
     def calculate_load(self, direction) -> int:
         # Calculate load on the beam in the given direction
         # For now implement only if the direction is north
@@ -76,7 +89,7 @@ class stone_grid:
             raise Exception(f"{direction} has not been implemented")
 
     def __str__(self) -> str:
-        return '\n'.join([''.join(row) for row in self.grid])
+        return "\n".join(["".join(row) for row in self.grid])
 
     @staticmethod
     def from_lines():
@@ -89,7 +102,11 @@ class stone_grid:
 
 def part1():
     grid = stone_grid.from_lines()
+    print(grid)
+    print()
     grid.tilt("north")
+    print(grid)
+    print()
     north_load = grid.calculate_load("north")
     print(f"Load on north beam: {north_load}")
 
