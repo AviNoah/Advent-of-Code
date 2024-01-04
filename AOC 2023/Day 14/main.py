@@ -59,9 +59,12 @@ class stone_grid:
         # For now implement only if the direction is north
 
         circles: list[tuple] = self.get_circular_rocks()
+        total = 0
 
         while circles:
-            self.calculate_load_one(direction, *circles.pop())
+            total += self.calculate_load_one(direction, *circles.pop())
+
+        return total
 
     def calculate_load_one(self, direction, row, col) -> int:
         # Calculate the load one circular rock creates on a direction
