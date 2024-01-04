@@ -19,11 +19,34 @@ class stone_grid:
 
     def tilt(self, direction):
         # Move all round rocks as far as you can in the direction given.
-        ...
+        # For now implement only if the direction is north
+        circles: list[tuple] = list(
+            [
+                (i, j)
+                for i, row in enumerate(self.stone_grid)
+                for j, elem in enumerate(row)
+                if row == "O"
+            ]
+        )
+
+        while circles():
+            self.tilt_one(direction, *circles.pop())
+
+    def tilt_one(self, direction, row, col):
+        # Tilt a single circular stone towards direction
+        if direction == "north":
+            ...
+
+        else:
+            raise Exception(f"{direction} has not been implemented")
 
     def calculate_load(self, direction) -> int:
         # Calculate load on the beam in the given direction
-        ...
+        # For now implement only if the direction is north
+        if direction == "north":
+            ...
+        else:
+            raise Exception(f"{direction} has not been implemented")
 
     def __str__(self) -> str:
         return "\n".join(self.grid)
