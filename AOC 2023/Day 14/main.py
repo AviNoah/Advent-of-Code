@@ -38,19 +38,10 @@ class stone_grid:
 
     def tilt_one(self, direction, row, col):
         # Tilt a single circular stone towards direction
+        result, new_row, new_col = self.count_symbols_in_direction(direction, row, col)
+        self.grid[row][col] = "."
         if direction == "north":
-            new_row = row
-            while new_row > 0:
-                if self.grid[new_row - 1][col] == ".":
-                    # Continue rolling
-                    new_row -= 1
-                break  # Break from while loop
-
-            # We either stayed in place or moved as far as we can, update grid
-            self.grid[row][col] = "."
-            self.grid[new_row][
-                col
-            ] = "O"  # If we have not moved, it will just stay a circle.
+            self.grid[new_row + result["O"]][new_col]
         else:
             raise Exception(f"{direction} has not been implemented")
 
@@ -63,7 +54,7 @@ class stone_grid:
             while new_row >= 0:
                 result[self.grid[new_row][col]] += 1
                 new_row -= 1
-            
+
             return result, new_row, col
         else:
             raise Exception(f"{direction} has not been implemented")
