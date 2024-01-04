@@ -21,7 +21,7 @@ class stone_grid:
         circles: list[tuple] = list(
             [
                 (i, j)
-                for i, row in enumerate(self.stone_grid)
+                for i, row in enumerate(self.grid)
                 for j, elem in enumerate(row)
                 if row == "O"
             ]
@@ -86,8 +86,9 @@ class stone_grid:
 
 def part1():
     grid = stone_grid.from_lines()
-    print(grid)
-    pass
+    grid.tilt("north")
+    north_load = grid.calculate_load("north")
+    print(f"Load on north beam: {north_load}")
 
 
 def part2():
