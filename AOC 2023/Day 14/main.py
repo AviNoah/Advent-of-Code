@@ -33,7 +33,7 @@ class stone_grid:
         # For now implement only if the direction is north
         circles: list[tuple] = self.get_circular_rocks()
 
-        while circles():
+        while circles:
             self.tilt_one(direction, *circles.pop())
 
     def tilt_one(self, direction, row, col):
@@ -60,7 +60,7 @@ class stone_grid:
 
         circles: list[tuple] = self.get_circular_rocks()
 
-        while circles():
+        while circles:
             self.calculate_load_one(direction, *circles.pop())
 
     def calculate_load_one(self, direction, row, col) -> int:
