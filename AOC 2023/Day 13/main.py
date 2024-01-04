@@ -76,14 +76,7 @@ class land_data:
         vertical_fixed = self.get_vertical_mirror(ignore_col=vertical - 1)
         horizontal_fixed = self.get_horizontal_mirror(ignore_row=horizontal - 1)
 
-        if vertical_fixed != 0 or horizontal_fixed != 0:
-            # Remove old one
-            vertical_fixed = vertical_fixed if vertical_fixed != vertical else 0
-            horizontal_fixed = horizontal_fixed if horizontal_fixed != horizontal else 0
-
-        else:
-            raise Exception("No new mirror found! there has to be a new mirror.")
-
+        # There has to be a new reflection line.
         return vertical_fixed, horizontal_fixed
 
     def fix_horizontal_mirror(self):
