@@ -54,8 +54,9 @@ class stone_grid:
         else:
             raise Exception(f"{direction} has not been implemented")
 
-    def count_symbols_in_direction(self, direction, row, col) -> dict:
+    def count_symbols_in_direction(self, direction, row, col) -> tuple[dict, int, int]:
         # Count the different type of symbols from row, col including it in the given direction
+        # until you hit the border or a square rock, return coordinates where you stopped
         result: dict = {"O": 0, "#": 0, ".": 0}
         if direction == "north":
             new_row = row
@@ -63,7 +64,7 @@ class stone_grid:
                 result[self.grid[new_row][col]] += 1
                 new_row -= 1
             
-            return result
+            return result, new_row, col
         else:
             raise Exception(f"{direction} has not been implemented")
 
