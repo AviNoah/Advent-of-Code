@@ -32,19 +32,16 @@ class stone_grid:
         # Move all round rocks as far as you can in the direction given.
         # For now implement only if the direction is north
         circles: list[tuple] = self.get_circular_rocks()
-        grid_copy = self.grid.copy()  # Make a copy to check for existing circles
 
         while circles:
-            self.tilt_one(grid_copy, direction, *circles.pop())
+            self.tilt_one(direction, *circles.pop())
 
-        self.grid = grid_copy
-
-    def tilt_one(self, grid, direction, row, col):
+    def tilt_one(self, direction, row, col):
         # Tilt a single circular stone towards direction
         result, new_row, new_col = self.count_symbols_in_direction(direction, row, col)
-        grid[row][col] = "."
+        self.grid[row][col] = "."
         if direction == "north":
-            grid[new_row + result["O"]][new_col]
+            self.grid[new_row + result["O"]][new_col]
         else:
             raise Exception(f"{direction} has not been implemented")
 
