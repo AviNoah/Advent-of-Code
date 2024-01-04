@@ -17,9 +17,7 @@ class stone_grid:
     def __init__(self, grid) -> None:
         self.grid = grid
 
-    def tilt(self, direction):
-        # Move all round rocks as far as you can in the direction given.
-        # For now implement only if the direction is north
+    def get_circular_rocks(self) -> list[tuple]:
         circles: list[tuple] = list(
             [
                 (i, j)
@@ -28,6 +26,12 @@ class stone_grid:
                 if row == "O"
             ]
         )
+        return circles
+
+    def tilt(self, direction):
+        # Move all round rocks as far as you can in the direction given.
+        # For now implement only if the direction is north
+        circles: list[tuple] = self.get_circular_rocks()
 
         while circles():
             self.tilt_one(direction, *circles.pop())
@@ -35,14 +39,31 @@ class stone_grid:
     def tilt_one(self, direction, row, col):
         # Tilt a single circular stone towards direction
         if direction == "north":
-            ...
+            new_row = row
+            while new_row > 0:
+                if self.grid[new_row - 1][col] == ".":
+                    # Continue rolling
+                    new_row -= 1
+                break  # Break from while loop
 
+            # We either stayed in place or moved as far as we can, update grid
+            self.grid[row][col] = "."
+            self.grid[new_row][
+                col
+            ] = "O"  # If we have not moved, it will just stay a circle.
         else:
             raise Exception(f"{direction} has not been implemented")
 
     def calculate_load(self, direction) -> int:
         # Calculate load on the beam in the given direction
         # For now implement only if the direction is north
+
+        circles: list[tuple] = self.get_circular_rocks()
+
+        while circles():
+            self.calculate_load_one(direction, *circles.pop())
+
+    def calculate_load_one(self, direction, row, col) -> int:
         if direction == "north":
             ...
         else:
