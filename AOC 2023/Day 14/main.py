@@ -14,8 +14,8 @@ with open("input.txt", "r") as f:
 
 
 class stone_grid:
-    def __init__(self, grid) -> None:
-        self.grid = grid
+    def __init__(self, grid: list[list]) -> None:
+        self.grid: list[list] = grid
 
     def get_circular_rocks(self) -> list[tuple]:
         circles: list[tuple] = list(
@@ -76,13 +76,13 @@ class stone_grid:
             raise Exception(f"{direction} has not been implemented")
 
     def __str__(self) -> str:
-        return "\n".join(self.grid)
+        return '\n'.join([''.join(row) for row in self.grid])
 
     @staticmethod
     def from_lines():
         # Return stone_grid object from lines
         global lines
-        grid: list[str] = [row.replace("\n", "") for row in lines]
+        grid: list[list] = [list(row.replace("\n", "")) for row in lines]
 
         return stone_grid(grid)
 
