@@ -64,8 +64,11 @@ class stone_grid:
             self.calculate_load_one(direction, *circles.pop())
 
     def calculate_load_one(self, direction, row, col) -> int:
+        # Calculate the load one circular rock creates on a direction
+        # The load of one rock is the amount of rows or cols from it to the direction given,
+        # including the one it is on.
         if direction == "north":
-            ...
+            return row + 1
         else:
             raise Exception(f"{direction} has not been implemented")
 
