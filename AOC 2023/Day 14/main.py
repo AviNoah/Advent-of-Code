@@ -23,7 +23,7 @@ class stone_grid:
                 (i, j)
                 for i, row in enumerate(self.grid)
                 for j, elem in enumerate(row)
-                if row == "O"
+                if elem == "O"
             ]
         )
         return circles
