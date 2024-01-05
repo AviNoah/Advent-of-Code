@@ -43,11 +43,9 @@ class stone_grid:
         line: list = self.get_line(direction, at)
         ...
 
-    def count_round_rocks_at(self, direction, at) -> list:
+    def count_round_rocks_at(self, line: list) -> list:
         # Return a list of the amount of O's between square rocks
-
-        line: count_of_O = self.get_line(direction, at)
-        count_of_O = count_of_O()
+        count_of_O = list()
         while line:
             try:
                 i = line.index("#")
