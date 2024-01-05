@@ -172,6 +172,8 @@ def part2():
     cycles = 1000000000
     cycles = 1
 
+    # TODO: fix tilt in other directions
+
     for _ in range(cycles):
         for dir in spin_cycle:
             grid.tilt(dir)
