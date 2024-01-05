@@ -68,6 +68,17 @@ class stone_grid:
 
         return count_of_O
 
+    def get_circular_rocks(self) -> list[tuple]:
+        circles: list[tuple] = list(
+            [
+                (i, j)
+                for i, row in enumerate(self.grid)
+                for j, elem in enumerate(row)
+                if elem == "O"
+            ]
+        )
+        return circles
+
     def calculate_load(self, direction) -> int:
         # Calculate load on the beam in the given direction
         # For now implement only if the direction is north
