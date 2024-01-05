@@ -144,8 +144,16 @@ def part2():
     # rounded rocks roll north, then west, then south, then east.
 
     # run for 1000000000 spin cycles and fetch load on north beam
-    
-    pass
+    spin_cycle = ["north", "west", "south", "east"]
+
+    grid = stone_grid.from_lines()
+
+    for _ in range(1000000000):
+        for dir in spin_cycle:
+            grid.tilt(dir)
+
+    north_load = grid.calculate_load("north")
+    print(f"Load on north beam: {north_load}")
 
 
 def main():
