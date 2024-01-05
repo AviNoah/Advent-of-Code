@@ -17,47 +17,45 @@ class stone_grid:
     def __init__(self, grid: list[list]) -> None:
         self.grid: list[list] = grid
 
-    def get_circular_rocks(self) -> list[tuple]:
-        circles: list[tuple] = list(
-            [
-                (i, j)
-                for i, row in enumerate(self.grid)
-                for j, elem in enumerate(row)
-                if elem == "O"
-            ]
-        )
-        return circles
+    def get_line(self, direction, at) -> list:
+        # return the line in the direction given
+        if direction == "north" or direction == "south":
+            # at represents column
+            return [row[at] for row in self.grid]
+        # at represents row
+        return self.grid[at].copy()
 
     def tilt(self, direction):
         # Move all round rocks as far as you can in the direction given.
         # For now implement only if the direction is north
-        circles: list[tuple] = self.get_circular_rocks()
+        if direction == "north" or direction == "south":
+            # Since we are moving the entire line, other lines should not interfere
+            # do columns
+            for at in range(len(self.grid[0])):
+                self.tilt_line(direction, at)
+        elif direction == "west" or direction == "east":
+            # Since we are moving the entire line, other lines should not interfere
+            # Do rows
+            for at in range(len(self.grid)):
+                self.tilt_line(direction, at)
 
-        while circles:
-            self.tilt_one(direction, *circles.pop())
+    def tilt_line(self, direction, at):
+        line: list = self.get_line(direction, at)
+        ...
 
-    def tilt_one(self, direction, row, col):
-        # Tilt a single circular stone towards direction
-        result, new_row, new_col = self.count_symbols_in_direction(direction, row, col)
-        self.grid[row][col] = "."
-        if direction == "north":
-            self.grid[new_row + result["O"]][new_col]
-        else:
-            raise Exception(f"{direction} has not been implemented")
+    def count_round_rocks_at(self, direction, at) -> int:
+        line: list = self.get_line(direction, at)
+        list = list()
+        while line:
+            try:
+                i = line.index("#")
+                list.append(i)
+                list = list[i + 1 :]
 
-    def count_symbols_in_direction(self, direction, row, col) -> tuple[dict, int, int]:
-        # Count the different type of symbols from row, col including it in the given direction
-        # until you hit the border or a square rock, return coordinates where you stopped
-        result: dict = {"O": 0, "#": 0, ".": 0}
-        if direction == "north":
-            new_row = row
-            while new_row >= 0:
-                result[self.grid[new_row][col]] += 1
-                new_row -= 1
-
-            return result, new_row, col
-        else:
-            raise Exception(f"{direction} has not been implemented")
+            except ValueError:
+                # No square rocks left
+                list.append(len(line))
+                line = []
 
     def calculate_load(self, direction) -> int:
         # Calculate load on the beam in the given direction
