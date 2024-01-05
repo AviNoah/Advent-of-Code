@@ -43,13 +43,13 @@ class stone_grid:
         line: list = self.get_line(direction, at)
         count_of_O = self.count_round_rocks_at(line)
 
-        square_indices: list = [i + 1 for i, val in enumerate(line) if val == "#"]
+        # Force it to have the same length as count_of_O
+        square_indices: list = [0] + [i + 1 for i, val in enumerate(line) if val == "#"]
 
         if direction == "north":
             # place UNDER the square rocks
             col = at
-            for length in count_of_O:
-                row_start = square_indices.pop(0) + 1
+            for row_start, length in zip(square_indices, count_of_O):
                 for _ in range(length):
                     self.grid[row_start + _][col] = "O"
 
@@ -62,7 +62,7 @@ class stone_grid:
             if elem == "#":
                 count_of_O.append(count)
                 count = 0
-            else:
+            elif elem == "O":
                 count += 1
         else:
             count_of_O.append(count)
