@@ -115,7 +115,8 @@ class stone_grid:
         # The load of one rock is the amount of rows or cols from it to the direction given,
         # including the one it is on.
         if direction == "north":
-            return row + 1
+            # distance from south edge
+            return len(self.grid) - row
         else:
             raise Exception(f"{direction} has not been implemented")
 
