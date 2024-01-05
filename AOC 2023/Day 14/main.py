@@ -25,6 +25,21 @@ class stone_grid:
         # at represents row
         return self.grid[at].copy()
 
+    def remove_round_rocks(self, direction, at):
+        # Removes the rocks from the line in the direction given
+        if direction == "north" or direction == "south":
+            # at represents column
+            col = at
+            for row in range(len(self.grid)):
+                if self.grid[row][col] == "O":
+                    self.grid[row][col] = "."
+        else:
+            # at represents row
+            row = at
+            for col in range(len(self.grid[0])):
+                if self.grid[row][col] == "O":
+                    self.grid[row][col] = "."
+
     def tilt(self, direction):
         # Move all round rocks as far as you can in the direction given.
         # For now implement only if the direction is north
@@ -42,6 +57,9 @@ class stone_grid:
     def tilt_line(self, direction, at):
         line: list = self.get_line(direction, at)
         count_of_O = self.count_round_rocks_at(line)
+
+        # Change all O's into . in line
+        self.remove_round_rocks(direction, at)
 
         # Force it to have the same length as count_of_O
         square_indices: list = [0] + [i + 1 for i, val in enumerate(line) if val == "#"]
