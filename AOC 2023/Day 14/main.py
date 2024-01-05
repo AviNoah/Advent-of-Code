@@ -61,6 +61,7 @@ class stone_grid:
         for elem in line:
             if elem == "#":
                 count_of_O.append(count)
+                count = 0
             else:
                 count += 1
         else:
