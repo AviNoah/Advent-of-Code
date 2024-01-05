@@ -148,7 +148,7 @@ def part2():
 
 
 def main():
-    part1()
+    part1()  # Ans was 109596
     part2()
 
 
