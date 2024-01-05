@@ -46,18 +46,20 @@ class stone_grid:
     def count_round_rocks_at(self, direction, at) -> list:
         # Return a list of the amount of O's between square rocks
 
-        line: list = self.get_line(direction, at)
-        list = list()
+        line: count_of_O = self.get_line(direction, at)
+        count_of_O = count_of_O()
         while line:
             try:
                 i = line.index("#")
-                list.append(list[:i].count("O"))
-                list = list[i + 1 :]
+                count_of_O.append(line[:i].count("O"))
+                line = line[i + 1 :]
 
             except ValueError:
                 # No square rocks left
-                list.append(list.count("O"))
+                count_of_O.append(line.count("O"))
                 line = []
+
+        return count_of_O
 
     def calculate_load(self, direction) -> int:
         # Calculate load on the beam in the given direction
