@@ -169,7 +169,10 @@ def part2():
 
     grid = stone_grid.from_lines()
 
-    for _ in range(1000000000):
+    cycles = 1000000000
+    cycles = 1
+
+    for _ in range(cycles):
         for dir in spin_cycle:
             grid.tilt(dir)
 
