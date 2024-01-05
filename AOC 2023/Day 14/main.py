@@ -175,6 +175,7 @@ def part2():
     for _ in range(cycles):
         for dir in spin_cycle:
             grid.tilt(dir)
+            print(grid)
 
     north_load = grid.calculate_load("north")
     print(f"Load on north beam: {north_load}")
