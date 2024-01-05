@@ -41,21 +41,30 @@ class stone_grid:
 
     def tilt_line(self, direction, at):
         line: list = self.get_line(direction, at)
-        ...
+        count_of_O = self.count_round_rocks_at(line)
+
+        square_indices: list = [i + 1 for i, val in enumerate(line) if val == "#"]
+
+        if direction == "north":
+            # place UNDER the square rocks
+            col = at
+            for length in count_of_O:
+                row_start = square_indices.pop(0) + 1
+                for _ in range(length):
+                    self.grid[row_start + _][col] = "O"
 
     def count_round_rocks_at(self, line: list) -> list:
         # Return a list of the amount of O's between square rocks
         count_of_O = list()
-        while line:
-            try:
-                i = line.index("#")
-                count_of_O.append(line[:i].count("O"))
-                line = line[i + 1 :]
 
-            except ValueError:
-                # No square rocks left
-                count_of_O.append(line.count("O"))
-                line = []
+        count = 0
+        for elem in line:
+            if elem == "#":
+                count_of_O.append(count)
+            else:
+                count += 1
+        else:
+            count_of_O.append(count)
 
         return count_of_O
 
