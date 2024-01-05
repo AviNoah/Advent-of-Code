@@ -62,14 +62,35 @@ class stone_grid:
         self.remove_round_rocks(direction, at)
 
         # Force it to have the same length as count_of_O
-        square_indices: list = [0] + [i + 1 for i, val in enumerate(line) if val == "#"]
+        square_indices: list = [0] + [i for i, val in enumerate(line) if val == "#"]
 
         if direction == "north":
             # place UNDER the square rocks
             col = at
             for row_start, length in zip(square_indices, count_of_O):
                 for _ in range(length):
-                    self.grid[row_start + _][col] = "O"
+                    self.grid[row_start + _ + 1][col] = "O"
+        if direction == "south":
+            # place ABOVE the square blocks
+            square_indices = square_indices[::-1]
+            col = at
+            for row_start, length in zip(square_indices, count_of_O):
+                for _ in range(length):
+                    self.grid[row_start - _ - 1][col] = "O"
+
+        if direction == "west":
+            # place to the RIGHT the square rocks
+            row = at
+            for col_start, length in zip(square_indices, count_of_O):
+                for _ in range(length):
+                    self.grid[row][col_start + _ + 1] = "O"
+        if direction == "south":
+            # place to the LEFT the square rocks
+            square_indices = square_indices[::-1]
+            row = at
+            for col_start, length in zip(square_indices, count_of_O):
+                for _ in range(length):
+                    self.grid[row][col_start - _ - 1] = "O"
 
     def count_round_rocks_at(self, line: list) -> list:
         # Return a list of the amount of O's between square rocks
