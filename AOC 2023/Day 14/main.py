@@ -140,6 +140,11 @@ def part1():
 
 
 def part2():
+    # a "spin cycle" tilts the platform four times so that the
+    # rounded rocks roll north, then west, then south, then east.
+
+    # run for 1000000000 spin cycles and fetch load on north beam
+    
     pass
 
 
