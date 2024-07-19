@@ -36,6 +36,13 @@ class StoneGrid:
 
         return rocks
 
+    def spin_cycle(self) -> None:
+        "Tilt north, west, south then east"
+        self.tilt("north")
+        self.tilt("west")
+        self.tilt("south")
+        self.tilt("east")
+
     def tilt(self, dir: directions) -> None:
         """
         Move all rounded rocks (O) in the given direction.
@@ -194,13 +201,29 @@ def from_lines() -> StoneGrid:
 
 def part1() -> None:
     grid: StoneGrid = from_lines()
-    print(grid)
-    grid.tilt("south")
-    print()
-    print(grid)
+    # print(grid)
+    grid.tilt("north")
+    # print()
+    # print(grid)
+
+    north_load = grid.calculate_load("north")
+    # print(f"Load on north beam: {north_load}")
+
+
+def part2() -> None:
+    grid: StoneGrid = from_lines()
+    cycles = 1000000000
+    for cycle in range(cycles):
+        grid.spin_cycle()
 
     north_load = grid.calculate_load("north")
     print(f"Load on north beam: {north_load}")
 
 
-part1()
+def main():
+    # part1()
+    part2()
+
+
+if __name__ == "__main__":
+    main()
