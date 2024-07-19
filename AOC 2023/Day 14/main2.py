@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import Literal
 
 with open("input.txt", "r") as f:
@@ -18,7 +19,7 @@ class Rock:
 
 
 class StoneGrid:
-
+    # TODO: Maybe just store the rocks? the grid is redundant
     def __init__(self, grid: list[list]) -> None:
         self.grid = grid
         self.row_count = len(grid)
@@ -212,10 +213,11 @@ def part1() -> None:
 
 def part2() -> None:
     grid: StoneGrid = from_lines()
-    cycles = 1000000000
+    cycles = 1
+    start = datetime.now()
     for cycle in range(cycles):
         grid.spin_cycle()
-
+    print(f"took {datetime.now() - start} seconds")
     north_load = grid.calculate_load("north")
     print(f"Load on north beam: {north_load}")
 
