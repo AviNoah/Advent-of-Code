@@ -1,5 +1,4 @@
-from collections import defaultdict
-from typing import Literal
+import re
 
 
 def get_sequences() -> list[str]:
@@ -56,8 +55,16 @@ def part1():
 
 def part2() -> None:
     def HASHMAP(text: str) -> None:
-        label: str = text[:2]
-        operation: str = text[2]
+        result = re.match(r"(\w+)([-=])(\d)*", text)
+
+        if result is None:
+            raise ValueError("Bad text %s", text)
+
+        label: str
+        operation: str
+        strength_str: str | None
+
+        label, operation, strength_str = result.groups()
 
         box_num: int = HASH(label)
         box: list[Lens] = boxes[box_num]
@@ -68,7 +75,7 @@ def part2() -> None:
             if lens in box:
                 box.remove(lens)
         else:
-            strength: int = int(text[3])
+            strength = int(strength_str)
             lens = Lens(label, strength)
             try:
                 index: int = box.index(lens)
