@@ -28,9 +28,9 @@ class LightBeam:
         return split_beam
 
     def out_of_bounds(self) -> bool:
-        if self.row > ROWS or self.row < 0:
+        if self.row >= ROWS or self.row < 0:
             return True
-        elif self.col > COLS or self.col < 0:
+        elif self.col >= COLS or self.col < 0:
             return True
 
         return False
@@ -94,10 +94,11 @@ def part1() -> None:
 
     while beams:
         for beam in beams:
-            split_beam: LightBeam | None = beam.move()
-
             if beam.out_of_bounds():
                 beams.remove(beam)
+                continue
+
+            split_beam: LightBeam | None = beam.move()
 
             if split_beam:
                 beams.append(split_beam)
