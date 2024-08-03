@@ -94,6 +94,8 @@ def part1() -> None:
 
     while beams:
         for beam in beams:
+            # Maybe override '.' with '#' and if you approach a mirror or splitter from a '#' simply delete the beam?
+
             if beam.out_of_bounds():
                 beams.remove(beam)
                 continue
