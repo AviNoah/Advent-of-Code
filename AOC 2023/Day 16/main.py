@@ -21,15 +21,19 @@ class LightBeam:
         self.beam_dir = beam_dir
 
     def move(self) -> Union["LightBeam", None]:
+
         split_beam = self._direction(lines[self.row][self.col])
         self._step()
 
-        if self.row > ROWS or self.row < 0:
-            del self
-        elif self.col > COLS or self.col < 0:
-            del self
-
         return split_beam
+
+    def out_of_bounds(self) -> bool:
+        if self.row > ROWS or self.row < 0:
+            return True
+        elif self.col > COLS or self.col < 0:
+            return True
+
+        return False
 
     def _direction(self, next_char: Spaces) -> Union["LightBeam", None]:
         reflection: dict
@@ -80,6 +84,9 @@ class LightBeam:
             case _:
                 raise Exception("bad direction")
 
+    def __repr__(self) -> str:
+        return f"({self.row}, {self.col}) {self.beam_dir}"
+
 
 def part1() -> None:
     beams: list[LightBeam] = []
@@ -88,6 +95,9 @@ def part1() -> None:
     while beams:
         for beam in beams:
             split_beam: LightBeam | None = beam.move()
+
+            if beam.out_of_bounds():
+                beams.remove(beam)
 
             if split_beam:
                 beams.append(split_beam)
