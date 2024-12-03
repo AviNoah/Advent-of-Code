@@ -1,5 +1,5 @@
 # solution inputs 
-*.txt
+input.txt
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
