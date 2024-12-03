@@ -52,6 +52,14 @@ def part2():
             return False
         return True
 
+    def is_arr_safe(dists: list):
+        is_asc = dists[0] > 0
+        for dist in dists:
+            if not is_dist_safe(dist, is_asc):
+                return False
+
+        return True
+
     def is_safe(row):
         # Needs to be all increasing or all decreasing
         # Needs to differ by 1,2 or 3 only between adjacent levels
@@ -65,7 +73,9 @@ def part2():
         i = 0
         while i < len(dists) - 1:
             if not is_dist_safe(dists[i], is_asc):
-                pass
+                new_arr = dists[:i] + dists[i + 1 :]
+                new_arr[i] += dists[i]
+                return is_arr_safe(new_arr)
 
             i += 1
         return True
