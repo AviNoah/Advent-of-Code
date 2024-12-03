@@ -1,3 +1,4 @@
+from collections import Counter
 from dataclasses import dataclass
 from typing import Any, Generator, Optional
 
@@ -55,7 +56,16 @@ def part1():
 
 
 def part2():
-    pass
+    "We will use a counter for O(1) fetch runtime"
+    global data
+    left_data, right_data = [row[0] for row in data], Counter(row[1] for row in data)
+
+    total = 0
+    for item in left_data:
+        if item in right_data:
+            total += item * right_data[item]
+
+    return total
 
 
 def main():
