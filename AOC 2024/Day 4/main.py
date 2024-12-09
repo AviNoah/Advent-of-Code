@@ -7,7 +7,7 @@ def part1():
     # Find all x's and search in all 8 directions
     global lines
     dirs = [
-        (1, 0),  # X Y index of xmas word
+        (1, 0),
         (-1, 0),
         (0, 1),
         (0, -1),
@@ -48,7 +48,35 @@ def part1():
 
 
 def part2():
-    pass
+    # Search for every A, try to make M and S
+
+    count = 0
+    ROWS = len(lines)
+    COLS = len(lines[0])
+    dirs = [
+        (1, 1),
+        (1, -1),
+    ]
+
+    for i in range(ROWS):
+        for j in range(COLS):
+            if lines[i][j] != "A":
+                continue
+            if 1 <= i < ROWS - 1 and 1 <= j < COLS - 1:
+                is_xmas = True
+                for row_diff, col_diff in dirs:
+                    if not (
+                        lines[i + row_diff][j + col_diff] == "M"
+                        and lines[i - row_diff][j - col_diff] == "S"
+                        or lines[i + row_diff][j + col_diff] == "S"
+                        and lines[i - row_diff][j - col_diff] == "M"
+                    ):
+                        is_xmas = False
+
+                if is_xmas:
+                    count += 1
+
+    return count
 
 
 def main():
