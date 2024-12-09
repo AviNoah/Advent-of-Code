@@ -33,7 +33,23 @@ def part2():
     # 1 2 7 9
     # 1 2 2 3
     global data
-    pass
+
+    def dampen(row):
+        # Horrible first solution just to get the thing working
+        if is_safe(row):
+            return True
+
+        for i in range(len(row)):
+            if is_safe(row[:i] + row[i + 1 :]):
+                return True
+        return False
+
+    count = 0
+    for row in data:
+        if dampen(row):
+            count += 1
+
+    return count
 
 
 def main():
