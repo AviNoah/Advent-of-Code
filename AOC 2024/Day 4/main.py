@@ -7,14 +7,14 @@ def part1():
     # Find all x's and search in all 8 directions
     global lines
     dirs = [
-        (1, 0, 1),  # X Y index of xmas word
-        (-1, 0, 1),
-        (0, 1, 1),
-        (0, -1, 1),
-        (1, 1, 1),
-        (-1, 1, 1),
-        (-1, -1, 1),
-        (1, -1, 1),
+        (1, 0),  # X Y index of xmas word
+        (-1, 0),
+        (0, 1),
+        (0, -1),
+        (1, 1),
+        (-1, 1),
+        (-1, -1),
+        (1, -1),
     ]
 
     count = 0
@@ -22,24 +22,27 @@ def part1():
     ROWS = len(lines)
     COLS = len(lines[0])
 
+    def blah(row, col, row_diff, col_diff, expected):
+        global lines
+        if expected == len(word):
+            return 1
+
+        row += row_diff
+        col += col_diff
+
+        if row >= ROWS or col >= COLS or row < 0 or j + col < 0:
+            return 0
+
+        if lines[row][col] != word[expected]:
+            return 0
+        return blah(row, col, row_diff, col_diff, expected + 1)
+
     for i in range(ROWS):
         for j in range(COLS):
             if lines[i][j] != word[0]:
                 continue
-
-            dir_stack = dirs.copy()
-            while dir_stack:
-                x_diff, y_diff, xmas_index = dir_stack.pop()
-
-                if i + x_diff >= ROWS or j + y_diff >= COLS:
-                    continue
-
-                if lines[i + x_diff][j + y_diff] == word[xmas_index]:
-                    xmas_index += 1
-                    if xmas_index == len(word):
-                        count += 1
-                    else:
-                        dir_stack.append((i + x_diff, j + y_diff, xmas_index))
+            for row_diff, col_diff in dirs:
+                count += blah(i, j, row_diff, col_diff, 1)
 
     return count
 
