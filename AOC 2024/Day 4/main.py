@@ -22,7 +22,7 @@ def part1():
     ROWS = len(lines)
     COLS = len(lines[0])
 
-    def blah(row, col, row_diff, col_diff, expected):
+    def search(row, col, row_diff, col_diff, expected):
         global lines
         if expected == len(word):
             return 1
@@ -30,19 +30,19 @@ def part1():
         row += row_diff
         col += col_diff
 
-        if row >= ROWS or col >= COLS or row < 0 or j + col < 0:
+        if row >= ROWS or col >= COLS or row < 0 or col < 0:
             return 0
 
         if lines[row][col] != word[expected]:
             return 0
-        return blah(row, col, row_diff, col_diff, expected + 1)
+        return search(row, col, row_diff, col_diff, expected + 1)
 
     for i in range(ROWS):
         for j in range(COLS):
             if lines[i][j] != word[0]:
                 continue
             for row_diff, col_diff in dirs:
-                count += blah(i, j, row_diff, col_diff, 1)
+                count += search(i, j, row_diff, col_diff, 1)
 
     return count
 
