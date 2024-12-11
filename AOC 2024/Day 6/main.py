@@ -69,6 +69,9 @@ def would_loop(orig_row, orig_col, orig_facing) -> bool:
     #  +---+---
     #         O <- bloc
 
+    # XXX: we can use two pointers, one who advances two steps for every step the other makes
+    # If they meet, they loop.
+
     row = orig_row
     col = orig_col
     facing = orig_facing
