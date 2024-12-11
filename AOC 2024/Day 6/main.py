@@ -12,6 +12,32 @@ def get_guard_pos(grid):
                 return row, col
 
 
+def get_next_location(row, col, facing) -> tuple[int, int]:
+    match facing:
+        case "up":
+            return row - 1, col
+        case "down":
+            return row + 1, col
+        case "right":
+            return row, col + 1
+        case "left":
+            return row, col - 1
+    raise
+
+
+def rotate_face(facing) -> str:
+    match facing:
+        case "up":
+            return "right"
+        case "down":
+            return "left"
+        case "right":
+            return "down"
+        case "left":
+            return "up"
+    raise
+
+
 def part1():
     global grid, ROWS, COLS
     row, col = get_guard_pos(grid)
@@ -23,31 +49,16 @@ def part1():
             count += 1
         # Mark that the guard stood there
         grid[row][col] = "X"
-        try:
-            match facing:
-                case "up":
-                    row -= 1
-                    if grid[row][col] == "#":
-                        facing = "right"
-                        row += 1
-                case "down":
-                    row += 1
-                    if grid[row][col] == "#":
-                        facing = "left"
-                        row -= 1
-                case "right":
-                    col += 1
-                    if grid[row][col] == "#":
-                        facing = "down"
-                        col -= 1
-                case "left":
-                    col -= 1
-                    if grid[row][col] == "#":
-                        facing = "up"
-                        col += 1
-        except IndexError:
-            pass
 
+        row1, col1 = get_next_location(row, col, facing)
+        try:
+            if grid[row1][col1] == "#":
+                facing = rotate_face(facing)
+            else:
+                row, col = row1, col1
+        except IndexError:
+            # We broke out of bounds - guard exited
+            break
     return count
 
 
