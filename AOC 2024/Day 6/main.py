@@ -5,11 +5,15 @@ with open("input.txt", "r") as f:
     COLS = len(grid[0])
 
 
-def get_guard_pos(grid):
+def get_guard_pos():
+    global grid
     for row in range(ROWS):
         for col in range(COLS):
             if grid[row][col] not in {".", "#"}:
                 return row, col
+
+
+GUARD_ROW, GUARD_COL = get_guard_pos()
 
 
 def get_next_location(row, col, facing) -> tuple[int, int]:
@@ -38,8 +42,9 @@ def rotate_face(facing) -> str:
     raise
 
 
-def advance(orig_row, orig_col, facing) -> tuple | None:
+def advance(orig_row, orig_col, facing) -> tuple[int, int, str] | None:
     "Return the guards next position and direction, if exits, return None"
+
     new_row, new_col = get_next_location(orig_row, orig_col, facing)
     if not (0 <= new_row < ROWS and 0 <= new_col < COLS):
         return None  # Left bounds
@@ -51,8 +56,8 @@ def advance(orig_row, orig_col, facing) -> tuple | None:
 
 
 def part1():
-    global grid, ROWS, COLS
-    row, col = get_guard_pos(grid)
+    global grid, ROWS, COLS, GUARD_COL, GUARD_ROW
+    row, col = GUARD_ROW, GUARD_COL
     facing = "up"
 
     # Guard spawn point is visited
@@ -70,9 +75,57 @@ def part1():
     return count
 
 
+def would_loop(orig_row, orig_col, orig_facing) -> bool:
+    "Advance using two guards, one faster than the other, return if they meet again"
+
+    p1: tuple[int, int, str] | None = orig_row, orig_col, orig_facing
+    p2: tuple[int, int, str] | None = orig_row, orig_col, orig_facing
+
+    flag = False
+
+    while p1 and p2:
+        if flag:
+            # Only advance every two turns
+            p1 = advance(*p1)
+
+        p2 = advance(*p2)
+        flag = not flag
+
+        if p1 == p2:
+            return True
+
+    return False
+
+
+def part2():
+    global grid, ROWS, COLS, GUARD_COL, GUARD_ROW
+    row, col = GUARD_ROW, GUARD_COL
+    facing = "up"
+
+    # Needs to be unique
+    blocking_points = set()
+
+    # Must advance once
+    result = advance(row, col, facing)
+
+    while result is not None:
+        new_row, new_col, new_facing = result
+        if facing == new_facing:
+            # What if it were blocked
+            grid[new_row][new_col] = "#"
+            if would_loop(row, col, rotate_face(facing)):
+                blocking_points.add((new_row, new_col))
+            grid[new_row][new_col] = "."
+
+        row, col, facing = result
+        result = advance(*result)
+
+    return len(blocking_points)
+
+
 def main():
     # part1()
-    # part2()
+    part2()
     pass
 
 
