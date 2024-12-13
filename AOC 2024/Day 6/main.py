@@ -38,93 +38,42 @@ def rotate_face(facing) -> str:
     raise
 
 
+def advance(orig_row, orig_col, facing) -> tuple | None:
+    "Return the guards next position and direction, if exits, return None"
+    new_row, new_col = get_next_location(orig_row, orig_col, facing)
+    if not (0 <= new_row < ROWS and 0 <= new_col < COLS):
+        return None  # Left bounds
+
+    if grid[new_row][new_col] == "#":
+        return orig_row, orig_col, rotate_face(facing)
+
+    return new_row, new_col, facing
+
+
 def part1():
     global grid, ROWS, COLS
     row, col = get_guard_pos(grid)
     facing = "up"
-    count = 0
 
-    while 0 <= row < ROWS and 0 <= col < COLS:
+    # Guard spawn point is visited
+    grid[row][col] = "X"
+    count = 1
+
+    while (result := advance(row, col, facing)) is not None:
+        row, col, facing = result
+
         if grid[row][col] != "X":
             count += 1
         # Mark that the guard stood there
         grid[row][col] = "X"
 
-        row1, col1 = get_next_location(row, col, facing)
-        try:
-            if grid[row1][col1] == "#":
-                facing = rotate_face(facing)
-            else:
-                row, col = row1, col1
-        except IndexError:
-            # We broke out of bounds - guard exited
-            break
-    return count
-
-
-def would_loop(orig_row, orig_col, orig_facing) -> bool:
-    # TODO: this is not good, what if the loop happens after the block
-    #  +---+  |
-    #  |   |  |
-    #  +---+---
-    #         O <- bloc
-
-    # XXX: we can use two pointers, one who advances two steps for every step the other makes
-    # If they meet, they loop.
-
-    row = orig_row
-    col = orig_col
-    facing = orig_facing
-    FIRST_RUN = True
-    while 0 <= row < ROWS and 0 <= col < COLS:
-        if (
-            not FIRST_RUN
-            and row == orig_row
-            and col == orig_col
-            and facing == orig_facing
-        ):
-            return True
-
-        FIRST_RUN = False
-        row1, col1 = get_next_location(row, col, facing)
-        try:
-            if grid[row1][col1] == "#":
-                facing = rotate_face(facing)
-            else:
-                row, col = row1, col1
-        except IndexError:
-            # We broke out of bounds - guard exited
-            break
-    return False
-
-
-def part2():
-    global grid, ROWS, COLS
-    row, col = get_guard_pos(grid)
-    facing = "up"
-    count = 0
-
-    while 0 <= row < ROWS and 0 <= col < COLS:
-        row1, col1 = get_next_location(row, col, facing)
-        try:
-            if grid[row1][col1] == "#":
-                facing = rotate_face(facing)
-            else:
-                # Before continuing, check if it would loop if there would be a block there
-                grid[row1][col1] = "#"
-                if would_loop(row1, col1, rotate_face(facing)):
-                    count += 1
-                grid[row1][col1] = "."
-                row, col = row1, col1
-        except IndexError:
-            # We broke out of bounds - guard exited
-            break
     return count
 
 
 def main():
     # part1()
-    part2()
+    # part2()
+    pass
 
 
 if __name__ == "__main__":
