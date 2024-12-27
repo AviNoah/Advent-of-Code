@@ -19,11 +19,6 @@ ROTATE_RIGHT = {"UP": "RIGHT", "RIGHT": "DOWN", "DOWN": "LEFT", "LEFT": "UP"}
 TO_ADD = {"UP": (-1, 0), "RIGHT": (0, 1), "DOWN": (1, 0), "LEFT": (0, -1)}
 
 
-def is_in_bounds(row, col) -> bool:
-    "Whether or not with in bounds"
-    return 0 <= row < ROWS and 0 <= col < COLS
-
-
 def rotate_right(facing):
     return ROTATE_RIGHT[facing]
 
@@ -33,86 +28,90 @@ def look_ahead(row, col, facing):
     return row + r, col + c
 
 
-def step(row, col, facing):
-    new_row, new_col = look_ahead(row, col, facing)
-
-    if not is_in_bounds(new_row, new_col):
-        return None
-
-    if grid[new_row][new_col] == "#":
-        facing = rotate_right(facing)
-    else:
-        row, col = new_row, new_col
-
-    return row, col, facing
+def in_bounds(row, col):
+    return 0 <= row < ROWS and 0 <= col < COLS
 
 
 def part1():
-    "Advance and mark the grid with X's, if stepped on something that isn't X, count it"
-    row, col = GUARD_ROW, GUARD_COL
-    facing = "UP"
+    row, col, facing = GUARD_ROW, GUARD_COL, "UP"
+    next_row, next_col = look_ahead(row, col, facing)
+    count = 1  # Include when you are just about to exit the map
 
-    count = 1  # guard start pos
-    grid[row][col] = "X"
-
-    while (result := step(row, col, facing)) is not None:
-        row, col, facing = result
+    while in_bounds(next_row, next_col):
         if grid[row][col] != "X":
             grid[row][col] = "X"
             count += 1
+
+        if grid[next_row][next_col] == "#":
+            facing = rotate_right(facing)
+            next_row, next_col = row, col  # Step back
+
+        row, col = next_row, next_col
+        next_row, next_col = look_ahead(row, col, facing)
 
     return count
 
 
 def does_loop(row, col, facing):
-    "Given guard row col and facing, check if will loop"
-    p1 = row, col, facing
-    p2 = row, col, facing
+    # Just keep track of every cell, if we go out of the same cell for the same direction
+    # twice, we loop.
+    visited = {
+        "LEFT": set(),
+        "RIGHT": set(),
+        "UP": set(),
+        "DOWN": set(),
+    }
+    next_row, next_col = look_ahead(row, col, facing)
+    while in_bounds(next_row, next_col):
 
-    flag = False
+        if grid[next_row][next_col] == "#":
+            facing = rotate_right(facing)
+            next_row, next_col = look_ahead(row, col, facing)
+            continue
 
-    while p1 and p2:
-        if flag:
-            p1 = step(*p1)
-
-        flag = not flag
-        p2 = step(*p2)
-        if p1 == p2:
+        if (row, col) in visited[facing]:
             return True
+
+        visited[facing].add((row, col))
+
+        row, col = next_row, next_col
+        next_row, next_col = look_ahead(row, col, facing)
 
     return False
 
 
 def part2():
-    "Advance and check every time what if there were a block ahead"
-    row, col = GUARD_ROW, GUARD_COL
-    facing = "UP"
+    row, col, facing = GUARD_ROW, GUARD_COL, "UP"
+    next_row, next_col = look_ahead(row, col, facing)
+    solutions = set()
 
-    points = set()
-    bad_points = {(row + r, col + c) for r, c in TO_ADD.values()}
-    bad_points.add((row, col))
-
-    while (result := step(row, col, facing)) is not None:
-        next_row, next_col = look_ahead(row, col, facing)
-        if grid[next_row][next_col] != "#":
+    # Run normal solution, but check every time we don't turn, if we would've looped
+    while in_bounds(next_row, next_col):
+        if grid[next_row][next_col] == "#":
+            facing = rotate_right(facing)
+            next_row, next_col = row, col  # Step back
+        else:
+            # Place block and check if would loop
             grid[next_row][next_col] = "#"
-
             if does_loop(row, col, facing):
-                points.add((next_row, next_col))
-
+                solutions.add((next_row, next_col))
             grid[next_row][next_col] = "."
 
-        row, col, facing = result
+        row, col = next_row, next_col
+        next_row, next_col = look_ahead(row, col, facing)
 
-    resulting_points = points - bad_points
-    total = len(resulting_points)
-    return total
+    invalid_solutions = {
+        (GUARD_ROW, GUARD_COL),
+        (GUARD_ROW + 1, GUARD_COL),
+    }
+    valid_solutions = solutions - invalid_solutions
+    count = len(valid_solutions)
+    return count
 
 
 def main():
-    # part1()
+    # assert part1() == 5095
     part2()
-    pass
 
 
 if __name__ == "__main__":
